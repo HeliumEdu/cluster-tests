@@ -1,0 +1,70 @@
+test_name: Check user API
+
+stages:
+  - name: Get user unauthenticated
+    request:
+      url: "{tavern.env_vars.ENV_API_HOST}/auth/user/"
+      method: GET
+    response:
+      status_code: 403
+
+#  - name: Register new user
+#    request:
+#      url: "{tavern.env_vars.ENV_API_HOST}/auth/user/register/"
+#      method: POST
+#      json:
+#        username: "{test_username:s}"
+#        email: "{test_email:s}"
+#        password: "{test_password:s}"
+#        time_zone: America/Chicago
+#    response:
+#      status_code: 201
+#
+#  - name: Get verification code from email
+#    request:
+#      url: "{tavern.env_vars.ENV_API_HOST}/???/"
+#
+#  - name: Verify user
+#    request:
+#      url: "{tavern.env_vars.ENV_API_HOST}/auth/user/verify/?username={test_username:s}&code={verification_code:s}"
+#      method: GET
+#    response:
+#      status_code: 200
+#
+#  - name: Get token for user
+#    request:
+#      url: "{tavern.env_vars.ENV_API_HOST}/auth/token/"
+#      method: POST
+#      json:
+#        username: "{test_username:s}"
+#        password: "{test_password:s}"
+#    response:
+#      status_code: 200
+#      save:
+#        body:
+#          auth_token: token
+#
+#  - name: Get user
+#    request:
+#      url: "{tavern.env_vars.ENV_API_HOST}/auth/user/"
+#      method: GET
+#      headers:
+#        Authorization: "Token {auth_token:s}"
+#    response:
+#      status_code: 200
+#      body:
+#        username: "{test_username:s}"
+#        email: "{test_email:s}"
+#
+#  - name: Delete registered user
+#    request:
+#      url: "{tavern.env_vars.ENV_API_HOST}/auth/user/"
+#      method: DELETE
+#      headers:
+#        Authorization: "Token {auth_token}"
+#      json:
+#        username: "{test_username:s}"
+#        email: "{test_email:s}"
+#        password: "{test_password:s}"
+#    response:
+#      status_code: 204

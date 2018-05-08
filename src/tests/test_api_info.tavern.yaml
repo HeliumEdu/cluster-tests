@@ -1,9 +1,9 @@
-test_name: Get API info
+test_name: Check info API
 
 stages:
   - name: Get API info
     request:
-      url: https://api.heliumedu.com/info/
+      url: "{tavern.env_vars.ENV_API_HOST}/info/"
       method: GET
     response:
       status_code: 200

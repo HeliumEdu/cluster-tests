@@ -9,14 +9,14 @@
 * Pip (>= 9.0)
 
 ## Getting Started
-To install prerequisites, execute:
+The following environment variables must be set for the CI tests to run:
+
+* ENV_API_HOST (ex. https://api.heliumedu.com)
+* TWILIO_ACCOUNT_SID (TEST account is recommended)
+* TWILIO_AUTH_TOKEN (TEST token is recommended)
+
+Then, to run CI tests, execute:
 
 ```
-make install
-```
-
-Run the test suite using:
-
-```
-make test
+make install test
 ```

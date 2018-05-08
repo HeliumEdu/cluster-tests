@@ -1,0 +1,9 @@
+---
+
+name: Common test information
+description: Useful variables for CI automation tests
+
+variables:
+  test_username: heliumedu-ci-test-user
+  test_email: heliumedu-ci-test@heliumedu.com
+  test_password: test_pass_1!
