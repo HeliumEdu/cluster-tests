@@ -6,4 +6,4 @@ install:
 	python -m pip install -r requirements.txt
 
 ci-test:
-	py.test --rootdir=src/tests
+	pytest --rootdir=src/tests
