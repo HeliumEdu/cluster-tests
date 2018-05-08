@@ -9,8 +9,14 @@
 * Pip (>= 9.0)
 
 ## Getting Started
+To install prerequisites, execute:
+
+```
+make install
+```
+
 Run the test suite using:
 
 ```
-make install ci-test
+make test
 ```
