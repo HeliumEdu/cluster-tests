@@ -1,0 +1,1 @@
+tavern[pytest]==0.9.3

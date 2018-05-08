@@ -2,5 +2,8 @@
 
 all: ci-test
 
+install:
+	python -m pip install -r requirements.txt
+
 ci-test:
-	echo "Nothing to migrate."
+	py.test --rootdir=src/tests

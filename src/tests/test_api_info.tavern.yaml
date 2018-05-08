@@ -1,0 +1,15 @@
+test_name: Get API info
+
+stages:
+  - name: Get API info
+    request:
+      url: https://api.heliumedu.com/info/
+      method: GET
+    response:
+      status_code: 200
+      body:
+        name: Helium Student Planner
+        tagline: Lightening Your Course Load
+        support_email: contact@heliumedu.com
+        support_url: https://heliumedu.uservoice.com
+        max_upload_size: 10485760
