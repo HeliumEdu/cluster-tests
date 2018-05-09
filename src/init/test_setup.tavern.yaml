@@ -1,0 +1,35 @@
+test_name: Setup
+
+includes:
+  - !include common.yaml
+
+stages:
+  - name: Register new user
+    request:
+      url: "{tavern.env_vars.ENV_API_HOST}/auth/user/register/"
+      method: POST
+      json:
+        username: "{test_username:s}"
+        email: "{test_email:s}"
+        password: "{test_password:s}"
+        time_zone: America/Chicago
+    response:
+      status_code: 201
+    delay_after: 3
+
+  - name: Get verification code from email
+    request:
+      url: "{tavern.env_vars.ENV_API_HOST}/info/"
+    response:
+      save:
+        $ext:
+          function: utils.emailhelper:get_verification_code
+          extra_kwargs:
+            username: "{test_username:s}"
+
+  - name: Verify user
+    request:
+      url: "{tavern.env_vars.ENV_API_HOST}/auth/user/verify/?username={test_username:s}&code={verification_code}&welcome-email=false"
+      method: GET
+    response:
+      status_code: 200
