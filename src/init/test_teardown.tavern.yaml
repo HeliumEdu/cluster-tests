@@ -1,16 +1,9 @@
-test_name: Check user API
+test_name: Teardown
 
 includes:
-  - !include ../init/common.yaml
+  - !include common.yaml
 
 stages:
-  - name: Get user unauthenticated
-    request:
-      url: "{tavern.env_vars.ENV_API_HOST}/auth/user/"
-      method: GET
-    response:
-      status_code: 403
-
   - name: Get token for user
     request:
       url: "{tavern.env_vars.ENV_API_HOST}/auth/token/"
@@ -24,14 +17,15 @@ stages:
         body:
           auth_token: token
 
-  - name: Get user
+  - name: Delete registered user
     request:
       url: "{tavern.env_vars.ENV_API_HOST}/auth/user/"
-      method: GET
+      method: DELETE
       headers:
         Authorization: "Token {auth_token:s}"
-    response:
-      status_code: 200
-      body:
+      json:
         username: "{test_username:s}"
         email: "{test_email:s}"
+        password: "{test_password:s}"
+    response:
+      status_code: 204

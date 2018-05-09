@@ -11,12 +11,23 @@
 ## Getting Started
 The following environment variables must be set for the CI tests to run:
 
-* ENV_API_HOST (ex. https://api.heliumedu.com)
+* ENV_API_HOST (ex. https://api.heliumedu.test)
+* AWS_S3_ACCESS_KEY_ID
+* AWS_S3_SECRET_ACCESS_KEY
 * TWILIO_ACCOUNT_SID (TEST account is recommended)
 * TWILIO_AUTH_TOKEN (TEST token is recommended)
 
-Then, to run CI tests, execute:
+These CI tests also assume you have the ci.heliumedu.com setup to receive emails and store them in an S3 bucket, as
+documented [here](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-getting-started.html).
+
+To install necessary packages, execute:
 
 ```
-make install test
+make install
+```
+
+To run CI tests, execute:
+
+```
+make test
 ```

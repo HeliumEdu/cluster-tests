@@ -1,9 +1,9 @@
-.PHONY: all ci-test
+.PHONY: all install test
 
-all: ci-test
+all: install test
 
 install:
 	python -m pip install -r requirements.txt
 
 test:
-	pytest -v
+	PYTHONPATH=src pytest -v src/init/test_setup.tavern.yaml src/tests/ src/init/test_teardown.tavern.yaml
