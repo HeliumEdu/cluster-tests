@@ -4,6 +4,21 @@ includes:
   - !include common.yaml
 
 stages:
+  - name: Cleanup workspace, if dirty
+    request:
+      url: "{tavern.env_vars.ENV_API_HOST}/info/"
+      verify: false
+    response:
+      save:
+        $ext:
+          function: utils.workspacehelper:init_workspace
+          extra_kwargs:
+            env_api_host: "{tavern.env_vars.ENV_API_HOST}"
+            username: "{test_username:s}"
+            email: "{test_email:s}"
+            password: "{test_password:s}"
+    delay_after: 2
+
   - name: Register new user
     request:
       url: "{tavern.env_vars.ENV_API_HOST}/auth/user/register/"
@@ -16,7 +31,7 @@ stages:
         time_zone: America/Chicago
     response:
       status_code: 201
-    delay_after: 3
+    delay_after: 10
 
   - name: Get verification code from email
     request:
