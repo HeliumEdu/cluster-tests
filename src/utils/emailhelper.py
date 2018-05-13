@@ -26,4 +26,6 @@ def get_verification_code(response, username):
 
     verification_code = email_body.split('verify?username={}&code='.format(username))[1].split('\n')[0].strip()
 
+    bucket.delete_key(latest_key)
+
     return {"verification_code": verification_code}

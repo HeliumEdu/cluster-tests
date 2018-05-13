@@ -7,6 +7,7 @@ stages:
   - name: Get user unauthenticated
     request:
       url: "{tavern.env_vars.ENV_API_HOST}/auth/user/"
+      verify: false
       method: GET
     response:
       status_code: 403
@@ -14,6 +15,7 @@ stages:
   - name: Get token for user
     request:
       url: "{tavern.env_vars.ENV_API_HOST}/auth/token/"
+      verify: false
       method: POST
       json:
         username: "{test_username:s}"
@@ -27,6 +29,7 @@ stages:
   - name: Get user
     request:
       url: "{tavern.env_vars.ENV_API_HOST}/auth/user/"
+      verify: false
       method: GET
       headers:
         Authorization: "Token {auth_token:s}"

@@ -4,6 +4,7 @@ stages:
   - name: Get API info
     request:
       url: "{tavern.env_vars.ENV_API_HOST}/info/"
+      verify: false
       method: GET
     response:
       status_code: 200

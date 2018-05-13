@@ -1,0 +1,138 @@
+test_name: Check user API
+
+includes:
+  - !include ../init/common.yaml
+
+stages:
+  - name: Get token for user
+    request:
+      url: "{tavern.env_vars.ENV_API_HOST}/auth/token/"
+      verify: false
+      method: POST
+      json:
+        username: "{test_username:s}"
+        password: "{test_password:s}"
+    response:
+      status_code: 200
+      save:
+        body:
+          auth_token: token
+
+  - name: Get course groups
+    request:
+      url: "{tavern.env_vars.ENV_API_HOST}/planner/coursegroups/"
+      verify: false
+      method: GET
+      headers:
+        Authorization: "Token {auth_token:s}"
+    response:
+      status_code: 200
+      save:
+        body:
+          course_group: 0.id
+
+
+  - name: Get courses
+    request:
+      url: "{tavern.env_vars.ENV_API_HOST}/planner/coursegroups/{course_group}/courses/"
+      verify: false
+      method: GET
+      headers:
+        Authorization: "Token {auth_token:s}"
+    response:
+      status_code: 200
+      save:
+        body:
+          course: 0.id
+
+  - name: Get categories
+    request:
+      url: "{tavern.env_vars.ENV_API_HOST}/planner/coursegroups/{course_group}/courses/{course}/categories/"
+      verify: false
+      method: GET
+      headers:
+        Authorization: "Token {auth_token:s}"
+    response:
+      status_code: 200
+      save:
+        body:
+          category: 2.id
+
+  - name: Get homeworks
+    request:
+      url: "{tavern.env_vars.ENV_API_HOST}/planner/coursegroups/{course_group}/courses/{course}/homework/"
+      verify: false
+      method: GET
+      headers:
+        Authorization: "Token {auth_token:s}"
+    response:
+      status_code: 200
+      save:
+        body:
+          homework: 5.id
+
+  - name: Get course group
+    request:
+      url: "{tavern.env_vars.ENV_API_HOST}/planner/coursegroups/{course_group}/"
+      verify: false
+      method: GET
+      headers:
+        Authorization: "Token {auth_token:s}"
+    response:
+      status_code: 200
+      body:
+        title: "Example Semester"
+        average_grade: "86.2108"
+        trend: -0.00092027674442886
+        num_homework: 22
+        num_homework_completed: 17
+        num_homework_graded: 17
+
+  - name: Get course
+    request:
+      url: "{tavern.env_vars.ENV_API_HOST}/planner/coursegroups/{course_group}/courses/{course}/"
+      verify: false
+      method: GET
+      headers:
+        Authorization: "Token {auth_token:s}"
+    response:
+      status_code: 200
+      body:
+        title: "American History"
+        current_grade: "90.6358"
+        trend: 0.00397350448605024
+        has_weighted_grading: true
+        num_homework: 15
+        num_homework_completed: 11
+        num_homework_graded: 11
+
+  - name: Get category
+    request:
+      url: "{tavern.env_vars.ENV_API_HOST}/planner/coursegroups/{course_group}/courses/{course}/categories/{category}/"
+      verify: false
+      method: GET
+      headers:
+        Authorization: "Token {auth_token:s}"
+    response:
+      status_code: 200
+      body:
+        title: "Quiz"
+        average_grade: "91.5000"
+        grade_by_weight: "13.7250"
+        trend: -0.0275
+        num_homework: 4
+        num_homework_graded: 4
+
+  - name: Get homework
+    request:
+      url: "{tavern.env_vars.ENV_API_HOST}/planner/coursegroups/{course_group}/courses/{course}/homework/{homework}/"
+      verify: false
+      method: GET
+      headers:
+        Authorization: "Token {auth_token:s}"
+    response:
+      status_code: 200
+      body:
+        title: "Chapter 2 Prompts"
+        current_grade: "85/100"
+        completed: true
