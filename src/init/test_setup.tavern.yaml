@@ -7,6 +7,7 @@ stages:
   - name: Register new user
     request:
       url: "{tavern.env_vars.ENV_API_HOST}/auth/user/register/"
+      verify: false
       method: POST
       json:
         username: "{test_username:s}"
@@ -15,11 +16,12 @@ stages:
         time_zone: America/Chicago
     response:
       status_code: 201
-    delay_after: 10
+    delay_after: 3
 
   - name: Get verification code from email
     request:
       url: "{tavern.env_vars.ENV_API_HOST}/info/"
+      verify: false
     response:
       save:
         $ext:
@@ -30,6 +32,7 @@ stages:
   - name: Verify user
     request:
       url: "{tavern.env_vars.ENV_API_HOST}/auth/user/verify/?username={test_username:s}&code={verification_code}&welcome-email=false"
+      verify: false
       method: GET
     response:
       status_code: 200

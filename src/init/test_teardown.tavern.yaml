@@ -7,6 +7,7 @@ stages:
   - name: Get token for user
     request:
       url: "{tavern.env_vars.ENV_API_HOST}/auth/token/"
+      verify: false
       method: POST
       json:
         username: "{test_username:s}"
@@ -20,6 +21,7 @@ stages:
   - name: Delete registered user
     request:
       url: "{tavern.env_vars.ENV_API_HOST}/auth/user/"
+      verify: false
       method: DELETE
       headers:
         Authorization: "Token {auth_token:s}"
