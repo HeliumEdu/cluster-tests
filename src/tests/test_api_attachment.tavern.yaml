@@ -17,3 +17,32 @@ stages:
       save:
         body:
           auth_token: token
+
+  - name: Get course groups
+    request:
+      url: "{tavern.env_vars.ENV_API_HOST}/planner/coursegroups/"
+      verify: false
+      method: GET
+      headers:
+        Authorization: "Token {auth_token:s}"
+    response:
+      status_code: 200
+      save:
+        body:
+          course_group_id: 0.id
+
+
+  - name: Get courses
+    request:
+      url: "{tavern.env_vars.ENV_API_HOST}/planner/coursegroups/{course_group_id}/courses/"
+      verify: false
+      method: GET
+      headers:
+        Authorization: "Token {auth_token:s}"
+    response:
+      status_code: 200
+      save:
+        body:
+          course_id: 0.id
+
+  # TODO: POST to create the attachment, but Tavern support for this is currently a bit limited
