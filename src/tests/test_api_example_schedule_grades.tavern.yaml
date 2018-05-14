@@ -29,12 +29,12 @@ stages:
       status_code: 200
       save:
         body:
-          course_group: 0.id
+          course_group_id: 0.id
 
 
   - name: Get courses
     request:
-      url: "{tavern.env_vars.ENV_API_HOST}/planner/coursegroups/{course_group}/courses/"
+      url: "{tavern.env_vars.ENV_API_HOST}/planner/coursegroups/{course_group_id}/courses/"
       verify: false
       method: GET
       headers:
@@ -43,11 +43,11 @@ stages:
       status_code: 200
       save:
         body:
-          course: 0.id
+          course_id: 0.id
 
   - name: Get categories
     request:
-      url: "{tavern.env_vars.ENV_API_HOST}/planner/coursegroups/{course_group}/courses/{course}/categories/"
+      url: "{tavern.env_vars.ENV_API_HOST}/planner/coursegroups/{course_group_id}/courses/{course_id}/categories/"
       verify: false
       method: GET
       headers:
@@ -56,11 +56,11 @@ stages:
       status_code: 200
       save:
         body:
-          category: 2.id
+          category_id: 2.id
 
   - name: Get homeworks
     request:
-      url: "{tavern.env_vars.ENV_API_HOST}/planner/coursegroups/{course_group}/courses/{course}/homework/"
+      url: "{tavern.env_vars.ENV_API_HOST}/planner/coursegroups/{course_group_id}/courses/{course_id}/homework/"
       verify: false
       method: GET
       headers:
@@ -69,11 +69,11 @@ stages:
       status_code: 200
       save:
         body:
-          homework: 5.id
+          homework_id: 5.id
 
   - name: Get course group
     request:
-      url: "{tavern.env_vars.ENV_API_HOST}/planner/coursegroups/{course_group}/"
+      url: "{tavern.env_vars.ENV_API_HOST}/planner/coursegroups/{course_group_id}/"
       verify: false
       method: GET
       headers:
@@ -90,7 +90,7 @@ stages:
 
   - name: Get course
     request:
-      url: "{tavern.env_vars.ENV_API_HOST}/planner/coursegroups/{course_group}/courses/{course}/"
+      url: "{tavern.env_vars.ENV_API_HOST}/planner/coursegroups/{course_group_id}/courses/{course_id}/"
       verify: false
       method: GET
       headers:
@@ -108,7 +108,7 @@ stages:
 
   - name: Get category
     request:
-      url: "{tavern.env_vars.ENV_API_HOST}/planner/coursegroups/{course_group}/courses/{course}/categories/{category}/"
+      url: "{tavern.env_vars.ENV_API_HOST}/planner/coursegroups/{course_group_id}/courses/{course_id}/categories/{category_id}/"
       verify: false
       method: GET
       headers:
@@ -125,7 +125,7 @@ stages:
 
   - name: Get homework
     request:
-      url: "{tavern.env_vars.ENV_API_HOST}/planner/coursegroups/{course_group}/courses/{course}/homework/{homework}/"
+      url: "{tavern.env_vars.ENV_API_HOST}/planner/coursegroups/{course_group_id}/courses/{course_id}/homework/{homework_id}/"
       verify: false
       method: GET
       headers:
