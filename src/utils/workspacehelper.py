@@ -6,7 +6,7 @@ from . import emailhelper
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '0.0.1'
+__version__ = '1.4.13'
 
 
 def init_workspace(response, env_api_host, username, email, password):
