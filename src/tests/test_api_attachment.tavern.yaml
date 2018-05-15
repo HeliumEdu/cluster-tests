@@ -45,4 +45,6 @@ stages:
         body:
           course_id: 0.id
 
-  # TODO: POST to create the attachment, but Tavern support for this is currently a bit limited
+  # TODO: POST to create attachment, but Tavern support for this is currently a bit limited
+
+  # TODO: assert attachment was created, stored in S3
