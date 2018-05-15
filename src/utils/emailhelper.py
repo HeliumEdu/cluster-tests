@@ -28,4 +28,4 @@ def get_verification_code(response, username):
 
     bucket.delete_key(latest_key)
 
-    return {"verification_code": verification_code}
+    return {"email_verification_code": verification_code}

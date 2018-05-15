@@ -18,6 +18,43 @@ stages:
         body:
           auth_token: token
 
+  - name: Add phone number to account
+    request:
+      url: "{tavern.env_vars.ENV_API_HOST}/auth/user/profile/"
+      verify: false
+      method: PUT
+      headers:
+        Authorization: "Token {auth_token:s}"
+      json:
+        phone: "{tavern.env_vars.TWILIO_RECIPIENT_PHONE_NUMBER:s}"
+    response:
+      status_code: 200
+    delay_after: 2
+
+  - name: Get verification code from text
+    request:
+      url: "{tavern.env_vars.ENV_API_HOST}/info/"
+      method: GET
+      verify: false
+    response:
+      save:
+        $ext:
+          function: utils.smshelper:get_verification_code
+          extra_kwargs:
+            phone: "{tavern.env_vars.TWILIO_RECIPIENT_PHONE_NUMBER:s}"
+
+  - name: Verify phone number
+    request:
+      url: "{tavern.env_vars.ENV_API_HOST}/auth/user/profile/"
+      verify: false
+      method: PUT
+      headers:
+        Authorization: "Token {auth_token:s}"
+      json:
+        phone_verification_code: "{sms_verification_code:d}"
+    response:
+      status_code: 200
+
   - name: Get course groups
     request:
       url: "{tavern.env_vars.ENV_API_HOST}/planner/coursegroups/"
@@ -30,7 +67,6 @@ stages:
       save:
         body:
           course_group_id: 0.id
-
 
   - name: Get courses
     request:
@@ -45,9 +81,9 @@ stages:
         body:
           course_id: 0.id
 
-  - name: Get homeworks
+  - name: Get categories
     request:
-      url: "{tavern.env_vars.ENV_API_HOST}/planner/coursegroups/{course_group_id}/courses/{course_id}/homework/"
+      url: "{tavern.env_vars.ENV_API_HOST}/planner/coursegroups/{course_group_id}/courses/{course_id}/categories/"
       verify: false
       method: GET
       headers:
@@ -56,10 +92,75 @@ stages:
       status_code: 200
       save:
         body:
-          homework_id: 5.id
+          category_id: 2.id
 
-  # TODO: POST to create SMS reminder, but Tavern support for this is currently a bit limited, sleep 12 seconds
+  - name: Create homework before today
+    request:
+      url: "{tavern.env_vars.ENV_API_HOST}/planner/coursegroups/{course_group_id}/courses/{course_id}/homework/"
+      verify: false
+      method: POST
+      headers:
+        Authorization: "Token {auth_token:s}"
+      json:
+        title: "CI Test Homework"
+        all_day: false
+        show_end_time: false
+        category: "{category_id:d}"
+        completed: false
+        start: "2018-04-18T02:00:00.000Z"
+        end: "2018-04-18T02:30:00.000Z"
+        priority: 50
+        current_grade: "-1/100"
+        comments: ""
+        course: "{course_id:d}"
+        course_group: "{course_group_id:d}"
+    response:
+      status_code: 201
+      save:
+        body:
+          homework_id: id
 
-  # TODO: assert reminder was sent, verify Twilio has record of SMS
+  - name: Create text reminder
+    request:
+      url: "{tavern.env_vars.ENV_API_HOST}/planner/reminders/"
+      verify: false
+      method: POST
+      headers:
+        Authorization: "Token {auth_token:s}"
+      json:
+        title: "CI Test Reminder Title"
+        message: "CI test reminder message"
+        offset: "30"
+        offset_type: "0"
+        type: "2"
+        homework: "{homework_id:d}"
+    response:
+      status_code: 201
+      save:
+        body:
+          reminder_id: id
+    delay_after: 12
 
+  - name: Verify reminder was marked as sent
+    request:
+      url: "{tavern.env_vars.ENV_API_HOST}/planner/reminders/{reminder_id}/"
+      verify: false
+      method: GET
+      headers:
+        Authorization: "Token {auth_token:s}"
+    response:
+      status_code: 200
+      body:
+        sent: true
 
+  - name: Verify reminder text was received
+    request:
+      url: "{tavern.env_vars.ENV_API_HOST}/info/"
+      method: GET
+      verify: false
+    response:
+      save:
+        $ext:
+          function: utils.smshelper:verify_reminder_received
+          extra_kwargs:
+            phone: "{tavern.env_vars.TWILIO_RECIPIENT_PHONE_NUMBER:s}"
