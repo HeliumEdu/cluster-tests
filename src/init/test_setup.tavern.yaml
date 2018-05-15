@@ -7,6 +7,7 @@ stages:
   - name: Cleanup workspace, if dirty
     request:
       url: "{tavern.env_vars.ENV_API_HOST}/info/"
+      method: GET
       verify: false
     response:
       save:
@@ -36,6 +37,7 @@ stages:
   - name: Get verification code from email
     request:
       url: "{tavern.env_vars.ENV_API_HOST}/info/"
+      method: GET
       verify: false
     response:
       save:
@@ -46,7 +48,7 @@ stages:
 
   - name: Verify user
     request:
-      url: "{tavern.env_vars.ENV_API_HOST}/auth/user/verify/?username={test_username:s}&code={verification_code}&welcome-email=false"
+      url: "{tavern.env_vars.ENV_API_HOST}/auth/user/verify/?username={test_username:s}&code={email_verification_code}&welcome-email=false"
       verify: false
       method: GET
     response:
