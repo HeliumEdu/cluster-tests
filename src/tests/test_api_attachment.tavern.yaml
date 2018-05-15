@@ -31,7 +31,6 @@ stages:
         body:
           course_group_id: 0.id
 
-
   - name: Get courses
     request:
       url: "{tavern.env_vars.ENV_API_HOST}/planner/coursegroups/{course_group_id}/courses/"
@@ -45,6 +44,24 @@ stages:
         body:
           course_id: 0.id
 
-  # TODO: POST to create attachment, but Tavern support for this is currently a bit limited
+  - name: Create attachment
+    request:
+      url: "{tavern.env_vars.ENV_API_HOST}/info/"
+      method: GET
+      verify: false
+    response:
+      save:
+        $ext:
+          function: utils.attachmenthelper:create_attachment
+          extra_kwargs:
+            env_api_host: "{tavern.env_vars.ENV_API_HOST}"
+            token: "{auth_token:s}"
+            course_id: "{course_id:d}"
 
-  # TODO: assert attachment was created, stored in S3
+  - name: Verify attachment was uploaded
+    request:
+      url: "{attachment_url:s}"
+      method: GET
+      verify: false
+    response:
+      status_code: 200
