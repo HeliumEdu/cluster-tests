@@ -118,7 +118,7 @@ stages:
       body:
         title: "Quiz"
         average_grade: "91.5000"
-        grade_by_weight: "13.7250"
+        grade_by_weight: "40.7861"
         trend: -0.0275
         num_homework: 4
         num_homework_graded: 4
