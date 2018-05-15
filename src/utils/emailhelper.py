@@ -6,7 +6,7 @@ from dateutil import parser
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.4.13'
+__version__ = '1.4.15'
 
 
 def get_verification_code(response, username):
