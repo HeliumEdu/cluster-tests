@@ -83,7 +83,7 @@ stages:
       body:
         title: "Example Semester"
         average_grade: "86.2108"
-        trend: -0.00092027674442886
+        trend: -0.00104849701252264
         num_homework: 22
         num_homework_completed: 17
         num_homework_graded: 17
