@@ -31,7 +31,6 @@ stages:
         body:
           course_group_id: 0.id
 
-
   - name: Get courses
     request:
       url: "{tavern.env_vars.ENV_API_HOST}/planner/coursegroups/{course_group_id}/courses/"

@@ -32,7 +32,7 @@ stages:
         time_zone: America/Chicago
     response:
       status_code: 201
-    delay_after: 15
+    delay_after: 10
 
   - name: Get verification code from email
     request:
