@@ -6,6 +6,8 @@
 * Pip (>= 9.0)
 
 ## Getting Started
+CI tests are developed using Python and [Tavern](https://taverntesting.github.io/).
+
 The following environment variables must be set for the CI tests to run:
 
 * ENV_API_HOST (ex. https://api.heliumedu.test)
