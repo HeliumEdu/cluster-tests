@@ -31,3 +31,9 @@ To run CI tests, execute:
 ```
 make test
 ```
+
+To manually trigger these CI tests to run on Travis, execute the following (after substituting the proper `<token>`):
+
+```
+curl -s -X POST -H "Content-Type: application/json" -H "Accept: application/json" -H "Travis-API-Version: 3" -H "Authorization: token <token>" -d '{"request":{"branch":"master"}}' https://api.travis-ci.org/repo/HeliumEdu%2Fci-tests/requests
+```
