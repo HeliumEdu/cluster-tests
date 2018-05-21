@@ -29,7 +29,7 @@ stages:
         phone: "{tavern.env_vars.TWILIO_RECIPIENT_PHONE_NUMBER:s}"
     response:
       status_code: 200
-    delay_after: 2
+    delay_after: 5
 
   - name: Get verification code from text
     request:
