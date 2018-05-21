@@ -139,7 +139,8 @@ stages:
       save:
         body:
           reminder_id: id
-    delay_after: 12
+    # Waiting 10 seconds for the worker to pickup the task, then another 5 to ensure Twilio has processed the message
+    delay_after: 15
 
   - name: Verify reminder was marked as sent
     request:
