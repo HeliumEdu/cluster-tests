@@ -1,15 +1,17 @@
 import os
+import time
 from email.parser import Parser
 
 import boto
 from dateutil import parser
+from tavern.util.exceptions import TestFailError
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
 __version__ = '1.4.15'
 
 
-def get_verification_code(response, username):
+def get_verification_code(response, username, retry=0):
     conn = boto.connect_s3(os.environ.get('AWS_S3_ACCESS_KEY_ID'), os.environ.get('AWS_S3_SECRET_ACCESS_KEY'))
     bucket = conn.get_bucket(os.environ.get('AWS_S3_EMAIL_BUCKET', 'heliumedu'))
 
@@ -23,6 +25,14 @@ def get_verification_code(response, username):
         if part.get_content_type() == 'text/plain':
             email_body = part.get_payload()
             break
+
+    if not email_body or 'username={}&code'.format(username) not in email_body:
+        if retry < 5:
+            time.sleep(3)
+
+            return get_verification_code(response, username, retry + 1)
+        else:
+            raise TestFailError("The verification email was not received after {} retries.".format(retry))
 
     verification_code = email_body.split('verify?username={}&code='.format(username))[1].split('\n')[0].strip()
 
