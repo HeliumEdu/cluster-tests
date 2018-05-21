@@ -18,7 +18,6 @@ stages:
             username: "{test_username:s}"
             email: "{test_email:s}"
             password: "{test_password:s}"
-    delay_after: 2
 
   - name: Register new user
     request:
@@ -32,6 +31,7 @@ stages:
         time_zone: America/Chicago
     response:
       status_code: 201
+    # Wait to ensure the example schedule is fully generated
     delay_after: 10
 
   - name: Get verification code from email

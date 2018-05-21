@@ -29,7 +29,6 @@ stages:
         phone: "{tavern.env_vars.TWILIO_RECIPIENT_PHONE_NUMBER:s}"
     response:
       status_code: 200
-    delay_after: 5
 
   - name: Get verification code from text
     request:
@@ -139,8 +138,8 @@ stages:
       save:
         body:
           reminder_id: id
-    # Waiting 10 seconds for the worker to pickup the task, then another 5 to ensure Twilio has processed the message
-    delay_after: 15
+    # Waiting 10 seconds for the worker to pickup the task, then another few seconds to ensure it's processed
+    delay_after: 13
 
   - name: Verify reminder was marked as sent
     request:
