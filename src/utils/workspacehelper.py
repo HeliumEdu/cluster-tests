@@ -4,7 +4,7 @@ import requests
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.4.17'
+__version__ = '1.4.18'
 
 
 def init_workspace(response, env_api_host, username, email, password):
