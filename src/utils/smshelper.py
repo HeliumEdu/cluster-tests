@@ -1,6 +1,8 @@
+import datetime
 import os
 import time
 
+import pytz
 from tavern.util.exceptions import TestFailError
 from twilio.rest import Client
 
@@ -17,7 +19,10 @@ def get_verification_code(response, phone, retry=0):
         if not latest_message or message.date_created > latest_message.date_created:
             latest_message = message
 
-    if not latest_message or 'Enter this verification code' not in latest_message.body:
+    now = datetime.datetime.now(pytz.utc)
+    in_test_window = now - datetime.timedelta(
+        seconds=30 + (retry * 3)) <= latest_message.date_created <= now + datetime.timedelta(seconds=30 + (retry * 3))
+    if not latest_message or not in_test_window or 'Enter this verification code' not in latest_message.body:
         if retry < 5:
             time.sleep(3)
 
@@ -38,7 +43,10 @@ def verify_reminder_received(response, phone, retry=0):
         if not latest_message or message.date_created > latest_message.date_created:
             latest_message = message
 
-    if not latest_message or 'CI Test Homework in American History' not in latest_message.body:
+    now = datetime.datetime.now(pytz.utc)
+    in_test_window = now - datetime.timedelta(
+        seconds=30 + (retry * 3)) <= latest_message.date_created <= now + datetime.timedelta(seconds=30 + (retry * 3))
+    if not latest_message or not in_test_window or 'CI Test Homework in American History' not in latest_message.body:
         if retry < 5:
             time.sleep(3)
 

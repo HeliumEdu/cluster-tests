@@ -31,8 +31,6 @@ stages:
         time_zone: America/Chicago
     response:
       status_code: 201
-    # Wait to ensure the example schedule is fully generated
-    delay_after: 10
 
   - name: Get verification code from email
     request:
@@ -53,3 +51,19 @@ stages:
       method: GET
     response:
       status_code: 200
+
+  - name: Get token for user
+    request:
+      url: "{tavern.env_vars.ENV_API_HOST}/auth/token/"
+      verify: false
+      method: POST
+      json:
+        username: "{test_username:s}"
+        password: "{test_password:s}"
+    response:
+      status_code: 200
+      save:
+        $ext:
+          function: utils.workspacehelper:get_example_schedule_info
+          extra_kwargs:
+            env_api_host: "{tavern.env_vars.ENV_API_HOST}"

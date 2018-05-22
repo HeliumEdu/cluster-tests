@@ -55,7 +55,7 @@ stages:
       status_code: 200
       save:
         body:
-          category_id: 2.id
+          category_id: 4.id
 
   - name: Get homeworks
     request:
@@ -115,12 +115,12 @@ stages:
     response:
       status_code: 200
       body:
-        title: "Quiz"
-        average_grade: "91.5000"
-        grade_by_weight: "13.7250"
-        trend: -0.0275
-        num_homework: 4
-        num_homework_graded: 4
+        title: "Writing Assignment"
+        average_grade: "92.6667"
+        grade_by_weight: "18.5333"
+        trend: 0.0383333333333334
+        num_homework: 6
+        num_homework_graded: 3
 
   - name: Get homework
     request:

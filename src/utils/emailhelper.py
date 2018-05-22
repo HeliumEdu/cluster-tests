@@ -1,8 +1,10 @@
+import datetime
 import os
 import time
 from email.parser import Parser
 
 import boto
+import pytz
 from dateutil import parser
 from tavern.util.exceptions import TestFailError
 
@@ -20,13 +22,24 @@ def get_verification_code(response, username, retry=0):
         if not latest_key or parser.parse(key.last_modified) > parser.parse(latest_key.last_modified):
             latest_key = key
     email_str = latest_key.get_contents_as_string().decode('utf-8')
+
+    now = datetime.datetime.now(pytz.utc)
+    email_date = None
     email_body = None
     for part in Parser().parsestr(email_str).walk():
+        payload = part.get_payload()
+
         if part.get_content_type() == 'text/plain':
-            email_body = part.get_payload()
+            email_body = payload
+        elif part.get_content_type() == 'multipart/alternative' and 'Date' in part.keys():
+            email_date = parser.parse(part.get('Date'))
+
+        if email_date and email_body:
             break
 
-    if not email_body or 'username={}&code'.format(username) not in email_body:
+    in_test_window = now - datetime.timedelta(seconds=15 + (retry * 3)) <= email_date <= now + datetime.timedelta(
+        seconds=15 + (retry * 3))
+    if not email_date or not email_body or not in_test_window or 'username={}&code'.format(username) not in email_body:
         if retry < 5:
             time.sleep(3)
 
