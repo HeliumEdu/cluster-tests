@@ -50,17 +50,6 @@ def wait_for_example_schedule(response, env_api_host, retry=0):
     assert courses_response.status_code == 200
     courses = courses_response.json()
 
-    # Await course group grade accuracy if worker processing is slow
-    if course_group['average_grade'] != '86.2108' or course_group['trend'] != -0.00092027674442886:
-        if retry < 10:
-            time.sleep(2)
-
-            return wait_for_example_schedule(response, env_api_host, retry + 1)
-        else:
-            raise TestFailError(
-                "The example schedule's course group grades were not properly calculated after {} retries.".format(
-                    retry))
-
     if len(events) != 3 or len(courses) != 2:
         if retry < 10:
             time.sleep(2)
@@ -68,7 +57,8 @@ def wait_for_example_schedule(response, env_api_host, retry=0):
             return wait_for_example_schedule(response, env_api_host, retry + 1)
         else:
             raise TestFailError(
-                "The example schedule was not populated with events and courses after {} retries.".format(retry))
+                "The example schedule was only populated with {} events and {} courses "
+                "after {} retries.".format(retry, len(events), len(courses)))
 
     course = None
     for course in courses:
@@ -98,7 +88,8 @@ def wait_for_example_schedule(response, env_api_host, retry=0):
             return wait_for_example_schedule(response, env_api_host, retry + 1)
         else:
             raise TestFailError(
-                "The example schedule was not populated with categories and homework after {} retries.".format(retry))
+                "The example schedule was only populated with {} categories and {} homework "
+                "after {} retries.".format(retry, len(categories), len(homework)))
 
     category = None
     for category in categories:
@@ -107,7 +98,17 @@ def wait_for_example_schedule(response, env_api_host, retry=0):
             break
     assert category is not None
 
-    # Await category grade accuracy if worker processing is slow
+    # Await grade accuracy if worker processing is slow
+    if course_group['average_grade'] != '86.2108' or course_group['trend'] != -0.00092027674442886:
+        if retry < 10:
+            time.sleep(2)
+
+            return wait_for_example_schedule(response, env_api_host, retry + 1)
+        else:
+            raise TestFailError(
+                "The example schedule's course group {} grades were not properly calculated "
+                "after {} retries.".format(course_group, retry))
+
     if category['average_grade'] != '92.6667' or category['grade_by_weight'] != '18.5333' \
             or category['trend'] != 0.0383333333333334:
         if retry < 10:
@@ -116,7 +117,8 @@ def wait_for_example_schedule(response, env_api_host, retry=0):
             return wait_for_example_schedule(response, env_api_host, retry + 1)
         else:
             raise TestFailError(
-                "The example schedule's category grades were not properly calculated after {} retries.".format(retry))
+                "The example schedule's category {} grades were not properly calculated "
+                "after {} retries.".format(category, retry))
 
     # Assert on a sampling to ensure the example schedule was "moved" into the current month
     now = datetime.datetime.now(pytz.utc)
