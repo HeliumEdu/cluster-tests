@@ -1,6 +1,9 @@
+import datetime
 import time
 
+import pytz
 import requests
+from dateutil import parser
 from tavern.util.exceptions import TestFailError
 
 __author__ = 'Alex Laird'
@@ -21,7 +24,7 @@ def init_workspace(response, env_api_host, username, email, password):
     return {}
 
 
-def get_example_schedule_info(response, env_api_host, retry=0):
+def wait_for_example_schedule(response, env_api_host, retry=0):
     token = response.json()['token']
 
     # It can take a few seconds for the example schedule to finish populating, so wait before wasting retries
@@ -38,40 +41,51 @@ def get_example_schedule_info(response, env_api_host, retry=0):
                                          verify=False)
     assert coursegroups_response.status_code == 200
     coursegroups = coursegroups_response.json()
-    course_group_id = coursegroups[0]['id']
+    course_group = coursegroups[0]
 
     courses_response = requests.get(
-        env_api_host + '/planner/coursegroups/{}/courses/'.format(course_group_id),
+        env_api_host + '/planner/coursegroups/{}/courses/'.format(course_group['id']),
         headers={'Authorization': "Token " + token},
         verify=False)
     assert courses_response.status_code == 200
     courses = courses_response.json()
 
+    # Await course group grade accuracy if worker processing is slow
+    if course_group['average_grade'] != '86.2108' or course_group['trend'] != -0.00092027674442886:
+        if retry < 10:
+            time.sleep(2)
+
+            return wait_for_example_schedule(response, env_api_host, retry + 1)
+        else:
+            raise TestFailError(
+                "The example schedule's course group grades were not properly calculated after {} retries.".format(
+                    retry))
+
     if len(events) != 3 or len(courses) != 2:
         if retry < 10:
             time.sleep(2)
 
-            return get_example_schedule_info(response, env_api_host, retry + 1)
+            return wait_for_example_schedule(response, env_api_host, retry + 1)
         else:
             raise TestFailError(
                 "The example schedule was not populated with events and courses after {} retries.".format(retry))
 
-    course_id = None
+    course = None
     for course in courses:
         if course['title'] == 'American History':
-            course_id = course['id']
+            course = course
             break
-    assert course_id is not None
+    assert course is not None
 
     categories_response = requests.get(
-        env_api_host + '/planner/coursegroups/{}/courses/{}/categories/'.format(course_group_id, course_id),
+        env_api_host + '/planner/coursegroups/{}/courses/{}/categories/'.format(course_group['id'], course['id']),
         headers={'Authorization': "Token " + token},
         verify=False)
     assert categories_response.status_code == 200
     categories = categories_response.json()
 
     homework_response = requests.get(
-        env_api_host + '/planner/coursegroups/{}/courses/{}/homework/'.format(course_group_id, course_id),
+        env_api_host + '/planner/coursegroups/{}/courses/{}/homework/'.format(course_group['id'], course['id']),
         headers={'Authorization': "Token " + token},
         verify=False)
     assert homework_response.status_code == 200
@@ -81,23 +95,35 @@ def get_example_schedule_info(response, env_api_host, retry=0):
         if retry < 10:
             time.sleep(2)
 
-            return get_example_schedule_info(response, env_api_host, retry + 1)
+            return wait_for_example_schedule(response, env_api_host, retry + 1)
         else:
             raise TestFailError(
                 "The example schedule was not populated with categories and homework after {} retries.".format(retry))
 
-    category_id = None
+    category = None
     for category in categories:
         if category['title'] == 'Writing Assignment':
-            category_id = category['id']
+            category = category
             break
-    assert category_id is not None
+    assert category is not None
 
-    homework_id = None
-    for h in homework:
-        if h['title'] == 'Chapter 2 Prompts' and h['category'] == category_id:
-            homework_id = h['id']
-            break
-    assert homework_id is not None
+    # Await category grade accuracy if worker processing is slow
+    if category['average_grade'] != '92.6667' or category['grade_by_weight'] != '18.5333' \
+            or category['trend'] != 0.0383333333333334:
+        if retry < 10:
+            time.sleep(2)
+
+            return wait_for_example_schedule(response, env_api_host, retry + 1)
+        else:
+            raise TestFailError(
+                "The example schedule's category grades were not properly calculated after {} retries.".format(retry))
+
+    # Assert on a sampling to ensure the example schedule was "moved" into the current month
+    now = datetime.datetime.now(pytz.utc)
+    assert parser.parse(events[0]['start']).month == now.month
+    assert parser.parse(course_group['start_date']).month == now.month
+    assert parser.parse(courses[0]['start_date']).month == now.month
+    assert parser.parse(courses[1]['start_date']).month == now.month
+    assert parser.parse(homework[0]['start']).month == now.month
 
     return {}
