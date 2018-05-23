@@ -10,7 +10,7 @@ from tavern.util.exceptions import TestFailError
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.4.18'
+__version__ = '1.4.19'
 
 
 def get_verification_code(response, username, retry=0):
