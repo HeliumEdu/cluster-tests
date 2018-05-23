@@ -37,11 +37,11 @@ def get_verification_code(response, username, retry=0):
         if email_date and email_body:
             break
 
-    in_test_window = now - datetime.timedelta(seconds=15 + (retry * 3)) <= email_date <= now + datetime.timedelta(
-        seconds=15 + (retry * 3))
+    in_test_window = now - datetime.timedelta(seconds=15 + (retry * 5)) <= email_date <= now + datetime.timedelta(
+        seconds=15 + (retry * 5))
     if not email_date or not email_body or not in_test_window or 'username={}&code'.format(username) not in email_body:
-        if retry < 5:
-            time.sleep(3)
+        if retry < 24:
+            time.sleep(5)
 
             return get_verification_code(response, username, retry + 1)
         else:
