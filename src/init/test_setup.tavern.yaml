@@ -64,6 +64,6 @@ stages:
       status_code: 200
       save:
         $ext:
-          function: utils.workspacehelper:get_example_schedule_info
+          function: utils.workspacehelper:wait_for_example_schedule
           extra_kwargs:
             env_api_host: "{tavern.env_vars.ENV_API_HOST}"
