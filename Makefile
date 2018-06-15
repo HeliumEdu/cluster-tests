@@ -1,9 +1,24 @@
-.PHONY: all install test
+.PHONY: all virtualenv install test
 
-all: install test
+SHELL := /usr/bin/env bash
+CI_VENV ?= .venv
 
-install:
-	python -m pip install -r requirements.txt
+all: virtualenv install test
+
+virtualenv:
+	@if [ ! -d "$(CI_VENV)" ]; then \
+		python3 -m pip install virtualenv; \
+        python3 -m virtualenv $(CI_VENV); \
+	fi
+
+install: virtualenv
+	@( \
+		source $(PLATFORM_VENV)/bin/activate; \
+		python -m pip install -r requirements.txt; \
+	)
 
 test:
-	PYTHONPATH=src pytest -v src/init/test_setup.tavern.yaml src/tests/ src/init/test_teardown.tavern.yaml -s
+	@( \
+		source $(PLATFORM_VENV)/bin/activate; \
+		PYTHONPATH=src pytest -v src/init/test_setup.tavern.yaml src/tests/ src/init/test_teardown.tavern.yaml -s; \
+	)
