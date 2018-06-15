@@ -1,11 +1,10 @@
+import boto
 import datetime
 import os
-import time
-from email.parser import Parser
-
-import boto
 import pytz
+import time
 from dateutil import parser
+from email.parser import Parser
 from tavern.util.exceptions import TestFailError
 
 __author__ = 'Alex Laird'
@@ -14,17 +13,22 @@ __version__ = '1.4.19'
 
 
 def get_verification_code(response, username, retry=0):
-    conn = boto.connect_s3(os.environ.get('PLATFORM_AWS_S3_ACCESS_KEY_ID'), os.environ.get('PLATFORM_AWS_S3_SECRET_ACCESS_KEY'))
+    conn = boto.connect_s3(os.environ.get('PLATFORM_AWS_S3_ACCESS_KEY_ID'),
+                           os.environ.get('PLATFORM_AWS_S3_SECRET_ACCESS_KEY'))
     bucket = conn.get_bucket(os.environ.get('PLATFORM_AWS_S3_EMAIL_BUCKET', 'heliumedu'))
 
     latest_key = None
     for key in bucket.get_all_keys(prefix='ci.email/{}/'.format(username)):
         if not latest_key or parser.parse(key.last_modified) > parser.parse(latest_key.last_modified):
             latest_key = key
+
+    if latest_key is None:
+        return get_verification_code(response, username, retry + 1)
+
     email_str = latest_key.get_contents_as_string().decode('utf-8')
 
     now = datetime.datetime.now(pytz.utc)
-    email_date = None
+    email_date = datetime.datetime(1, 1, 1, 0, 0)
     email_body = None
     for part in Parser().parsestr(email_str).walk():
         payload = part.get_payload()
