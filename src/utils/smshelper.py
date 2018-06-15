@@ -12,7 +12,7 @@ __version__ = '1.4.19'
 
 
 def get_verification_code(response, phone, retry=0):
-    client = Client(os.environ.get('TWILIO_ACCOUNT_SID'), os.environ.get('TWILIO_AUTH_TOKEN'))
+    client = Client(os.environ.get('PLATFORM_TWILIO_ACCOUNT_SID'), os.environ.get('PLATFORM_TWILIO_AUTH_TOKEN'))
 
     latest_message = None
     for message in client.messages.list(to=phone):
@@ -36,7 +36,7 @@ def get_verification_code(response, phone, retry=0):
 
 
 def verify_reminder_received(response, phone, retry=0):
-    client = Client(os.environ.get('TWILIO_ACCOUNT_SID'), os.environ.get('TWILIO_AUTH_TOKEN'))
+    client = Client(os.environ.get('PLATFORM_TWILIO_ACCOUNT_SID'), os.environ.get('PLATFORM_TWILIO_AUTH_TOKEN'))
 
     latest_message = None
     for message in client.messages.list(to=phone):

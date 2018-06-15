@@ -14,8 +14,8 @@ __version__ = '1.4.19'
 
 
 def get_verification_code(response, username, retry=0):
-    conn = boto.connect_s3(os.environ.get('AWS_S3_ACCESS_KEY_ID'), os.environ.get('AWS_S3_SECRET_ACCESS_KEY'))
-    bucket = conn.get_bucket(os.environ.get('AWS_S3_EMAIL_BUCKET', 'heliumedu'))
+    conn = boto.connect_s3(os.environ.get('PLATFORM_AWS_S3_ACCESS_KEY_ID'), os.environ.get('PLATFORM_AWS_S3_SECRET_ACCESS_KEY'))
+    bucket = conn.get_bucket(os.environ.get('PLATFORM_AWS_S3_EMAIL_BUCKET', 'heliumedu'))
 
     latest_key = None
     for key in bucket.get_all_keys(prefix='ci.email/{}/'.format(username)):
