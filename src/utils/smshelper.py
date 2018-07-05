@@ -8,7 +8,7 @@ from twilio.rest import Client
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.4.19'
+__version__ = '1.4.24'
 
 
 def get_verification_code(response, phone, retry=0):
