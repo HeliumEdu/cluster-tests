@@ -13,12 +13,12 @@ virtualenv:
 
 install: virtualenv
 	@( \
-		source $(PLATFORM_VENV)/bin/activate; \
+		source $(CI_VENV)/bin/activate; \
 		python -m pip install -r requirements.txt; \
 	)
 
 test:
 	@( \
-		source $(PLATFORM_VENV)/bin/activate; \
+		source $(CI_VENV)/bin/activate; \
 		PYTHONPATH=src pytest -v src/init/test_setup.tavern.yaml src/tests/ src/init/test_teardown.tavern.yaml -s; \
 	)
