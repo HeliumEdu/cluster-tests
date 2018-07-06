@@ -4,4 +4,4 @@ python:
 install:
 - make install
 script:
-- make test
+- xvfb-run make test
