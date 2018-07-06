@@ -3,7 +3,7 @@ test_name: Check info API
 stages:
   - name: Get API info
     request:
-      url: "{tavern.env_vars.ENV_API_HOST}/info/"
+      url: "{tavern.env_vars.PROJECT_API_HOST}/info/"
       verify: false
       method: GET
     response:

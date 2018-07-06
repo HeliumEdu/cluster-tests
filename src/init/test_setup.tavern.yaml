@@ -6,7 +6,7 @@ includes:
 stages:
   - name: Cleanup workspace, if dirty
     request:
-      url: "{tavern.env_vars.ENV_API_HOST}/info/"
+      url: "{tavern.env_vars.PROJECT_API_HOST}/info/"
       method: GET
       verify: false
     response:
@@ -14,14 +14,14 @@ stages:
         $ext:
           function: utils.workspacehelper:init_workspace
           extra_kwargs:
-            env_api_host: "{tavern.env_vars.ENV_API_HOST}"
+            env_api_host: "{tavern.env_vars.PROJECT_API_HOST}"
             username: "{test_username:s}"
             email: "{test_email:s}"
             password: "{test_password:s}"
 
   - name: Register new user
     request:
-      url: "{tavern.env_vars.ENV_API_HOST}/auth/user/register/"
+      url: "{tavern.env_vars.PROJECT_API_HOST}/auth/user/register/"
       verify: false
       method: POST
       json:
@@ -34,7 +34,7 @@ stages:
 
   - name: Get verification code from email
     request:
-      url: "{tavern.env_vars.ENV_API_HOST}/info/"
+      url: "{tavern.env_vars.PROJECT_API_HOST}/info/"
       method: GET
       verify: false
     response:
@@ -46,7 +46,7 @@ stages:
 
   - name: Verify user
     request:
-      url: "{tavern.env_vars.ENV_API_HOST}/auth/user/verify/?username={test_username:s}&code={email_verification_code}&welcome-email=false"
+      url: "{tavern.env_vars.PROJECT_API_HOST}/auth/user/verify/?username={test_username:s}&code={email_verification_code}&welcome-email=false"
       verify: false
       method: GET
     response:
@@ -54,7 +54,7 @@ stages:
 
   - name: Get token for user
     request:
-      url: "{tavern.env_vars.ENV_API_HOST}/auth/token/"
+      url: "{tavern.env_vars.PROJECT_API_HOST}/auth/token/"
       verify: false
       method: POST
       json:
@@ -66,4 +66,4 @@ stages:
         $ext:
           function: utils.workspacehelper:wait_for_example_schedule
           extra_kwargs:
-            env_api_host: "{tavern.env_vars.ENV_API_HOST}"
+            env_api_host: "{tavern.env_vars.PROJECT_API_HOST}"

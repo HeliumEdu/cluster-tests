@@ -6,7 +6,7 @@ includes:
 stages:
   - name: Get token for user
     request:
-      url: "{tavern.env_vars.ENV_API_HOST}/auth/token/"
+      url: "{tavern.env_vars.PROJECT_API_HOST}/auth/token/"
       verify: false
       method: POST
       json:
@@ -20,7 +20,7 @@ stages:
 
   - name: Get course groups
     request:
-      url: "{tavern.env_vars.ENV_API_HOST}/planner/coursegroups/"
+      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/"
       verify: false
       method: GET
       headers:
@@ -33,7 +33,7 @@ stages:
 
   - name: Get courses
     request:
-      url: "{tavern.env_vars.ENV_API_HOST}/planner/coursegroups/{course_group_id}/courses/"
+      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/{course_group_id}/courses/"
       verify: false
       method: GET
       headers:
@@ -46,7 +46,7 @@ stages:
 
   - name: Create attachment
     request:
-      url: "{tavern.env_vars.ENV_API_HOST}/info/"
+      url: "{tavern.env_vars.PROJECT_API_HOST}/info/"
       method: GET
       verify: false
     response:
@@ -54,7 +54,7 @@ stages:
         $ext:
           function: utils.attachmenthelper:create_attachment
           extra_kwargs:
-            env_api_host: "{tavern.env_vars.ENV_API_HOST}"
+            PROJECT_API_HOST: "{tavern.env_vars.PROJECT_API_HOST}"
             token: "{auth_token:s}"
             course_id: "{course_id:d}"
 
