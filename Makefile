@@ -20,9 +20,7 @@ install: virtualenv
 
 test:
 	@make test-tavern
-	ifeq ($(OS),Linux)
-		@make test-selenium
-	endif;
+	@if [ "$(OS)" == "Linux" ] ; then make test-selenium ; fi
 
 test-tavern:
 	@( \
