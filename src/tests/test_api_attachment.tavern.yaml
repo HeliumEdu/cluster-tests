@@ -54,7 +54,7 @@ stages:
         $ext:
           function: utils.attachmenthelper:create_attachment
           extra_kwargs:
-            PROJECT_API_HOST: "{tavern.env_vars.PROJECT_API_HOST}"
+            env_api_host: "{tavern.env_vars.PROJECT_API_HOST}"
             token: "{auth_token:s}"
             course_id: "{course_id:d}"
 
