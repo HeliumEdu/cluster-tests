@@ -15,7 +15,8 @@ CI tests are developed using Python and [Tavern](https://taverntesting.github.io
 
 The following environment variables must be set for the CI tests to run:
 
-* PROJECT_API_HOST (same as used in `platform` for API host)
+* PROJECT_APP_HOST (same as used in `deploy` for frontend host)
+* PROJECT_API_HOST (same as used in `deploy` for API host)
 * PLATFORM_AWS_S3_ACCESS_KEY_ID (same as used in `platform` web to upload attachments)
 * PLATFORM_AWS_S3_SECRET_ACCESS_KEY (same as used in `platform` web to upload attachments)
 * PLATFORM_TWILIO_ACCOUNT_SID (same as used in `platform` worker to send texts)

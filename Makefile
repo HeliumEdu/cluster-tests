@@ -25,8 +25,11 @@ test:
 test-tavern:
 	@( \
 		source $(CI_VENV)/bin/activate; \
-		PYTHONPATH=src/tavern pytest -v src/tavern/init/test_setup.tavern.yaml src/tavern/tests/ src/tavern/init/test_teardown.tavern.yaml -s; \
+		PYTHONPATH=src/tavern:$$PYTHONPATH pytest -v src/tavern/init/test_setup.tavern.yaml src/tavern/tests/ src/tavern/init/test_teardown.tavern.yaml -s; \
 	)
 
 test-selenium:
-	@echo "Test Seleium"
+	@( \
+		source $(CI_VENV)/bin/activate; \
+		PYTHONPATH=src/selenium:$$PYTHONPATH pytest -v src/selenium/tests/ -s; \
+	)
