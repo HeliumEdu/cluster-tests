@@ -7,7 +7,7 @@ install:
 - export PATH=$PATH:$PWD/geckodriver
 - make install
 script:
-- make test-selenium
+- make test
 env:
 - MOZ_HEADLESS=1
 addons:
