@@ -7,7 +7,7 @@ from utils.seleniumtestcase import SeleniumTestCase
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.4.25'
+__version__ = '1.4.26'
 
 
 class TestSeleniumRedirects(SeleniumTestCase):

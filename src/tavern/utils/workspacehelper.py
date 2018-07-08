@@ -8,7 +8,7 @@ from tavern.util.exceptions import TestFailError
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.4.19'
+__version__ = '1.4.26'
 
 
 def init_workspace(response, env_api_host, username, email, password):
