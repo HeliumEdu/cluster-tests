@@ -9,7 +9,7 @@ from twilio.rest import Client
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.4.26'
+__version__ = '1.4.35'
 
 _RETRIES = 20
 
