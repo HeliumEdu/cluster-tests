@@ -3,6 +3,7 @@ import os
 import time
 
 import pytz
+import requests
 from tavern.util.exceptions import TestFailError
 from twilio.rest import Client
 
@@ -33,6 +34,17 @@ def get_verification_code(response, phone, retry=0):
     verification_code = int(latest_message.body.split('Helium\'s "Settings" page: ')[1])
 
     return {"sms_verification_code": verification_code}
+
+
+def verify_reminder_marked_sent(response, env_api_host, token, reminder_id):
+    response = requests.post('{}/planner/reminders/{}'.format(env_api_host, reminder_id),
+                             headers={'Authorization': "Token " + token},
+                             verify=False)
+
+    assert response.status_code == 200
+    assert response.json()["sent"] == True
+
+    return {}
 
 
 def verify_reminder_received(response, phone, retry=0):

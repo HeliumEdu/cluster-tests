@@ -143,15 +143,17 @@ stages:
 
   - name: Verify reminder was marked as sent
     request:
-      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/reminders/{reminder_id}/"
+      url: "{tavern.env_vars.PROJECT_API_HOST}/info/"
       verify: false
       method: GET
-      headers:
-        Authorization: "Token {auth_token:s}"
     response:
-      status_code: 200
-      body:
-        sent: true
+      save:
+        $ext:
+          function: utils.smshelper:verify_reminder_marked_sent
+          extra_kwargs:
+            env_api_host: "{tavern.env_vars.PROJECT_API_HOST}"
+            token: "{auth_token:s}"
+            reminder_id: "{reminder_id}"
 
   - name: Verify reminder text was received
     request:

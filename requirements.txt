@@ -1,4 +1,4 @@
-tavern[pytest]==0.18.1
+tavern[pytest]==0.18.2
 pytz==2018.5
 python-dateutil==2.7.3
 boto==2.49.0
