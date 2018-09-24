@@ -10,6 +10,10 @@ __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
 __version__ = '1.4.26'
 
+_RETRIES = 10
+
+_RETRY_DELAY = 2
+
 
 def init_workspace(response, env_api_host, username, email, password):
     # If the test user already exists, cleanup from a previous test
@@ -51,8 +55,8 @@ def wait_for_example_schedule(response, env_api_host, retry=0):
     courses = courses_response.json()
 
     if len(events) != 3 or len(courses) != 2:
-        if retry < 10:
-            time.sleep(2)
+        if retry < _RETRIES:
+            time.sleep(_RETRY_DELAY)
 
             return wait_for_example_schedule(response, env_api_host, retry + 1)
         else:
@@ -82,8 +86,8 @@ def wait_for_example_schedule(response, env_api_host, retry=0):
     homework = homework_response.json()
 
     if len(categories) != 5 or len(homework) != 15:
-        if retry < 10:
-            time.sleep(2)
+        if retry < _RETRIES:
+            time.sleep(_RETRY_DELAY)
 
             return wait_for_example_schedule(response, env_api_host, retry + 1)
         else:
@@ -100,8 +104,8 @@ def wait_for_example_schedule(response, env_api_host, retry=0):
 
     # Await grade accuracy if worker processing is slow
     if course_group['average_grade'] != '86.2108' or course_group['trend'] != -0.00092027674442886:
-        if retry < 10:
-            time.sleep(2)
+        if retry < _RETRIES:
+            time.sleep(_RETRY_DELAY)
 
             return wait_for_example_schedule(response, env_api_host, retry + 1)
         else:
@@ -111,8 +115,8 @@ def wait_for_example_schedule(response, env_api_host, retry=0):
 
     if category['average_grade'] != '92.6667' or category['grade_by_weight'] != '18.5333' \
             or category['trend'] != 0.0383333333333334:
-        if retry < 10:
-            time.sleep(2)
+        if retry < _RETRIES:
+            time.sleep(_RETRY_DELAY)
 
             return wait_for_example_schedule(response, env_api_host, retry + 1)
         else:

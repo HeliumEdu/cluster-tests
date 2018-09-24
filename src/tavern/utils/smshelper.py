@@ -11,6 +11,10 @@ __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
 __version__ = '1.4.26'
 
+_RETRIES = 20
+
+_RETRY_DELAY = 3
+
 
 def get_verification_code(response, phone, retry=0):
     client = Client(os.environ.get('PLATFORM_TWILIO_ACCOUNT_SID'), os.environ.get('PLATFORM_TWILIO_AUTH_TOKEN'))
@@ -22,10 +26,11 @@ def get_verification_code(response, phone, retry=0):
 
     now = datetime.datetime.now(pytz.utc)
     in_test_window = now - datetime.timedelta(
-        seconds=30 + (retry * 3)) <= latest_message.date_created <= now + datetime.timedelta(seconds=30 + (retry * 3))
+        seconds=30 + (retry * _RETRY_DELAY)) <= latest_message.date_created <= now + datetime.timedelta(
+        seconds=30 + (retry * _RETRY_DELAY))
     if not latest_message or not in_test_window or 'Enter this verification code' not in latest_message.body:
-        if retry < 20:
-            time.sleep(3)
+        if retry < _RETRIES:
+            time.sleep(_RETRY_DELAY)
 
             return get_verification_code(response, phone, retry + 1)
         else:
@@ -36,13 +41,18 @@ def get_verification_code(response, phone, retry=0):
     return {"sms_verification_code": verification_code}
 
 
-def verify_reminder_marked_sent(response, env_api_host, token, reminder_id):
-    response = requests.post('{}/planner/reminders/{}'.format(env_api_host, reminder_id),
+def verify_reminder_marked_sent(response, env_api_host, token, reminder_id, retry=0):
+    response = requests.get('{}/planner/reminders/{}/'.format(env_api_host, reminder_id),
                              headers={'Authorization': "Token " + token},
                              verify=False)
 
-    assert response.status_code == 200
-    assert response.json()["sent"] == True
+    if not (response.status_code == 200 and response.json()["sent"]):
+        if retry < _RETRIES:
+            time.sleep(_RETRY_DELAY)
+
+            return verify_reminder_marked_sent(response, env_api_host, token, reminder_id, retry + 1)
+        else:
+            raise TestFailError("The reminder was not marked as \"sent\" after {} retries.".format(retry))
 
     return {}
 
@@ -57,10 +67,11 @@ def verify_reminder_received(response, phone, retry=0):
 
     now = datetime.datetime.now(pytz.utc)
     in_test_window = now - datetime.timedelta(
-        seconds=30 + (retry * 3)) <= latest_message.date_created <= now + datetime.timedelta(seconds=30 + (retry * 3))
+        seconds=30 + (retry * _RETRY_DELAY)) <= latest_message.date_created <= now + datetime.timedelta(
+        seconds=30 + (retry * _RETRY_DELAY))
     if not latest_message or not in_test_window or 'CI Test Homework in American History' not in latest_message.body:
-        if retry < 20:
-            time.sleep(3)
+        if retry < _RETRIES:
+            time.sleep(_RETRY_DELAY)
 
             return verify_reminder_received(response, phone, retry + 1)
         else:

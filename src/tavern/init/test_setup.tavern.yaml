@@ -7,8 +7,8 @@ stages:
   - name: Cleanup workspace, if dirty
     request:
       url: "{tavern.env_vars.PROJECT_API_HOST}/info/"
-      method: GET
       verify: false
+      method: GET
     response:
       save:
         $ext:
@@ -35,8 +35,8 @@ stages:
   - name: Get verification code from email
     request:
       url: "{tavern.env_vars.PROJECT_API_HOST}/info/"
-      method: GET
       verify: false
+      method: GET
     response:
       save:
         $ext:
