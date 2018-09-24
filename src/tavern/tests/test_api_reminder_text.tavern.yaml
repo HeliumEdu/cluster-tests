@@ -33,8 +33,8 @@ stages:
   - name: Get verification code from text
     request:
       url: "{tavern.env_vars.PROJECT_API_HOST}/info/"
-      method: GET
       verify: false
+      method: GET
     response:
       save:
         $ext:
@@ -138,8 +138,8 @@ stages:
       save:
         body:
           reminder_id: id
-    # Waiting 10 seconds for the worker to pickup the task, then another few seconds to ensure it's processed
-    delay_after: 33
+    # Waiting 30 seconds for the worker to pickup the task
+    delay_after: 30
 
   - name: Verify reminder was marked as sent
     request:
@@ -158,8 +158,8 @@ stages:
   - name: Verify reminder text was received
     request:
       url: "{tavern.env_vars.PROJECT_API_HOST}/info/"
-      method: GET
       verify: false
+      method: GET
     response:
       save:
         $ext:

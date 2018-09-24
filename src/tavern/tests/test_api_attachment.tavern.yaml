@@ -47,8 +47,8 @@ stages:
   - name: Create attachment
     request:
       url: "{tavern.env_vars.PROJECT_API_HOST}/info/"
-      method: GET
       verify: false
+      method: GET
     response:
       save:
         $ext:
@@ -61,7 +61,7 @@ stages:
   - name: Verify attachment was uploaded
     request:
       url: "{attachment_url:s}"
-      method: GET
       verify: false
+      method: GET
     response:
       status_code: 200
