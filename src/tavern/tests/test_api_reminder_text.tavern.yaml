@@ -157,7 +157,7 @@ stages:
 
   - name: Verify reminder text was received
     request:
-      url: "{tavern.env_vars.PROJECT_API_HOST}/info/"
+      url: "{tavern.env_vars.PROJECT_API_HOST}/status/"
       verify: false
       method: GET
     response:
