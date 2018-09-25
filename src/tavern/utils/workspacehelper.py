@@ -1,5 +1,6 @@
 import datetime
 import time
+import logging
 
 import pytz
 import requests
@@ -10,12 +11,16 @@ __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
 __version__ = '1.4.35'
 
+logger = logging.getLogger(__name__)
+
 _RETRIES = 10
 
 _RETRY_DELAY = 2
 
 
 def init_workspace(response, env_api_host, username, email, password):
+    logger.info('/info/ response: {}'.format(response.json()))
+
     # If the test user already exists, cleanup from a previous test
     response = requests.delete(env_api_host + '/auth/user/delete/',
                                data={'username': username, 'email': email, 'password': password},
@@ -29,6 +34,8 @@ def init_workspace(response, env_api_host, username, email, password):
 
 
 def wait_for_example_schedule(response, env_api_host, retry=0):
+    logger.info('/auth/token/ response: {}'.format(response.json()))
+
     token = response.json()['token']
 
     # It can take a few seconds for the example schedule to finish populating, so wait before wasting retries

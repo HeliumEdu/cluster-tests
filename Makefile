@@ -25,7 +25,7 @@ test:
 test-tavern:
 	@( \
 		source $(CI_VENV)/bin/activate; \
-		PYTHONPATH=src/tavern:$$PYTHONPATH pytest -v src/tavern/init/test_setup.tavern.yaml src/tavern/tests/ src/tavern/init/test_teardown.tavern.yaml -s; \
+		PYTHONPATH=src/tavern:$$PYTHONPATH pytest -v src/tavern/init/test_setup.tavern.yaml src/tavern/tests/ src/tavern/init/test_teardown.tavern.yaml -s --log-cli-level info; \
 	)
 
 test-selenium:

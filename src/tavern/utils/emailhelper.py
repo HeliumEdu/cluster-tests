@@ -1,15 +1,23 @@
-import boto
 import datetime
+import logging
 import os
-import pytz
 import time
-from dateutil import parser
 from email.parser import Parser
+
+import boto
+import pytz
+from dateutil import parser
 from tavern.util.exceptions import TestFailError
 
 __author__ = 'Alex Laird'
 __copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.4.26'
+__version__ = '1.4.35'
+
+logger = logging.getLogger(__name__)
+
+_RETRIES = 24
+
+_RETRY_DELAY = 5
 
 
 def get_verification_code(response, username, retry=0):
@@ -23,7 +31,14 @@ def get_verification_code(response, username, retry=0):
             latest_key = key
 
     if latest_key is None:
-        return get_verification_code(response, username, retry + 1)
+        if retry < _RETRIES:
+            time.sleep(_RETRY_DELAY)
+
+            return get_verification_code(response, username, retry + 1)
+        else:
+            raise TestFailError("The verification email was not received after {} retries.".format(retry))
+
+    logger.info('latest_key: {}'.format(latest_key))
 
     email_str = latest_key.get_contents_as_string().decode('utf-8')
 
@@ -41,18 +56,28 @@ def get_verification_code(response, username, retry=0):
         if email_date and email_body:
             break
 
-    in_test_window = now - datetime.timedelta(seconds=15 + (retry * 5)) <= email_date <= now + datetime.timedelta(
-        seconds=15 + (retry * 5))
+    now = datetime.datetime.now(pytz.utc)
+    left_window = now - datetime.timedelta(seconds=15 + (retry * _RETRY_DELAY))
+    right_window = now + datetime.timedelta(seconds=15 + (retry * _RETRY_DELAY))
+
+    logger.info('left_window: {}'.format(left_window))
+    logger.info('email_date: {}'.format(email_date))
+    logger.info('right_window: {}'.format(right_window))
+
+    in_test_window = left_window <= email_date <= right_window
     if not email_date or not email_body or not in_test_window or 'username={}&code'.format(username) not in email_body:
-        if retry < 24:
-            time.sleep(5)
+        if retry < _RETRIES:
+            time.sleep(_RETRY_DELAY)
 
             return get_verification_code(response, username, retry + 1)
         else:
-            raise TestFailError("The verification email was not received after {} retries.".format(retry))
+            raise TestFailError("No matching verification email could be validated after {} retries.".format(retry))
 
     verification_code = email_body.split('verify?username={}&code='.format(username))[1].split('\n')[0].strip()
 
     bucket.delete_key(latest_key)
 
-    return {"email_verification_code": verification_code}
+    response = {"email_verification_code": verification_code}
+    logger.info(response)
+
+    return response
