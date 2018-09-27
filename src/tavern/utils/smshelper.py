@@ -92,8 +92,8 @@ def verify_reminder_received(response, phone, retry=0):
         if not latest_message or message.date_created > latest_message.date_created:
             latest_message = message
 
-    left_window = now - datetime.timedelta(seconds=30 + (retry * _RETRY_DELAY))
-    right_window = now + datetime.timedelta(seconds=30 + (retry * _RETRY_DELAY))
+    left_window = now - datetime.timedelta(seconds=60 + (retry * _RETRY_DELAY))
+    right_window = now + datetime.timedelta(seconds=60 + (retry * _RETRY_DELAY))
 
     logger.info('left_window: {}'.format(left_window))
     logger.info('latest_message.date_created: {}'.format(latest_message.date_created))
