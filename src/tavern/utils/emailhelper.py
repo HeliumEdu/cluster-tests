@@ -4,7 +4,7 @@ import os
 import time
 from email.parser import Parser
 
-import boto
+import boto3
 import pytz
 from dateutil import parser
 from tavern.util.exceptions import TestFailError
@@ -21,13 +21,14 @@ _RETRY_DELAY = 5
 
 
 def get_verification_code(response, username, retry=0):
-    conn = boto.connect_s3(os.environ.get('PLATFORM_AWS_S3_ACCESS_KEY_ID'),
-                           os.environ.get('PLATFORM_AWS_S3_SECRET_ACCESS_KEY'))
-    bucket = conn.get_bucket(os.environ.get('PLATFORM_AWS_S3_EMAIL_BUCKET', 'heliumedu'))
+    s3 = boto3.resource('s3',
+                        aws_access_key_id=os.environ.get('PLATFORM_AWS_S3_ACCESS_KEY_ID'),
+                        aws_secret_access_key=os.environ.get('PLATFORM_AWS_S3_SECRET_ACCESS_KEY'))
+    bucket = s3.Bucket(os.environ.get('PLATFORM_AWS_S3_EMAIL_BUCKET', 'heliumedu'))
 
     latest_key = None
-    for key in bucket.get_all_keys(prefix='ci.email/{}/'.format(username)):
-        if not latest_key or parser.parse(key.last_modified) > parser.parse(latest_key.last_modified):
+    for key in bucket.objects.filter(Prefix='ci.email/{}/'.format(username)):
+        if not latest_key or key.last_modified > latest_key.last_modified:
             latest_key = key
 
     if latest_key is None:
@@ -40,9 +41,8 @@ def get_verification_code(response, username, retry=0):
 
     logger.info('latest_key: {}'.format(latest_key))
 
-    email_str = latest_key.get_contents_as_string().decode('utf-8')
+    email_str = latest_key.get()["Body"].read().decode('utf-8')
 
-    now = datetime.datetime.now(pytz.utc)
     email_date = datetime.datetime(1, 1, 1, 0, 0)
     email_body = None
     for part in Parser().parsestr(email_str).walk():
@@ -75,7 +75,7 @@ def get_verification_code(response, username, retry=0):
 
     verification_code = email_body.split('verify?username={}&code='.format(username))[1].split('\n')[0].strip()
 
-    bucket.delete_key(latest_key)
+    latest_key.delete()
 
     response = {"email_verification_code": verification_code}
     logger.info(response)
