@@ -44,13 +44,15 @@ def wait_for_example_schedule(response, env_api_host, retry=0):
     events_response = requests.get(env_api_host + '/planner/events/',
                                    headers={'Authorization': "Token " + token},
                                    verify=False)
-    assert events_response.status_code == 200
+    if events_response.status_code != 200:
+        raise AssertionError("events_response.status_code: {}".format(events_response.status_code))
     events = events_response.json()
 
     coursegroups_response = requests.get(env_api_host + '/planner/coursegroups/',
                                          headers={'Authorization': "Token " + token},
                                          verify=False)
-    assert coursegroups_response.status_code == 200
+    if coursegroups_response.status_code != 200:
+        raise AssertionError("coursegroups_response.status_code: {}".format(coursegroups_response.status_code))
     coursegroups = coursegroups_response.json()
     course_group = coursegroups[0]
 
@@ -58,7 +60,8 @@ def wait_for_example_schedule(response, env_api_host, retry=0):
         env_api_host + '/planner/coursegroups/{}/courses/'.format(course_group['id']),
         headers={'Authorization': "Token " + token},
         verify=False)
-    assert courses_response.status_code == 200
+    if courses_response.status_code != 200:
+        raise AssertionError("courses_response.status_code: {}".format(courses_response.status_code))
     courses = courses_response.json()
 
     if len(events) != 3 or len(courses) != 2:
@@ -76,20 +79,23 @@ def wait_for_example_schedule(response, env_api_host, retry=0):
         if course['title'] == 'American History':
             course = course
             break
-    assert course is not None
+    if course is None:
+        raise AssertionError("course is None")
 
     categories_response = requests.get(
         env_api_host + '/planner/coursegroups/{}/courses/{}/categories/'.format(course_group['id'], course['id']),
         headers={'Authorization': "Token " + token},
         verify=False)
-    assert categories_response.status_code == 200
+    if categories_response.status_code != 200:
+        raise AssertionError("categories_response.status_code: {}".format(categories_response.status_code))
     categories = categories_response.json()
 
     homework_response = requests.get(
         env_api_host + '/planner/coursegroups/{}/courses/{}/homework/'.format(course_group['id'], course['id']),
         headers={'Authorization': "Token " + token},
         verify=False)
-    assert homework_response.status_code == 200
+    if homework_response.status_code != 200:
+        raise AssertionError("homework_response.status_code: {}".format(homework_response.status_code))
     homework = homework_response.json()
 
     if len(categories) != 5 or len(homework) != 15:
@@ -107,7 +113,8 @@ def wait_for_example_schedule(response, env_api_host, retry=0):
         if category['title'] == 'Writing Assignment':
             category = category
             break
-    assert category is not None
+    if category is None:
+        raise AssertionError("category is None")
 
     # Await grade accuracy if worker processing is slow
     if course_group['average_grade'] != '86.2108' or course_group['trend'] != -0.00092027674442886:
@@ -133,10 +140,15 @@ def wait_for_example_schedule(response, env_api_host, retry=0):
 
     # Assert on a sampling to ensure the example schedule was "moved" into the current month
     now = datetime.datetime.now(pytz.utc)
-    assert parser.parse(events[0]['start']).month == now.month
-    assert parser.parse(course_group['start_date']).month == now.month
-    assert parser.parse(courses[0]['start_date']).month == now.month
-    assert parser.parse(courses[1]['start_date']).month == now.month
-    assert parser.parse(homework[0]['start']).month == now.month
+    if parser.parse(events[0]['start']).month != now.month:
+        raise AssertionError("events[0] month: {}".format(events[0]['start'].month))
+    if parser.parse(course_group['start_date']).month != now.month:
+        raise AssertionError("course_group month: {}".format(course_group['start_date'].month))
+    if parser.parse(courses[0]['start_date']).month != now.month:
+        raise AssertionError("courses[0] month: {}".format(courses[0]['start_date'].month))
+    if parser.parse(courses[1]['start_date']).month != now.month:
+        raise AssertionError("courses[1] month: {}".format(courses[1]['start_date'].month))
+    if parser.parse(homework[0]['start']).month != now.month:
+        raise AssertionError("homework[0] month: {}".format(homework[0]['start'].month))
 
     return {}

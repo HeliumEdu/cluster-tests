@@ -108,6 +108,7 @@ def verify_reminder_received(response, phone, retry=0):
         else:
             raise TestFailError("The reminder SMS was not received after {} retries.".format(retry))
 
-    assert latest_message.body == '(CI Test Homework in American History on Tue, Apr 17 at 09:00 PM) CI test reminder message'
+    if latest_message.body != '(CI Test Homework in American History on Tue, Apr 17 at 09:00 PM) CI test reminder message':
+        raise AssertionError("latest_message.body: {}".format(latest_message.body))
 
     return {}
