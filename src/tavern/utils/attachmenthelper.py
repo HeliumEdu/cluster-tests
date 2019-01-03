@@ -17,6 +17,7 @@ def create_attachment(response, env_api_host, token, course_id):
                              },
                              verify=False)
 
-    assert response.status_code == 201
+    if response.status_code != 201:
+        raise AssertionError("response.status_code: {}".format(response.status_code))
 
     return {"attachment_url": response.json()[0]['attachment']}
