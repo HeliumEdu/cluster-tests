@@ -3,8 +3,8 @@ import os
 import requests
 
 __author__ = 'Alex Laird'
-__copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.4.26'
+__copyright__ = 'Copyright 2019, Helium Edu'
+__version__ = '1.4.36'
 
 
 def create_attachment(response, env_api_host, token, course_id):
