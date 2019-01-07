@@ -4,7 +4,7 @@ import requests
 
 __author__ = "Alex Laird"
 __copyright__ = "Copyright 2019, Helium Edu"
-__version__ = "1.4.37"
+__version__ = "1.4.38"
 
 
 def create_attachment(response, env_api_host, token, course_id):
