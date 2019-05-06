@@ -117,7 +117,7 @@ def wait_for_example_schedule(response, env_api_host, retry=0):
         raise AssertionError("category is None")
 
     # Await grade accuracy if worker processing is slow
-    if course_group['average_grade'] != '86.2108' or course_group['trend'] != -0.00092027674442886:
+    if course_group['average_grade'] != '86.2108' or course_group['trend'] != -0.0009202767444288602:
         if retry < _RETRIES:
             time.sleep(_RETRY_DELAY)
 
@@ -128,7 +128,7 @@ def wait_for_example_schedule(response, env_api_host, retry=0):
                 "after {} retries.".format(course_group, retry))
 
     if category['average_grade'] != '92.6667' or category['grade_by_weight'] != '18.5333' \
-            or category['trend'] != 0.0383333333333334:
+            or category['trend'] != 0.03833333333333341:
         if retry < _RETRIES:
             time.sleep(_RETRY_DELAY)
 
