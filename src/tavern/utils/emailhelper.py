@@ -7,6 +7,7 @@ from email.parser import Parser
 import boto3
 import pytz
 from dateutil import parser
+from datetime import timezone
 from tavern.util.exceptions import TestFailError
 
 __author__ = "Alex Laird"
@@ -43,7 +44,7 @@ def get_verification_code(response, username, retry=0):
 
     email_str = latest_key.get()["Body"].read().decode('utf-8')
 
-    email_date = datetime.datetime(1, 1, 1, 0, 0)
+    email_date = datetime.datetime(1, 1, 1, 0, 0, tzinfo=timezone.utc)
     email_body = None
     for part in Parser().parsestr(email_str).walk():
         payload = part.get_payload()
