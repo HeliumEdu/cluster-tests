@@ -4,4 +4,4 @@ python-dateutil==2.8.1
 boto3==1.9.73
 twilio==6.22.1
 selenium==3.141.0
-urllib3==1.24.2
+urllib3==1.25.9
