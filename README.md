@@ -1,7 +1,5 @@
 [![Build Status](https://travis-ci.org/HeliumEdu/ci-tests.svg?branch=master)](https://travis-ci.org/HeliumEdu/ci-tests)
-[![Updates](https://pyup.io/repos/github/HeliumEdu/ci-tests/shield.svg)](https://pyup.io/repos/github/HeliumEdu/ci-tests/)
 ![GitHub](https://img.shields.io/github/license/heliumedu/ci-tests)
-[![Python 3](https://pyup.io/repos/github/HeliumEdu/ci-tests/python-3-shield.svg)](https://pyup.io/repos/github/HeliumEdu/ci-tests/)
 
 # Helium CI Tests
 
