@@ -1,5 +1,5 @@
 tavern[pytest]==0.22.1
-pytz==2018.7
+pytz==2020.1
 python-dateutil==2.8.1
 boto3==1.9.73
 twilio==6.41.0
