@@ -2,6 +2,6 @@ tavern[pytest]==0.22.1
 pytz==2018.7
 python-dateutil==2.7.5
 boto3==1.9.73
-twilio==6.22.1
+twilio==6.41.0
 selenium==3.141.0
 urllib3==1.24.2
