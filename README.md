@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/HeliumEdu/ci-tests.svg?branch=master)](https://travis-ci.org/HeliumEdu/ci-tests)
+[![Build Status](https://travis-ci.com/HeliumEdu/ci-tests.svg?branch=master)](https://travis-ci.com/HeliumEdu/ci-tests)
 ![GitHub](https://img.shields.io/github/license/heliumedu/ci-tests)
 
 # Helium CI Tests
