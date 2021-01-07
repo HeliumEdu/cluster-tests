@@ -15,7 +15,7 @@ stages:
     response:
       status_code: 200
       save:
-        body:
+        json:
           auth_token: token
 
   - name: Get course groups
@@ -28,7 +28,7 @@ stages:
     response:
       status_code: 200
       save:
-        body:
+        json:
           course_group_id: 0.id
 
   - name: Get courses
@@ -41,7 +41,7 @@ stages:
     response:
       status_code: 200
       save:
-        body:
+        json:
           course_id: 0.id
 
   - name: Get categories
@@ -54,7 +54,7 @@ stages:
     response:
       status_code: 200
       save:
-        body:
+        json:
           category_id: 4.id
 
   - name: Get homeworks
@@ -67,7 +67,7 @@ stages:
     response:
       status_code: 200
       save:
-        body:
+        json:
           homework_id: 5.id
 
   - name: Get course group
@@ -79,7 +79,7 @@ stages:
         Authorization: "Token {auth_token:s}"
     response:
       status_code: 200
-      body:
+      json:
         title: "Example Semester"
         average_grade: "86.2108"
         trend: -0.0009202767444288602
@@ -96,7 +96,7 @@ stages:
         Authorization: "Token {auth_token:s}"
     response:
       status_code: 200
-      body:
+      json:
         title: "American History"
         current_grade: "90.6358"
         trend: 0.0039735044860502375
@@ -114,7 +114,7 @@ stages:
         Authorization: "Token {auth_token:s}"
     response:
       status_code: 200
-      body:
+      json:
         title: "Writing Assignment"
         average_grade: "92.6667"
         grade_by_weight: "18.5333"
@@ -131,7 +131,7 @@ stages:
         Authorization: "Token {auth_token:s}"
     response:
       status_code: 200
-      body:
+      json:
         title: "Chapter 2 Prompts"
         current_grade: "85/100"
         completed: true

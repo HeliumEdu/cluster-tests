@@ -15,7 +15,7 @@ stages:
     response:
       status_code: 200
       save:
-        body:
+        json:
           auth_token: token
 
   - name: Get course groups
@@ -28,7 +28,7 @@ stages:
     response:
       status_code: 200
       save:
-        body:
+        json:
           course_group_id: 0.id
 
   - name: Get courses
@@ -41,7 +41,7 @@ stages:
     response:
       status_code: 200
       save:
-        body:
+        json:
           course_id: 0.id
 
   - name: Create attachment

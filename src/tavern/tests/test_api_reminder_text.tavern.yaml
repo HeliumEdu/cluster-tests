@@ -15,7 +15,7 @@ stages:
     response:
       status_code: 200
       save:
-        body:
+        json:
           auth_token: token
 
   - name: Add phone number to account
@@ -64,7 +64,7 @@ stages:
     response:
       status_code: 200
       save:
-        body:
+        json:
           course_group_id: 0.id
 
   - name: Get courses
@@ -77,7 +77,7 @@ stages:
     response:
       status_code: 200
       save:
-        body:
+        json:
           course_id: 0.id
 
   - name: Get categories
@@ -90,7 +90,7 @@ stages:
     response:
       status_code: 200
       save:
-        body:
+        json:
           category_id: 2.id
 
   - name: Create homework before today
@@ -116,7 +116,7 @@ stages:
     response:
       status_code: 201
       save:
-        body:
+        json:
           homework_id: id
 
   - name: Create text reminder
@@ -136,7 +136,7 @@ stages:
     response:
       status_code: 201
       save:
-        body:
+        json:
           reminder_id: id
     # Waiting 30 seconds for the worker to pickup the task
     delay_after: 30
