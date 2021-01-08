@@ -1,5 +1,7 @@
 test_name: Check info API
 
+strict: False
+
 stages:
   - name: Get API info
     request:
