@@ -50,13 +50,12 @@ stages:
       verify: false
       method: GET
     response:
-      save:
-        verify_response_with:
-          function: utils.attachmenthelper:create_attachment
-          extra_kwargs:
-            env_api_host: "{tavern.env_vars.PROJECT_API_HOST}"
-            token: "{auth_token:s}"
-            course_id: "{course_id:d}"
+      verify_response_with:
+        function: utils.attachmenthelper:create_attachment
+        extra_kwargs:
+          env_api_host: "{tavern.env_vars.PROJECT_API_HOST}"
+          token: "{auth_token:s}"
+          course_id: "{course_id:d}"
 
   - name: Verify attachment was uploaded
     request:
