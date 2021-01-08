@@ -29,7 +29,7 @@ stages:
       status_code: 200
       save:
         json:
-          course_group_id: 0.id
+          course_group_id: [0].id
 
   - name: Get courses
     request:
@@ -42,7 +42,7 @@ stages:
       status_code: 200
       save:
         json:
-          course_id: 0.id
+          course_id: [0].id
 
   - name: Get categories
     request:
@@ -55,7 +55,7 @@ stages:
       status_code: 200
       save:
         json:
-          category_id: 4.id
+          category_id: [4].id
 
   - name: Get homeworks
     request:
@@ -68,7 +68,7 @@ stages:
       status_code: 200
       save:
         json:
-          homework_id: 5.id
+          homework_id: [5].id
 
   - name: Get course group
     request:
