@@ -36,10 +36,11 @@ stages:
       verify: false
       method: GET
     response:
-      verify_response_with:
-        function: utils.smshelper:get_verification_code
-        extra_kwargs:
-          phone: "{tavern.env_vars.CI_TWILIO_RECIPIENT_PHONE_NUMBER:s}"
+      save:
+        verify_response_with:
+          function: utils.smshelper:get_verification_code
+          extra_kwargs:
+            phone: "{tavern.env_vars.CI_TWILIO_RECIPIENT_PHONE_NUMBER:s}"
 
   - name: Verify phone number
     request:
@@ -146,12 +147,13 @@ stages:
       verify: false
       method: GET
     response:
-      verify_response_with:
-        function: utils.smshelper:verify_reminder_marked_sent
-        extra_kwargs:
-          env_api_host: "{tavern.env_vars.PROJECT_API_HOST}"
-          token: "{auth_token:s}"
-          reminder_id: "{reminder_id}"
+      save:
+        verify_response_with:
+          function: utils.smshelper:verify_reminder_marked_sent
+          extra_kwargs:
+            env_api_host: "{tavern.env_vars.PROJECT_API_HOST}"
+            token: "{auth_token:s}"
+            reminder_id: "{reminder_id}"
 
   - name: Verify reminder text was received
     request:
@@ -159,7 +161,8 @@ stages:
       verify: false
       method: GET
     response:
-      verify_response_with:
-        function: utils.smshelper:verify_reminder_received
-        extra_kwargs:
-          phone: "{tavern.env_vars.CI_TWILIO_RECIPIENT_PHONE_NUMBER:s}"
+      save:
+        verify_response_with:
+          function: utils.smshelper:verify_reminder_received
+          extra_kwargs:
+            phone: "{tavern.env_vars.CI_TWILIO_RECIPIENT_PHONE_NUMBER:s}"
