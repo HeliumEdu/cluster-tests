@@ -37,7 +37,7 @@ stages:
       method: GET
     response:
       save:
-        $ext:
+        verify_response_with:
           function: utils.smshelper:get_verification_code
           extra_kwargs:
             phone: "{tavern.env_vars.CI_TWILIO_RECIPIENT_PHONE_NUMBER:s}"
@@ -65,7 +65,7 @@ stages:
       status_code: 200
       save:
         json:
-          course_group_id: 0.id
+          course_group_id: [0].id
 
   - name: Get courses
     request:
@@ -78,7 +78,7 @@ stages:
       status_code: 200
       save:
         json:
-          course_id: 0.id
+          course_id: [0].id
 
   - name: Get categories
     request:
@@ -91,7 +91,7 @@ stages:
       status_code: 200
       save:
         json:
-          category_id: 2.id
+          category_id: [2].id
 
   - name: Create homework before today
     request:
@@ -148,7 +148,7 @@ stages:
       method: GET
     response:
       save:
-        $ext:
+        verify_response_with:
           function: utils.smshelper:verify_reminder_marked_sent
           extra_kwargs:
             env_api_host: "{tavern.env_vars.PROJECT_API_HOST}"
@@ -162,7 +162,7 @@ stages:
       method: GET
     response:
       save:
-        $ext:
+        verify_response_with:
           function: utils.smshelper:verify_reminder_received
           extra_kwargs:
             phone: "{tavern.env_vars.CI_TWILIO_RECIPIENT_PHONE_NUMBER:s}"
