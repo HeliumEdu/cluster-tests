@@ -51,7 +51,7 @@ stages:
       method: GET
     response:
       save:
-        verify_response_with:
+        $ext:
           function: utils.attachmenthelper:create_attachment
           extra_kwargs:
             env_api_host: "{tavern.env_vars.PROJECT_API_HOST}"
