@@ -3,6 +3,8 @@ test_name: Check user API
 includes:
   - !include ../init/common.yaml
 
+strict: False
+
 stages:
   - name: Get token for user
     request:
