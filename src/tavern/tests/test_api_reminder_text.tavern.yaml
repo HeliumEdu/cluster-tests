@@ -65,7 +65,7 @@ stages:
       status_code: 200
       save:
         json:
-          course_group_id: [0].id
+          course_group_id: "[0].id"
 
   - name: Get courses
     request:
@@ -78,7 +78,7 @@ stages:
       status_code: 200
       save:
         json:
-          course_id: [0].id
+          course_id: "[0].id"
 
   - name: Get categories
     request:
@@ -91,7 +91,7 @@ stages:
       status_code: 200
       save:
         json:
-          category_id: [2].id
+          category_id: "[2].id"
 
   - name: Create homework before today
     request:
