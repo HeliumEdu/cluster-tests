@@ -12,8 +12,9 @@ __version__ = '1.4.26'
 
 class SeleniumTestCase(unittest.TestCase):
     def setUp(self):
-        options = Options()
-        self.driver = webdriver.Chrome(options=options)
+        chrome_options = Options()
+        chrome_options.add_argument('--headless')
+        self.driver = webdriver.Chrome(options=chrome_options)
 
         self.app_host = os.environ.get('PROJECT_APP_HOST')
         self.api_host = os.environ.get('PROJECT_API_HOST')
