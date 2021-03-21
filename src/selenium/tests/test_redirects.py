@@ -21,6 +21,16 @@ class TestSeleniumRedirects(SeleniumTestCase):
         )
         self.assertEquals(info['support_url'], self.driver.current_url.strip('/'))
 
+    def test_contact_redirect(self):
+        info = self.get_info()
+
+        self.driver.get(os.path.join(self.app_host, 'contact'))
+        # The /support URL redirects to an external portal
+        WebDriverWait(self.driver, 10).until(
+            EC.title_is("Support for Helium")
+        )
+        self.assertEquals(info['support_url'], self.driver.current_url.strip('/'))
+
 
 if __name__ == '__main__':
     unittest.main()
