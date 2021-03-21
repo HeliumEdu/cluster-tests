@@ -4,8 +4,8 @@ import unittest
 from utils.seleniumtestcase import SeleniumTestCase
 
 __author__ = 'Alex Laird'
-__copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = '1.4.26'
+__copyright__ = 'Copyright 2021, Helium Edu'
+__version__ = '1.4.49'
 
 
 class TestSeleniumPages(SeleniumTestCase):
