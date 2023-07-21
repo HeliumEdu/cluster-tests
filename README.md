@@ -23,7 +23,7 @@ The following environment variables must be set for the CI tests to run:
 - `PLATFORM_TWILIO_AUTH_TOKEN` (same as used in [platform](https://github.com/HeliumEdu/platform) worker to send texts)
 - `CI_TWILIO_RECIPIENT_PHONE_NUMBER` (a phone number to which test texts will be sent)
 
-These CI tests also assume you have the ci.heliumedu.com setup to receive emails and store them in an S3 bucket, as
+These CI tests also assume you have the heliumedu.dev setup to receive emails and store them in an S3 bucket, as
 documented [here](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-getting-started.html).
 
 To install necessary packages, execute:
