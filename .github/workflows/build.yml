@@ -20,8 +20,8 @@ jobs:
       PLATFORM_AWS_S3_SECRET_ACCESS_KEY: ${{ secrets.PLATFORM_AWS_S3_SECRET_ACCESS_KEY }}
       PLATFORM_TWILIO_ACCOUNT_SID: ${{ secrets.PLATFORM_TWILIO_ACCOUNT_SID }}
       PLATFORM_TWILIO_AUTH_TOKEN: ${{ secrets.PLATFORM_TWILIO_AUTH_TOKEN }}
-      PROJECT_API_HOST: ${{ vars.PROJECT_API_HOST }}
-      PROJECT_APP_HOST: ${{ vars.PROJECT_APP_HOST }}
+      PROJECT_API_HOST: https://api.${{ vars.HELIUM_HOST }}
+      PROJECT_APP_HOST: https://${{ vars.HELIUM_HOST }}
 
     runs-on: ubuntu-latest
 
