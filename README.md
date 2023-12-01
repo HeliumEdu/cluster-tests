@@ -1,4 +1,4 @@
-[![CI Tests](https://github.com/HeliumEdu/ci-tests/actions/workflows/build.yml/badge.svg)](https://github.com/HeliumEdu/ci-tests/actions/workflows/build.yml)
+[![CI Tests](https://github.com/HeliumEdu/ci-tests/actions/workflows/ci.yml/badge.svg)](https://github.com/HeliumEdu/ci-tests/actions/workflows/ci.yml)
 ![GitHub License](https://img.shields.io/github/license/heliumedu/ci-tests)
 
 # Helium CI Tests

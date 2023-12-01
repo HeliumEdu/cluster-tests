@@ -11,8 +11,8 @@ on:
 
 
 jobs:
-  build:
-    name: Build
+  ci:
+    name: "CI Tests"
 
     env:
       CI_TWILIO_RECIPIENT_PHONE_NUMBER: ${{ secrets.CI_TWILIO_RECIPIENT_PHONE_NUMBER }}
