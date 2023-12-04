@@ -1,4 +1,5 @@
 [![CI Tests](https://github.com/HeliumEdu/ci-tests/actions/workflows/ci.yml/badge.svg)](https://github.com/HeliumEdu/ci-tests/actions/workflows/ci.yml)
+![Python Versions](https://img.shields.io/badge/python-%203.8%20|%203.9%20|%203.10%20|%203.11%20-blue)
 ![GitHub License](https://img.shields.io/github/license/heliumedu/ci-tests)
 
 # Helium CI Tests
@@ -7,7 +8,7 @@
 
 ## Prerequisites
 
-- Python (>= 3.6)
+- Python (>= 3.8)
 - Pip (>= 9.0)
 
 ## Getting Started
