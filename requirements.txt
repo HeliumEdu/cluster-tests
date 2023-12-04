@@ -1,4 +1,4 @@
-tavern==1.12.2
+tavern==1.25.2
 pytz==2020.1
 python-dateutil==2.8.1
 boto3==1.14.2
