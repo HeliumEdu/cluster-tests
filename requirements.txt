@@ -1,6 +1,6 @@
 tavern==1.12.2
 pytz==2020.1
-python-dateutil==2.8.1
+python-dateutil==2.8.2
 boto3==1.14.2
 twilio==6.42.0
 selenium==3.141.0
