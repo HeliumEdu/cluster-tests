@@ -1,5 +1,5 @@
 tavern==1.25.2
-pytz==2020.1
+pytz==2023.3.post1
 python-dateutil==2.8.2
 boto3==1.14.2
 twilio==6.42.0
