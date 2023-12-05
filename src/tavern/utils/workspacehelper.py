@@ -5,7 +5,7 @@ import logging
 import pytz
 import requests
 from dateutil import parser
-from tavern.util.exceptions import TestFailError
+from tavern._core.exceptions import TestFailError
 
 __author__ = "Alex Laird"
 __copyright__ = "Copyright 2019, Helium Edu"

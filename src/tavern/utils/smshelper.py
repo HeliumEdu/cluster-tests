@@ -5,7 +5,7 @@ import time
 
 import pytz
 import requests
-from tavern.util.exceptions import TestFailError
+from tavern._core.exceptions import TestFailError
 from twilio.rest import Client
 
 __author__ = "Alex Laird"
