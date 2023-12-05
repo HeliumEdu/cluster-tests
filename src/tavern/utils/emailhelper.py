@@ -8,11 +8,12 @@ import boto3
 import pytz
 from dateutil import parser
 from datetime import timezone
-from tavern.util.exceptions import TestFailError
 
 __author__ = "Alex Laird"
 __copyright__ = "Copyright 2019, Helium Edu"
 __version__ = "1.4.40"
+
+from tavern._core.exceptions import TestFailError
 
 logger = logging.getLogger(__name__)
 
