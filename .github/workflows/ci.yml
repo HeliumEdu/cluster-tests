@@ -9,6 +9,8 @@ on:
   schedule:
     - cron: "0 9 * * *"
 
+concurrency:
+  group: helium-singleton-ci-tests
 
 jobs:
   ci:
