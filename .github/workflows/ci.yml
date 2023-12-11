@@ -40,12 +40,10 @@ jobs:
       - name: Install dependencies
         run:
           make install
-      if: needs.pr-check.outputs.number != null
       - name: Run tests
+        if: needs.pr-check.outputs.number != null
         run:
           make test
-      if: needs.pr-check.outputs.number == null
-      else:
-      - name: Run Tavern smoke tests
-              run:
-                make test-tavern-smoke
+        if: needs.pr-check.outputs.number == null
+        run:
+          make test-tavern-smoke
