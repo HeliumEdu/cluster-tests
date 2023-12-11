@@ -7,6 +7,11 @@ import requests
 from dateutil import parser
 from tavern._core.exceptions import TestFailError
 
+# These are imported as a smoke test validation of dependencies
+import utils.attachmenthelper
+import utils.emailhelper
+import utils.smshelper
+
 __author__ = "Alex Laird"
 __copyright__ = "Copyright 2019, Helium Edu"
 __version__ = "1.4.40"
