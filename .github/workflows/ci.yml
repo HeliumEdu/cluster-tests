@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches: [ main, develop ]
+  pull_request:
   schedule:
     - cron: "0 9 * * *"
 
@@ -39,6 +40,12 @@ jobs:
       - name: Install dependencies
         run:
           make install
+      if: needs.pr-check.outputs.number != null
       - name: Run tests
         run:
           make test
+      if: needs.pr-check.outputs.number == null
+      else:
+      - name: Run Tavern smoke tests
+              run:
+                make test-tavern-smoke
