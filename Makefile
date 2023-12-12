@@ -24,16 +24,16 @@ test:
 	@make test-tavern
 	@if [ "$(OS)" == "Linux" ] ; then make test-selenium ; fi
 
-test-tavern: test-tavern-smoke
+test-tavern:
 	@( \
 		source $(CI_VENV)/bin/activate; \
-		PROJECT_API_HOST=$(PROJECT_API_HOST) PYTHONPATH=src/tavern:$$PYTHONPATH pytest -v src/tavern/tests/ -s --log-cli-level info; \
+		PROJECT_API_HOST=$(PROJECT_API_HOST) PYTHONPATH=src/tavern:$$PYTHONPATH pytest -v src/tavern/init/test_setup.tavern.yaml src/tavern/tests/ -s --log-cli-level info; \
 	)
 
 test-tavern-smoke:
 	@( \
 		source $(CI_VENV)/bin/activate; \
-		PROJECT_API_HOST=$(PROJECT_API_HOST) PYTHONPATH=src/tavern:$$PYTHONPATH pytest -v src/tavern/init/test_setup.tavern.yaml -s --log-cli-level info; \
+		PROJECT_API_HOST=$(PROJECT_API_HOST) PYTHONPATH=src/tavern:$$PYTHONPATH pytest -v src/tavern/tests/test_info.tavern.yaml src/tavern/tests/test_status.tavern.yaml -s --log-cli-level info; \
 	)
 
 test-selenium:
