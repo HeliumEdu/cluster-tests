@@ -44,7 +44,7 @@ jobs:
         run:
           make test-tavern-smoke
           make test-selenium
-      if: needs.pr-check.outputs.number != null
       - name: Run full test suite
+        if: needs.pr-check.outputs.number != null
         run:
           make test
