@@ -41,3 +41,4 @@ test-selenium:
 		source $(CI_VENV)/bin/activate; \
 		PYTHONPATH=src/selenium:$$PYTHONPATH pytest -v src/selenium/tests/ -s; \
 	)
+ 
