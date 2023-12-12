@@ -41,11 +41,11 @@ jobs:
         run:
           make install
       - name: Run smoke tests
-        if: ${{ github.event_name != 'pull_request' }}
+        if: ${{ github.event_name == 'pull_request' }}
         run: |
           make test-tavern-smoke
           make test-selenium
       - name: Run full test suite
-        if: ${{ github.event_name == 'pull_request' }}
+        if: ${{ github.event_name != 'pull_request' }}
         run:
           make test
