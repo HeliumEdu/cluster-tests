@@ -38,8 +38,7 @@ jobs:
           chromedriver --url-base=/wd/hub &
           sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
       - name: Install dependencies
-        run:
-          make install
+        run: make install
       - name: Run smoke tests
         if: ${{ github.event_name == 'pull_request' }}
         run: |
@@ -47,8 +46,7 @@ jobs:
           make test-selenium
       - name: Run full test suite
         if: ${{ github.event_name != 'pull_request' }}
-        run:
-          make test
+        run: make test
 
   automerge:
     name: "Auto Approve"
