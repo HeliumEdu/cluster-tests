@@ -13,8 +13,8 @@ import utils.emailhelper
 import utils.smshelper
 
 __author__ = "Alex Laird"
-__copyright__ = "Copyright 2019, Helium Edu"
-__version__ = "1.4.40"
+__copyright__ = "Copyright 2023, Helium Edu"
+__version__ = "1.4.58"
 
 logger = logging.getLogger(__name__)
 
