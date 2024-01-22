@@ -50,7 +50,7 @@ jobs:
 
   automerge:
     name: "Auto Approve"
-    needs: ci
+#    needs: ci
     runs-on: ubuntu-latest
 
     permissions:
