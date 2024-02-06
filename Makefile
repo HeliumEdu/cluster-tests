@@ -1,4 +1,4 @@
-.PHONY: all virtualenv install test test-selenium test-tavern test-tavern-smoke
+.PHONY: all virtualenv install nopyc clean test test-selenium test-tavern test-tavern-smoke
 
 PYTHON_BIN := python3
 SHELL := /usr/bin/env bash
@@ -19,6 +19,13 @@ install: virtualenv
 		source $(CI_VENV)/bin/activate; \
 		python -m pip install -r requirements.txt; \
 	)
+
+nopyc:
+	find . -name '*.pyc' | xargs rm -f || true
+	find . -name __pycache__ | xargs rm -rf || true
+
+clean: nopyc
+	rm -rf $(CI_VENV)
 
 test:
 	@make test-tavern
