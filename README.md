@@ -1,8 +1,8 @@
 <p align="center"><img src="https://www.heliumedu.com/assets/img/logo_full_blue.png" /></p>
 
-# Helium CI Tests
-
 ![Python Versions](https://img.shields.io/badge/python-%203.10%20|%203.11%20-blue)
+
+# Helium CI Tests
 
 ## Getting Started
 CI tests are developed using Python and [Tavern](https://taverntesting.github.io/).
