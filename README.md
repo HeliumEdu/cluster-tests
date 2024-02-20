@@ -1,14 +1,8 @@
-[![CI Tests](https://github.com/HeliumEdu/ci-tests/actions/workflows/ci.yml/badge.svg)](https://github.com/HeliumEdu/ci-tests/actions/workflows/ci.yml)
-![Python Versions](https://img.shields.io/badge/python-%203.10%20|%203.11%20-blue)
-![GitHub License](https://img.shields.io/github/license/heliumedu/ci-tests)
+<p align="center"><img src="https://www.heliumedu.com/assets/img/logo_full_blue.png" /></p>
 
 # Helium CI Tests
 
-<p align="center"><img src="https://www.heliumedu.com/assets/img/logo_full_blue.png" /></p>
-
-## Prerequisites
-
-- Python (>= 3.10)
+![Python Versions](https://img.shields.io/badge/python-%203.10%20|%203.11%20-blue)
 
 ## Getting Started
 CI tests are developed using Python and [Tavern](https://taverntesting.github.io/).
