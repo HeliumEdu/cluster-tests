@@ -1,3 +1,7 @@
+__copyright__ = "Copyright (c) 2018 Helium Edu"
+__license__ = "MIT"
+__version__ = "1.4.26"
+
 import datetime
 import logging
 import os
@@ -7,10 +11,6 @@ import pytz
 import requests
 from tavern._core.exceptions import TestFailError
 from twilio.rest import Client
-
-__author__ = "Alex Laird"
-__copyright__ = "Copyright 2019, Helium Edu"
-__version__ = "1.4.38"
 
 logger = logging.getLogger(__name__)
 

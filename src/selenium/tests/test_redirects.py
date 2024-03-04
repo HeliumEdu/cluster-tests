@@ -1,13 +1,14 @@
+__copyright__ = "Copyright (c) 2018 Helium Edu"
+__license__ = "MIT"
+__version__ = "1.4.26"
+
+
 import os
 import unittest
 
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from utils.seleniumtestcase import SeleniumTestCase
-
-__author__ = 'Alex Laird'
-__copyright__ = 'Copyright 2021, Helium Edu'
-__version__ = '1.4.49'
 
 
 class TestSeleniumRedirects(SeleniumTestCase):

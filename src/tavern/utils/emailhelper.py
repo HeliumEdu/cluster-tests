@@ -1,3 +1,7 @@
+__copyright__ = "Copyright (c) 2018 Helium Edu"
+__license__ = "MIT"
+__version__ = "1.4.26"
+
 import datetime
 import logging
 import os
@@ -8,10 +12,6 @@ import boto3
 import pytz
 from dateutil import parser
 from datetime import timezone
-
-__author__ = "Alex Laird"
-__copyright__ = "Copyright 2019, Helium Edu"
-__version__ = "1.4.40"
 
 from tavern._core.exceptions import TestFailError
 
