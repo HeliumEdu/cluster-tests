@@ -1,13 +1,13 @@
+__copyright__ = "Copyright (c) 2018 Helium Edu"
+__license__ = "MIT"
+__version__ = "1.4.26"
+
 import os
 import unittest
 
 import requests
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-
-__author__ = 'Alex Laird'
-__copyright__ = 'Copyright 2018, Helium Edu'
-__version__ = "1.4.46"
 
 
 class SeleniumTestCase(unittest.TestCase):
