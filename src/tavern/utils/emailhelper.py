@@ -26,7 +26,7 @@ def get_verification_code(response, username, retry=0):
     s3 = boto3.resource('s3',
                         aws_access_key_id=os.environ.get('PLATFORM_AWS_S3_ACCESS_KEY_ID'),
                         aws_secret_access_key=os.environ.get('PLATFORM_AWS_S3_SECRET_ACCESS_KEY'))
-    bucket = s3.Bucket(os.environ.get('PLATFORM_AWS_S3_EMAIL_BUCKET', 'heliumedu'))
+    bucket = s3.Bucket(os.environ.get('PLATFORM_AWS_S3_EMAIL_BUCKET', 'heliumedu.prod'))
 
     latest_key = None
     for key in bucket.objects.filter(Prefix='ci.email/{}/'.format(username)):
