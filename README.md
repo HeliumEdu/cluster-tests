@@ -10,8 +10,8 @@ CI tests are developed using Python and [Tavern](https://taverntesting.github.io
 
 The following environment variables must be set for the CI tests to run:
 
-- `PROJECT_APP_HOST` (same as used in [deploy](https://github.com/HeliumEdu/deploy) for `frontend` host)
-- `PROJECT_API_HOST` (same as used in [deploy](https://github.com/HeliumEdu/deploy) for `platform` API host)
+- `PROJECT_APP_HOST` (same as used in [platform](https://github.com/HeliumEdu/platform) for a `frontend` environment)
+- `PROJECT_API_HOST` (same as used in [platform](https://github.com/HeliumEdu/platform) for a `platform` API environment)
 - `PLATFORM_AWS_S3_ACCESS_KEY_ID` (same as used in [platform](https://github.com/HeliumEdu/platform) web to upload attachments)
 - `PLATFORM_AWS_S3_SECRET_ACCESS_KEY` (same as used in [platform](https://github.com/HeliumEdu/platform) web to upload attachments)
 - `PLATFORM_TWILIO_ACCOUNT_SID` (same as used in [platform](https://github.com/HeliumEdu/platform) worker to send texts)
