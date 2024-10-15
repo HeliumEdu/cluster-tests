@@ -18,11 +18,18 @@ The following environment variables must be set for the CI tests to run:
 - `PLATFORM_TWILIO_AUTH_TOKEN` (same as used in [platform](https://github.com/HeliumEdu/platform) worker to send texts)
 - `CI_TWILIO_RECIPIENT_PHONE_NUMBER` (a phone number to which test texts will be sent)
 
-These CI tests also assume `heliumedu-ci-test@heliumedu.dev` is setup to receive emails and store them in an S3
-bucket, as documented [here](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-getting-started.html). If
-Terraform has been to [deploy a Workspace](https://github.com/HeliumEdu/deploy), this will be done as part of that provisioning.
+These CI tests require `heliumedu-ci-test@heliumedu.dev` to be setup to receive emails and store them in an S3
+bucket, as documented [here](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-getting-started.html).
+If [the Terraform for `prod`](https://github.com/HeliumEdu/deploy/tree/main/terraform/environments/prod#readme) has
+already been applied, then this has been configured.
 
-To install necessary packages, execute:
+These tests can also be run against the local Docker container(s) provisioned by [the `deploy` repo](https://github.com/HeliumEdu/deploy).
+An Internet connection is still necessary to validate end-to-end functionality for emails (AWS SES) and text messages
+(Twilio), but [the minimal Terraform for `dev-local`](https://github.com/HeliumEdu/deploy/tree/main/terraform/environments/prod#readme) can be applied for this.
+
+## Running Tests
+
+To install the necessary packages, execute:
 
 ```sh
 make install
