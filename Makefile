@@ -37,17 +37,29 @@ test:
 test-tavern:
 	@( \
 		source $(CI_VENV)/bin/activate; \
+		ENVIRONMENT=$(ENVIRONMENT) \
+		AWS_REGION=$(AWS_REGION) \
+		PROJECT_APP_HOST=$(PROJECT_APP_HOST) \
+		PROJECT_API_HOST=$(PROJECT_API_HOST) \
 		PYTHONPATH=src/tavern:$$PYTHONPATH pytest -v src/tavern/init/test_setup.tavern.yaml src/tavern/tests/ -s --log-cli-level info; \
 	)
 
 test-tavern-smoke:
 	@( \
 		source $(CI_VENV)/bin/activate; \
+		ENVIRONMENT=$(ENVIRONMENT) \
+		AWS_REGION=$(AWS_REGION) \
+		PROJECT_APP_HOST=$(PROJECT_APP_HOST) \
+		PROJECT_API_HOST=$(PROJECT_API_HOST) \
 		PYTHONPATH=src/tavern:$$PYTHONPATH pytest -v src/tavern/tests/test_api_info.tavern.yaml src/tavern/tests/test_api_status.tavern.yaml -s --log-cli-level info; \
 	)
 
 test-selenium:
 	@( \
 		source $(CI_VENV)/bin/activate; \
+		ENVIRONMENT=$(ENVIRONMENT) \
+		AWS_REGION=$(AWS_REGION) \
+		PROJECT_APP_HOST=$(PROJECT_APP_HOST) \
+		PROJECT_API_HOST=$(PROJECT_API_HOST) \
 		PYTHONPATH=src/selenium:$$PYTHONPATH pytest -v src/selenium/tests/ -s; \
 	)
