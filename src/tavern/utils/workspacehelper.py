@@ -3,24 +3,34 @@ __license__ = "MIT"
 __version__ = "1.5.1"
 
 import datetime
-import time
 import logging
-
+import os
 import pytz
 import requests
+import time
 from dateutil import parser
 from tavern._core.exceptions import TestFailError
 
 # These are imported as a smoke test validation of dependencies
-import utils.attachmenthelper
-import utils.emailhelper
-import utils.smshelper
 
 logger = logging.getLogger(__name__)
 
 _RETRIES = 10
 
 _RETRY_DELAY = 2
+
+
+def get_ci_email(response):
+    ENVIRONMENT = os.environ.get('ENVIRONMENT')
+    if ENVIRONMENT == 'prod':
+        ENVIRONMENT_PREFIX = ''
+    else:
+        ENVIRONMENT_PREFIX = f'{ENVIRONMENT}.'
+
+    response = {'test_email': f'heliumedu-ci-test@{ENVIRONMENT_PREFIX}heliumedu.dev'}
+    logger.info(response)
+
+    return response
 
 
 def init_workspace(response, env_api_host, username, email, password):

@@ -5,5 +5,4 @@ description: Useful variables for CI automation tests
 
 variables:
   test_username: heliumedu-ci-test
-  test_email: heliumedu-ci-test@heliumedu.dev
   test_password: test_pass_1!

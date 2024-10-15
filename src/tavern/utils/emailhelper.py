@@ -2,17 +2,15 @@ __copyright__ = "Copyright (c) 2018 Helium Edu"
 __license__ = "MIT"
 __version__ = "1.7.2"
 
+import boto3
 import datetime
 import logging
 import os
-import time
-from email.parser import Parser
-
-import boto3
 import pytz
-from dateutil import parser
+import time
 from datetime import timezone
-
+from dateutil import parser
+from email.parser import Parser
 from tavern._core.exceptions import TestFailError
 
 logger = logging.getLogger(__name__)
@@ -23,10 +21,12 @@ _RETRY_DELAY = 5
 
 
 def get_verification_code(response, username, retry=0):
+    environment = os.environ.get('ENVIRONMENT')
     s3 = boto3.resource('s3',
                         aws_access_key_id=os.environ.get('PLATFORM_AWS_S3_ACCESS_KEY_ID'),
-                        aws_secret_access_key=os.environ.get('PLATFORM_AWS_S3_SECRET_ACCESS_KEY'))
-    bucket = s3.Bucket(os.environ.get('PLATFORM_AWS_S3_EMAIL_BUCKET', 'heliumedu.prod'))
+                        aws_secret_access_key=os.environ.get('PLATFORM_AWS_S3_SECRET_ACCESS_KEY'),
+                        region_name=os.environ.get('AWS_REGION'))
+    bucket = s3.Bucket(f'heliumedu.{environment}')
 
     latest_key = None
     for key in bucket.objects.filter(Prefix='ci.email/{}/'.format(username)):

@@ -10,8 +10,10 @@ CI tests are developed using Python and [Tavern](https://taverntesting.github.io
 
 The following environment variables must be set for the CI tests to run:
 
-- `PROJECT_APP_HOST` (same as chosen in [platform](https://github.com/HeliumEdu/platform/blob/main/conf/configs/common.py#L32) for a `frontend` environment)
-- `PROJECT_API_HOST` (same as chosen in [platform](https://github.com/HeliumEdu/platform/blob/main/conf/configs/common.py#L32) for a `platform` API environment)
+- `ENVIRONMENT` (optional; if not `prod`, same as allowed in [platform](https://github.com/HeliumEdu/platform?tab=readme-ov-file#project-information)
+- `AWS_REGION` (optional; if not `prod`, set to AWS S3 region)
+- `PROJECT_APP_HOST` (optional; if not `prod`, same as chosen in [platform](https://github.com/HeliumEdu/platform/blob/main/conf/configs/common.py#L32) for a `frontend` environment)
+- `PROJECT_API_HOST` (optional; if not `prod`, same as chosen in [platform](https://github.com/HeliumEdu/platform/blob/main/conf/configs/common.py#L32) for a `platform` API environment)
 - `PLATFORM_AWS_S3_ACCESS_KEY_ID` (same as used in [platform](https://github.com/HeliumEdu/platform) web to upload attachments)
 - `PLATFORM_AWS_S3_SECRET_ACCESS_KEY` (same as used in [platform](https://github.com/HeliumEdu/platform) web to upload attachments)
 - `PLATFORM_TWILIO_ACCOUNT_SID` (same as used in [platform](https://github.com/HeliumEdu/platform) worker to send texts)
@@ -27,7 +29,8 @@ These tests can also be run against the local Docker container(s) provisioned by
 An Internet connection is still necessary to validate end-to-end functionality for emails (AWS SES) and text messages
 (Twilio), but [the minimal Terraform for `dev-local`](https://github.com/HeliumEdu/deploy/tree/main/terraform/environments/dev-local#readme)
 can be applied to provision this. When running these tests locally against Docker container, ensure
-`PROJECT_APP_HOST` and `PROJECT_API_HOST` are set to [their respective `local` values](https://github.com/HeliumEdu/platform/blob/main/conf/configs/common.py#L33).
+`PROJECT_APP_HOST` and `PROJECT_API_HOST` are set to [their respective `local` values](https://github.com/HeliumEdu/platform/blob/main/conf/configs/common.py#L33),
+and `AWS_REGION` is set to `us-east-2`.
 
 ## Running Tests
 

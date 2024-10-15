@@ -4,6 +4,10 @@ PYTHON_BIN := python3
 SHELL := /usr/bin/env bash
 OS := $(shell uname)
 CI_VENV ?= .venv
+ENVIRONMENT ?= prod
+AWS_REGION ?= us-east-1
+PROJECT_APP_HOST ?= https://www.heliumedu.com
+PROJECT_API_HOST ?= https://api.heliumedu.com
 
 all: virtualenv install test
 
