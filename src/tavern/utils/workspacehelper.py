@@ -22,10 +22,7 @@ _RETRY_DELAY = 2
 
 def get_ci_email(response):
     ENVIRONMENT = os.environ.get('ENVIRONMENT')
-    if ENVIRONMENT == 'prod':
-        ENVIRONMENT_PREFIX = ''
-    else:
-        ENVIRONMENT_PREFIX = f'{ENVIRONMENT}.'
+    ENVIRONMENT_PREFIX = f'{ENVIRONMENT}.' if 'prod' not in ENVIRONMENT else ''
 
     response = {'test_email': f'heliumedu-ci-test@{ENVIRONMENT_PREFIX}heliumedu.dev'}
     logger.info(response)
