@@ -6,6 +6,16 @@ includes:
 strict: False
 
 stages:
+  - name: Set CI email dynamically, from env
+    request:
+      url: "{tavern.env_vars.PROJECT_API_HOST}/info/"
+      verify: false
+      method: GET
+    response:
+      save:
+        $ext:
+          function: utils.workspacehelper:get_ci_email
+
   - name: Get user unauthenticated
     request:
       url: "{tavern.env_vars.PROJECT_API_HOST}/auth/user/"
