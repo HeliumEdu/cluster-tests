@@ -15,7 +15,7 @@ class TestSeleniumPages(SeleniumTestCase):
 
     def test_tour(self):
         self.driver.get(self.app_host)
-        self.assertEquals("{} | {}".format(self.info['name'], self.info['tagline']), self.driver.title)
+        self.assertEqual("{} | {}".format(self.info['name'], self.info['tagline']), self.driver.title)
 
 
 if __name__ == '__main__':

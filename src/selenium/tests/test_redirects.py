@@ -17,26 +17,26 @@ class TestSeleniumRedirects(SeleniumTestCase):
         self.driver.get(os.path.join(self.app_host, 'support'))
         # The /support URL redirects to an external portal
         WebDriverWait(self.driver, 10).until(
-            EC.title_is("Home · HeliumEdu/platform Wiki")
+            EC.title_contains("HeliumEdu/platform Wiki")
         )
-        self.assertEquals(info['support_url'], self.driver.current_url.strip('/'))
+        self.assertEqual(info['support_url'], self.driver.current_url.strip('/'))
 
     def test_docs_redirect(self):
         self.driver.get(os.path.join(self.app_host, 'docs'))
-        # The /support URL redirects to an external portal
+        # The /docs URL redirects to the API /docs page
         WebDriverWait(self.driver, 10).until(
             EC.title_is("Helium API Documentation")
         )
-        self.assertEquals(os.path.join(self.api_host, 'docs'), self.driver.current_url.strip('/'))
+        self.assertEqual(os.path.join(self.api_host, 'docs'), self.driver.current_url.strip('/'))
 
     def test_status_redirect(self):
         start_url = os.path.join(self.app_host, 'status')
         self.driver.get(start_url)
-        # The /support URL redirects to an external portal
+        # The /status URL redirects to the API /status page
         WebDriverWait(self.driver, 10).until(
-            self.driver.current_url != start_url
+            lambda driver: self.driver.current_url != start_url
         )
-        self.assertEquals(os.path.join(self.api_host, 'status'), self.driver.current_url.strip('/'))
+        self.assertEqual(os.path.join(self.api_host, 'status'), self.driver.current_url.strip('/'))
 
 
 if __name__ == '__main__':
