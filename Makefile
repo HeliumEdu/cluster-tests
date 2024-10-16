@@ -41,7 +41,7 @@ test-tavern:
 		AWS_REGION=$(AWS_REGION) \
 		PROJECT_APP_HOST=$(PROJECT_APP_HOST) \
 		PROJECT_API_HOST=$(PROJECT_API_HOST) \
-		PYTHONPATH=src/tavern:$$PYTHONPATH pytest -v src/tavern/init/test_setup.tavern.yaml src/tavern/tests/ -s --log-cli-level info; \
+		PYTHONPATH=src/tavern:$$PYTHONPATH pytest -v src/tavern/init/test_setup.tavern.yaml src/tavern/tests/ src/tavern/init/test_teardown.tavern.yaml -s --log-cli-level info; \
 	)
 
 test-tavern-smoke:

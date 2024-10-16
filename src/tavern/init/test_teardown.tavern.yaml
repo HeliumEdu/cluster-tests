@@ -1,0 +1,17 @@
+test_name: Teardown
+
+includes:
+  - !include common.yaml
+
+stages:
+  - name: Delete user
+    request:
+      url: "{tavern.env_vars.PROJECT_API_HOST}/auth/user/delete"
+      verify: false
+      method: DELETE
+      headers:
+        Authorization: "Token {auth_token:s}"
+      json:
+        username: "{test_username:s}"
+    response:
+      status_code: 204
