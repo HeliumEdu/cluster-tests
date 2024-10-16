@@ -6,12 +6,13 @@ import os
 import unittest
 
 import requests
-from emailhelper import get_ci_email
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
+
+from src.utils.variablehelper import get_common_variables
 
 
 class SeleniumTestCase(unittest.TestCase):
@@ -24,7 +25,7 @@ class SeleniumTestCase(unittest.TestCase):
         self.api_host = os.environ.get('PROJECT_API_HOST')
 
         self.test_username = "heliumedu-ci-test"
-        self.test_email = get_ci_email(self.get_info())['test_email']
+        self.test_email = get_common_variables(self.get_info())['test_email']
         self.test_password = "test_pass_1!"
 
     def tearDown(self):

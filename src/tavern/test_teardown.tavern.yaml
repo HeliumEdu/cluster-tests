@@ -1,10 +1,7 @@
 test_name: Teardown
 
-includes:
-  - !include common.yaml
-
 stages:
-  - name: Set CI email dynamically, from env
+  - name: Populate variables
     request:
       url: "{tavern.env_vars.PROJECT_API_HOST}/info/"
       verify: false
@@ -12,7 +9,7 @@ stages:
     response:
       save:
         $ext:
-          function: utils.emailhelper:get_ci_email
+          function: src.utils.variablehelper:get_common_variables
 
   - name: Get token for user
     request:
