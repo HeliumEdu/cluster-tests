@@ -1,0 +1,18 @@
+test_name: Check frontend health
+
+includes:
+  - !include ../init/common.yaml
+
+strict: False
+
+stages:
+  - name: Get frontend health
+    request:
+      url: "{tavern.env_vars.PROJECT_APP_HOST}/health"
+      verify: false
+      method: GET
+    response:
+      status_code: 200
+      save:
+        json:
+          health: ok
