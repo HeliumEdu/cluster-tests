@@ -6,7 +6,8 @@ import os
 
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-from utils.seleniumtestcase import SeleniumTestCase
+
+from src.selenium.seleniumtestcase import SeleniumTestCase
 
 
 class TestSeleniumRedirects(SeleniumTestCase):

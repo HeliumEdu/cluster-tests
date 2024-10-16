@@ -3,7 +3,7 @@ test_name: Check info API
 strict: False
 
 stages:
-  - name: Set CI email dynamically, from env
+  - name: Populate variables
     request:
       url: "{tavern.env_vars.PROJECT_API_HOST}/info/"
       verify: false
@@ -11,7 +11,7 @@ stages:
     response:
       save:
         $ext:
-          function: utils.emailhelper:get_contact_email
+          function: src.utils.variablehelper:get_common_variables
 
   - name: Get API info
     request:

@@ -5,12 +5,13 @@ __version__ = "1.5.1"
 import os
 import time
 
-from emailhelper import get_verification_code
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
-from utils.seleniumtestcase import SeleniumTestCase
-from workspacehelper import init_workspace
+
+from src.selenium.seleniumtestcase import SeleniumTestCase
+from src.utils.emailhelper import get_verification_code
+from src.utils.workspacehelper import init_workspace
 
 
 class TestSeleniumAuth(SeleniumTestCase):

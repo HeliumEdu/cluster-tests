@@ -20,23 +20,6 @@ _RETRIES = 24
 
 _RETRY_DELAY = 5
 
-ENVIRONMENT = os.environ.get('ENVIRONMENT')
-ENVIRONMENT_PREFIX = f'{ENVIRONMENT}.' if 'prod' not in ENVIRONMENT else ''
-
-
-def get_contact_email(response):
-    response = {'contact_email': f'contact@{ENVIRONMENT_PREFIX}heliumedu.com'}
-    logger.info(response)
-
-    return response
-
-
-def get_ci_email(response):
-    response = {'test_email': f'heliumedu-ci-test@{ENVIRONMENT_PREFIX}heliumedu.dev'}
-    logger.info(response)
-
-    return response
-
 
 def get_verification_code(response, username, retry=0):
     environment = os.environ.get('ENVIRONMENT')

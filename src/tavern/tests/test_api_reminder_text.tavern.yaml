@@ -1,11 +1,18 @@
 test_name: Check user API
 
-includes:
-  - !include ../init/common.yaml
-
 strict: False
 
 stages:
+  - name: Populate variables
+    request:
+      url: "{tavern.env_vars.PROJECT_API_HOST}/info/"
+      verify: false
+      method: GET
+    response:
+      save:
+        $ext:
+          function: src.utils.variablehelper:get_common_variables
+
   - name: Get token for user
     request:
       url: "{tavern.env_vars.PROJECT_API_HOST}/auth/token/"
@@ -40,7 +47,7 @@ stages:
     response:
       save:
         $ext:
-          function: utils.smshelper:get_verification_code
+          function: src.utils.smshelper:get_verification_code
           extra_kwargs:
             phone: "{tavern.env_vars.CI_TWILIO_RECIPIENT_PHONE_NUMBER:s}"
 
@@ -151,7 +158,7 @@ stages:
     response:
       save:
         $ext:
-          function: utils.smshelper:verify_reminder_marked_sent
+          function: src.utils.smshelper:verify_reminder_marked_sent
           extra_kwargs:
             env_api_host: "{tavern.env_vars.PROJECT_API_HOST}"
             token: "{auth_token:s}"
@@ -165,6 +172,6 @@ stages:
     response:
       save:
         $ext:
-          function: utils.smshelper:verify_reminder_received
+          function: src.utils.smshelper:verify_reminder_received
           extra_kwargs:
             phone: "{tavern.env_vars.CI_TWILIO_RECIPIENT_PHONE_NUMBER:s}"

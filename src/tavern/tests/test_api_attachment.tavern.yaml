@@ -1,11 +1,18 @@
 test_name: Check user API
 
-includes:
-  - !include ../init/common.yaml
-
 strict: False
 
 stages:
+  - name: Populate variables
+    request:
+      url: "{tavern.env_vars.PROJECT_API_HOST}/info/"
+      verify: false
+      method: GET
+    response:
+      save:
+        $ext:
+          function: src.utils.variablehelper:get_common_variables
+
   - name: Get token for user
     request:
       url: "{tavern.env_vars.PROJECT_API_HOST}/auth/token/"
@@ -54,7 +61,7 @@ stages:
     response:
       save:
         $ext:
-          function: utils.attachmenthelper:create_attachment
+          function: src.utils.attachmenthelper:create_attachment
           extra_kwargs:
             env_api_host: "{tavern.env_vars.PROJECT_API_HOST}"
             token: "{auth_token:s}"
