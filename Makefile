@@ -61,5 +61,5 @@ test-selenium:
 		AWS_REGION=$(AWS_REGION) \
 		PROJECT_APP_HOST=$(PROJECT_APP_HOST) \
 		PROJECT_API_HOST=$(PROJECT_API_HOST) \
-		PYTHONPATH=src/selenium:$$PYTHONPATH pytest -v src/selenium/tests/ -s; \
+		PYTHONPATH=src/selenium:src/tavern/utils:$$PYTHONPATH pytest -v src/selenium/init/test_setup.py src/selenium/tests/ src/selenium/init/test_teardown.py -s; \
 	)

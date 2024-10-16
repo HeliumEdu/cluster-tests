@@ -21,8 +21,6 @@ _RETRY_DELAY = 2
 
 
 def init_workspace(response, env_api_host, username, email, password):
-    logger.info('/info/ response: {}'.format(response.json()))
-
     # If the test user already exists, cleanup from a previous test
     response = requests.delete(env_api_host + '/auth/user/delete/',
                                data={'username': username, 'email': email, 'password': password},
