@@ -4,6 +4,16 @@ includes:
   - !include common.yaml
 
 stages:
+  - name: Set CI email dynamically, from env
+    request:
+      url: "{tavern.env_vars.PROJECT_API_HOST}/info/"
+      verify: false
+      method: GET
+    response:
+      save:
+        $ext:
+          function: utils.emailhelper:get_ci_email
+
   - name: Get token for user
     request:
       url: "{tavern.env_vars.PROJECT_API_HOST}/auth/token/"
@@ -27,5 +37,7 @@ stages:
         Authorization: "Token {auth_token:s}"
       json:
         username: "{test_username:s}"
+        email: "{test_email:s}"
+        password: "{test_password:s}"
     response:
       status_code: 204
