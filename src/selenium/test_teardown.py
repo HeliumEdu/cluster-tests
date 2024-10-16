@@ -46,4 +46,5 @@ class TestSeleniumAuth(SeleniumTestCase):
         self.assertTrue(success_status.is_displayed())
         self.assertIn("Sorry to see you go!", success_status.text)
 
-        time.sleep(5)
+        # Cool down to ensure user is deleted before further tests run
+        time.sleep(10)

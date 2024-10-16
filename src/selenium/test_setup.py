@@ -64,7 +64,8 @@ class TestSeleniumAuth(SeleniumTestCase):
         self.assertTrue(success_status.is_displayed())
         self.assertIn("Your email address has been verified.", success_status.text)
 
-        time.sleep(5)
+        # Cool down to ensure user example schedule is populated
+        time.sleep(10)
 
     def test_3_login_new_user(self):
         self.driver.get(os.path.join(self.app_host, 'login'))

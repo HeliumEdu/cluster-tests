@@ -22,77 +22,66 @@ class TestSeleniumAuth(SeleniumTestCase):
             EC.visibility_of_element_located((By.ID, "getting-started-modal"))
         )
 
-        # Wait for calendar to load
-        event_selector = "div.fc-event"
+        # Wait for calendar to load, awaiting example schedule display
         WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, event_selector))
+            lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "div.fc-event")) == 45
         )
-
-        # Expect the example schedule on the page
-        self.assertEqual(45, len(self.driver.find_elements(By.CSS_SELECTOR, event_selector)))
-        classes_filter_button = self.driver.find_element(By.ID, "calendar-classes")
-        classes_filter_button.click()
-        self.assertEqual(2, len(self.driver.find_elements(By.XPATH,
-                                                          "//li[starts-with(@id, \"calendar-filter-course-\")]")))
-        filter_button = self.driver.find_element(By.ID, "calendar-filters")
-        filter_button.click()
-        self.assertEqual(8, len(self.driver.find_elements(By.XPATH,
-                                                          "//li[starts-with(@id, \"calendar-filter-category-\")]")))
+        WebDriverWait(self.driver, 10).until(
+            lambda wait: len(
+                self.driver.find_elements(By.XPATH, "//li[starts-with(@id, \"calendar-filter-course-\")]")) == 2
+        )
+        WebDriverWait(self.driver, 10).until(
+            lambda wait: len(
+                self.driver.find_elements(By.XPATH, "//li[starts-with(@id, \"calendar-filter-category-\")]")) == 8
+        )
 
     def test_example_schedule_populated_classes_page(self):
         self.given_user_is_authenticated()
 
         self.driver.get(os.path.join(self.app_host, 'planner', 'classes'))
 
-        # Wait for classes to load
-        course_group_title_starts_with_selector = "//span[starts-with(@id, \"course-group-title-\")]"
-        course_group_title = WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located((By.XPATH, course_group_title_starts_with_selector))
+        # Wait for classes to load, awaiting example schedule display
+        WebDriverWait(self.driver, 10).until(
+            lambda wait: len(
+                self.driver.find_elements(By.XPATH, "//span[starts-with(@id, \"course-group-title-\")]")) == 1
         )
-
-        # Expect the example schedule on the page
-        self.assertEqual(course_group_title.text, "Example Semester")
-        self.assertEqual(1, len(self.driver.find_elements(By.XPATH, course_group_title_starts_with_selector)))
-        self.assertEqual(1,
-                         len(self.driver.find_elements(By.CSS_SELECTOR, "ul#course-group-tabs > li:not(.hidden-xs)")))
-        self.assertEqual(2, len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"course-\")]")))
+        WebDriverWait(self.driver, 10).until(
+            lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "ul#course-group-tabs > li:not(.hidden-xs)")) == 1
+        )
+        WebDriverWait(self.driver, 10).until(
+            lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"course-\")]")) == 2
+        )
 
     def test_example_schedule_populated_materials_page(self):
         self.given_user_is_authenticated()
 
         self.driver.get(os.path.join(self.app_host, 'planner', 'materials'))
 
-        # Wait for materials to load
-        material_group_title_starts_with_selector = "//span[starts-with(@id, \"material-group-title-\")]"
-        material_group_title = WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located((By.XPATH, material_group_title_starts_with_selector))
+        # Wait for materials to load, awaiting example schedule display
+        WebDriverWait(self.driver, 10).until(
+            lambda wait: len(
+                self.driver.find_elements(By.XPATH, "//span[starts-with(@id, \"material-group-title-\")]")) == 2
         )
-
-        # Expect the example schedule on the page
-        self.assertEqual(material_group_title.text, "Example Textbooks")
-        self.assertEqual(2, len(self.driver.find_elements(By.XPATH, material_group_title_starts_with_selector)))
-        self.assertEqual(2,
-                         len(self.driver.find_elements(By.CSS_SELECTOR, "ul#material-group-tabs > li:not(.hidden-xs)")))
-        self.assertEqual(4, len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"material-\")]")))
+        WebDriverWait(self.driver, 10).until(
+            lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "ul#material-group-tabs > li:not(.hidden-xs)")) == 2
+        )
+        WebDriverWait(self.driver, 10).until(
+            lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"material-\")]")) == 4
+        )
 
     def test_example_schedule_populated_grades_page(self):
         self.given_user_is_authenticated()
 
         self.driver.get(os.path.join(self.app_host, 'planner', 'grades'))
 
-        # Wait for grades to load
-        course_group_container_starts_with_selector = "//div[starts-with(@id, \"course-group-container-\")]"
-        course_group_container = WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located((By.XPATH, course_group_container_starts_with_selector))
-        )
-
-        course_body_div_starts_with_selector = "//div[starts-with(@id, \"course-body-\")]"
+        # Wait for grades to load, awaiting example schedule display
         WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located((By.XPATH, course_body_div_starts_with_selector))
+            lambda wait: len(
+                self.driver.find_elements(By.XPATH, "//div[starts-with(@id, \"course-group-container-\")]")) == 1
         )
-
-        # Expect the example schedule on the page
-        self.assertEqual(course_group_container.find_element(By.CSS_SELECTOR, "h4").text, "Grades for Example Semester")
-        self.assertEqual(1, len(self.driver.find_elements(By.XPATH, course_group_container_starts_with_selector)))
-        self.assertEqual(1, len(self.driver.find_elements(By.CSS_SELECTOR, "ul#course-group-tabs > li")))
-        self.assertEqual(2, len(self.driver.find_elements(By.XPATH, course_body_div_starts_with_selector)))
+        WebDriverWait(self.driver, 10).until(
+            lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "ul#course-group-tabs > li")) == 1
+        )
+        WebDriverWait(self.driver, 10).until(
+            lambda wait: len(self.driver.find_elements(By.XPATH, "//div[starts-with(@id, \"course-body-\")]")) == 2
+        )

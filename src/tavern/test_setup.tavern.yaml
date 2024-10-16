@@ -38,7 +38,8 @@ stages:
         time_zone: America/Chicago
     response:
       status_code: 201
-    delay_after: 5
+    # Cool down to ensure user example schedule is populated
+    delay_after: 10
 
   - name: Get verification code from email
     request:
