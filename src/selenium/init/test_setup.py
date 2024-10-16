@@ -3,6 +3,7 @@ __license__ = "MIT"
 __version__ = "1.5.1"
 
 import os
+import time
 
 from emailhelper import get_verification_code
 from selenium.webdriver.common.by import By
@@ -61,6 +62,8 @@ class TestSeleniumAuth(SeleniumTestCase):
         success_status = self.driver.find_element(By.CSS_SELECTOR, "#status")
         self.assertTrue(success_status.is_displayed())
         self.assertIn("Your email address has been verified.", success_status.text)
+
+        time.sleep(5)
 
     def test_3_login_new_user(self):
         self.driver.get(os.path.join(self.app_host, 'login'))
