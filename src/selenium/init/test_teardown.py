@@ -3,6 +3,7 @@ __license__ = "MIT"
 __version__ = "1.5.1"
 
 import os
+import time
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -43,3 +44,5 @@ class TestSeleniumAuth(SeleniumTestCase):
         success_status = self.driver.find_element(By.CSS_SELECTOR, "#status")
         self.assertTrue(success_status.is_displayed())
         self.assertIn("Sorry to see you go!", success_status.text)
+
+        time.sleep(5)
