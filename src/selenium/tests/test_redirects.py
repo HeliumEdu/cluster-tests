@@ -3,7 +3,6 @@ __license__ = "MIT"
 __version__ = "1.6.4"
 
 import os
-import unittest
 
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
@@ -12,7 +11,7 @@ from utils.seleniumtestcase import SeleniumTestCase
 
 class TestSeleniumRedirects(SeleniumTestCase):
     def test_support_redirect(self):
-        info = self.get_info()
+        info = self.get_info().json()
 
         self.driver.get(os.path.join(self.app_host, 'support'))
         # The /support URL redirects to an external portal
@@ -34,10 +33,5 @@ class TestSeleniumRedirects(SeleniumTestCase):
         self.driver.get(start_url)
         # The /status URL redirects to the API /status page
         WebDriverWait(self.driver, 10).until(
-            lambda driver: self.driver.current_url != start_url
+            EC.url_changes(os.path.join(self.api_host, 'status'))
         )
-        self.assertEqual(os.path.join(self.api_host, 'status'), self.driver.current_url.strip('/'))
-
-
-if __name__ == '__main__':
-    unittest.main()
