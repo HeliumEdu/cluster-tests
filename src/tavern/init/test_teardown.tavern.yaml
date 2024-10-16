@@ -20,7 +20,7 @@ stages:
 
   - name: Delete user
     request:
-      url: "{tavern.env_vars.PROJECT_API_HOST}/auth/user/delete"
+      url: "{tavern.env_vars.PROJECT_API_HOST}/auth/user/delete/"
       verify: false
       method: DELETE
       headers:
