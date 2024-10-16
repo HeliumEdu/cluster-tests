@@ -12,7 +12,7 @@ stages:
     response:
       save:
         $ext:
-          function: utils.workspacehelper:get_ci_email
+          function: utils.emailhelper:get_ci_email
 
   - name: Cleanup workspace, if dirty
     request:

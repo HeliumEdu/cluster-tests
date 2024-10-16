@@ -4,6 +4,20 @@ includes:
   - !include common.yaml
 
 stages:
+  - name: Get token for user
+    request:
+      url: "{tavern.env_vars.PROJECT_API_HOST}/auth/token/"
+      verify: false
+      method: POST
+      json:
+        username: "{test_username:s}"
+        password: "{test_password:s}"
+    response:
+      status_code: 200
+      save:
+        json:
+          auth_token: token
+
   - name: Delete user
     request:
       url: "{tavern.env_vars.PROJECT_API_HOST}/auth/user/delete"

@@ -2,15 +2,16 @@ __copyright__ = "Copyright (c) 2018 Helium Edu"
 __license__ = "MIT"
 __version__ = "1.7.13"
 
-import boto3
 import datetime
 import logging
 import os
-import pytz
 import time
 from datetime import timezone
-from dateutil import parser
 from email.parser import Parser
+
+import boto3
+import pytz
+from dateutil import parser
 from tavern._core.exceptions import TestFailError
 
 logger = logging.getLogger(__name__)
@@ -18,6 +19,23 @@ logger = logging.getLogger(__name__)
 _RETRIES = 24
 
 _RETRY_DELAY = 5
+
+ENVIRONMENT = os.environ.get('ENVIRONMENT')
+ENVIRONMENT_PREFIX = f'{ENVIRONMENT}.' if 'prod' not in ENVIRONMENT else ''
+
+
+def get_contact_email(response):
+    response = {'contact_email': f'contact@{ENVIRONMENT_PREFIX}heliumedu.com'}
+    logger.info(response)
+
+    return response
+
+
+def get_ci_email(response):
+    response = {'test_email': f'heliumedu-ci-test@{ENVIRONMENT_PREFIX}heliumedu.dev'}
+    logger.info(response)
+
+    return response
 
 
 def get_verification_code(response, username, retry=0):

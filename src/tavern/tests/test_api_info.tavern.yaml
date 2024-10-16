@@ -11,7 +11,7 @@ stages:
     response:
       save:
         $ext:
-          function: utils.workspacehelper:get_contact_email
+          function: utils.emailhelper:get_contact_email
 
   - name: Get API info
     request:
