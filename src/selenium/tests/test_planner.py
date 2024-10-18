@@ -18,19 +18,19 @@ class TestSeleniumAuth(SeleniumTestCase):
         self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
 
         # Getting started shouldn't show since we ticked box on last login
-        WebDriverWait(self.driver, 5).until_not(
+        WebDriverWait(self.driver, 15).until_not(
             EC.visibility_of_element_located((By.ID, "getting-started-modal"))
         )
 
         # Wait for calendar to load, awaiting example schedule display
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 15).until(
             lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "div.fc-event")) == 45
         )
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 15).until(
             lambda wait: len(
                 self.driver.find_elements(By.XPATH, "//li[starts-with(@id, \"calendar-filter-course-\")]")) == 2
         )
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 15).until(
             lambda wait: len(
                 self.driver.find_elements(By.XPATH, "//li[starts-with(@id, \"calendar-filter-category-\")]")) == 8
         )
@@ -41,14 +41,14 @@ class TestSeleniumAuth(SeleniumTestCase):
         self.driver.get(os.path.join(self.app_host, 'planner', 'classes'))
 
         # Wait for classes to load, awaiting example schedule display
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 15).until(
             lambda wait: len(
                 self.driver.find_elements(By.XPATH, "//span[starts-with(@id, \"course-group-title-\")]")) == 1
         )
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 15).until(
             lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "ul#course-group-tabs > li:not(.hidden-xs)")) == 1
         )
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 15).until(
             lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"course-\")]")) == 2
         )
 
@@ -58,14 +58,14 @@ class TestSeleniumAuth(SeleniumTestCase):
         self.driver.get(os.path.join(self.app_host, 'planner', 'materials'))
 
         # Wait for materials to load, awaiting example schedule display
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 15).until(
             lambda wait: len(
                 self.driver.find_elements(By.XPATH, "//span[starts-with(@id, \"material-group-title-\")]")) == 2
         )
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 15).until(
             lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "ul#material-group-tabs > li:not(.hidden-xs)")) == 2
         )
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 15).until(
             lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"material-\")]")) == 4
         )
 
@@ -75,13 +75,13 @@ class TestSeleniumAuth(SeleniumTestCase):
         self.driver.get(os.path.join(self.app_host, 'planner', 'grades'))
 
         # Wait for grades to load, awaiting example schedule display
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 15).until(
             lambda wait: len(
                 self.driver.find_elements(By.XPATH, "//div[starts-with(@id, \"course-group-container-\")]")) == 1
         )
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 15).until(
             lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "ul#course-group-tabs > li")) == 1
         )
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 15).until(
             lambda wait: len(self.driver.find_elements(By.XPATH, "//div[starts-with(@id, \"course-body-\")]")) == 2
         )

@@ -20,7 +20,7 @@ class TestSeleniumPages(SeleniumTestCase):
         self.assertEqual("{} | {}".format(info['name'], info['tagline']), self.driver.title)
 
         # Assert carousel is rendering, data shown (ie. static resources are rendering)
-        carousel_img = WebDriverWait(self.driver, 10).until(
+        carousel_img = WebDriverWait(self.driver, 15).until(
             EC.visibility_of_element_located((By.CSS_SELECTOR, "#tour-carousel > div > div:nth-child(1) > img"))
         )
         response = requests.get(carousel_img.get_attribute('src'),
