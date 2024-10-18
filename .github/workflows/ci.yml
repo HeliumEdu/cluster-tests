@@ -30,10 +30,10 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - uses: nanasess/setup-chromedriver@v2
-      - run: |
-          export DISPLAY=:99
-          chromedriver --url-base=/wd/hub &
+#       - uses: nanasess/setup-chromedriver@v2
+#       - run: |
+#           export DISPLAY=:99
+#           chromedriver --url-base=/wd/hub &
       - name: Install dependencies
         run: make install
       - name: Run smoke tests
