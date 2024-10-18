@@ -84,12 +84,12 @@ class TestSeleniumAuth(SeleniumTestCase):
             EC.title_contains("Calendar")
         )
 
+        self.assertEqual(os.path.join(self.app_host, 'planner', 'calendar'), self.driver.current_url.strip('/'))
+
         # Wait for calendar to load
         getting_started_modal = WebDriverWait(self.driver, 10).until(
             EC.visibility_of_element_located((By.ID, "getting-started-modal"))
         )
-
-        self.assertEqual(os.path.join(self.app_host, 'planner', 'calendar'), self.driver.current_url.strip('/'))
 
         # Click this to fire request to not show it on next login
         show_getting_started_checkbox = self.driver.find_element(By.ID, "show-getting-started")
