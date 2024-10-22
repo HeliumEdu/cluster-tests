@@ -86,28 +86,6 @@ class TestSeleniumAuth(SeleniumTestCase):
 
         self.assertEqual(os.path.join(self.app_host, 'planner', 'calendar'), self.driver.current_url.strip('/'))
 
-        time.sleep(5)
-
-        self.driver.save_screenshot("screenshot1.png")
-
-        time.sleep(30)
-
-        self.driver.save_screenshot("screenshot2.png")
-
-        self.driver.maximize_window()
-
-        self.driver.save_screenshot("screenshot3.png")
-
-        import boto3
-        from src.utils.variablehelper import ENVIRONMENT
-        s3_client = boto3.client('s3',
-                                 aws_access_key_id=os.environ.get('CI_AWS_S3_ACCESS_KEY_ID'),
-                                 aws_secret_access_key=os.environ.get('CI_AWS_S3_SECRET_ACCESS_KEY'),
-                                 region_name=os.environ.get('AWS_REGION'))
-        s3_client.upload_file("screenshot1.png", f"heliumedu.{ENVIRONMENT}", "screenshot1.png")
-        s3_client.upload_file("screenshot2.png", f"heliumedu.{ENVIRONMENT}", "screenshot2.png")
-        s3_client.upload_file("screenshot3.png", f"heliumedu.{ENVIRONMENT}", "screenshot3.png")
-
         # Wait for calendar to load
         getting_started_modal = WebDriverWait(self.driver, 10).until(
             EC.visibility_of_element_located((By.ID, "getting-started-modal"))
