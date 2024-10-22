@@ -1,4 +1,4 @@
-.PHONY: all virtualenv install nopyc clean test test-smoke test-tavern test-tavern-smoke test-selenium test-selenium-smoke
+.PHONY: all docker-env virtualenv install nopyc clean test test-smoke test-tavern test-tavern-smoke test-selenium test-selenium-smoke build-docker run-docker
 
 SHELL := /usr/bin/env bash
 CI_VENV ?= .venv
@@ -8,6 +8,11 @@ PROJECT_APP_HOST ?= https://www.heliumedu.com
 PROJECT_API_HOST ?= https://api.heliumedu.com
 
 all: virtualenv install test
+
+docker-env:
+	@if [ ! -f ".env" ]; then \
+		cp -n .env.docker.example .env | true; \
+	fi
 
 virtualenv:
 	@if [ ! -d "$(CI_VENV)" ]; then \
@@ -75,3 +80,9 @@ test-selenium-smoke:
 		PROJECT_API_HOST=$(PROJECT_API_HOST) \
 		pytest -v src/selenium/tests/test_pages.py src/selenium/tests/test_redirects.py -s; \
 	)
+
+build-docker:
+	docker build -t helium/ci-tests:latest .
+
+run-docker: docker-env
+	docker compose up -d
