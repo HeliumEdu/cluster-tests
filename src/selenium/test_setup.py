@@ -91,6 +91,13 @@ class TestSeleniumAuth(SeleniumTestCase):
             EC.visibility_of_element_located((By.ID, "getting-started-modal"))
         )
 
+        self.driver.save_screenshot("screenshot.png")
+
+        import boto3
+        from src.utils.variablehelper import ENVIRONMENT
+        s3_client = boto3.client('s3')
+        s3_client.upload_file("screenshot.png", f"heliumedu.{ENVIRONMENT}", "screenshot.png")
+
         # Click this to fire request to not show it on next login
         show_getting_started_checkbox = self.driver.find_element(By.ID, "show-getting-started")
         show_getting_started_checkbox.click()
