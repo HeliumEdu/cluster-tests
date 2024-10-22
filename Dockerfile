@@ -20,5 +20,7 @@ COPY Makefile .
 RUN python3 -m virtualenv /venv
 RUN make install
 
-# Brings up a persistent container, where `make test` can be validated
+# Brings up a container ready to run tests
+# Use `docker exec -it ci-tests-ci_tests-1 /bin/bash` to enter the container
+# Use `make test` commands to run tests from within container
 ENTRYPOINT ["tail", "-f", "/dev/null"]
