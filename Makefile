@@ -82,7 +82,7 @@ test-selenium-smoke:
 	)
 
 build-docker:
-	docker build -t helium/ci-tests:latest .
+	docker buildx build -t helium/ci-tests:latest --platform=linux/amd64 --load .
 
 run-docker: docker-env
 	docker compose up -d

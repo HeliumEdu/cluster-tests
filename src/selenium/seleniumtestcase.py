@@ -19,6 +19,7 @@ class SeleniumTestCase(unittest.TestCase):
     def setUp(self):
         chrome_options = Options()
         chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--no-sandbox')
         self.driver = webdriver.Chrome(options=chrome_options)
 
         self.app_host = os.environ.get('PROJECT_APP_HOST')

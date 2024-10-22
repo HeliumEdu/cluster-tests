@@ -30,8 +30,8 @@ These tests can also be run against Docker locally if provisioned by [the `deplo
 An Internet connection is still necessary to validate end-to-end functionality for emails (AWS SES) and text messages
 (Twilio), but [the minimal Terraform environment for `dev-local`](https://github.com/HeliumEdu/deploy/tree/main/terraform/environments/dev-local#readme)
 will provision this. When running these tests locally against Docker, ensure `PROJECT_APP_HOST` and `PROJECT_API_HOST`
-are set to [their respective `local` values](https://github.com/HeliumEdu/platform/blob/main/conf/configs/common.py#L33),
-and `AWS_REGION` is set to `us-east-2`.
+are set to [their respective `local` values](https://github.com/HeliumEdu/platform/blob/main/conf/configs/common.py#L33), and `AWS_REGION` is set to `us-east-2`, and
+`PLATFORM_EMAIL_HOST_USER` and `PLATFORM_EMAIL_HOST_PASSWORD` are defined for the local `platform` Worker.
 
 ## Running Tests
 
