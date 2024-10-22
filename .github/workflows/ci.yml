@@ -32,9 +32,9 @@ jobs:
         with:
           python-version: "3.12"
       - name: Setup Chrome
-      - run: |
-        wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-        sudo apt-get install -y ./google-chrome-stable_current_amd64.deb
+        run: |
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo apt-get install -y ./google-chrome-stable_current_amd64.deb
       - name: Install dependencies
         run: make install
       - name: Run smoke tests
