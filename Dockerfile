@@ -20,4 +20,5 @@ COPY Makefile .
 RUN python3 -m virtualenv /venv
 RUN make install
 
-ENTRYPOINT ["make", "test"]
+# Brings up a persistent container, where `make test` can be validated
+ENTRYPOINT ["tail", "-f", "/dev/null"]
