@@ -24,8 +24,8 @@ _RETRY_DELAY = 5
 def get_verification_code(response, username, retry=0):
     environment = os.environ.get('ENVIRONMENT')
     s3 = boto3.resource('s3',
-                        aws_access_key_id=os.environ.get('PLATFORM_AWS_S3_ACCESS_KEY_ID'),
-                        aws_secret_access_key=os.environ.get('PLATFORM_AWS_S3_SECRET_ACCESS_KEY'),
+                        aws_access_key_id=os.environ.get('CI_AWS_S3_ACCESS_KEY_ID'),
+                        aws_secret_access_key=os.environ.get('CI_AWS_S3_SECRET_ACCESS_KEY'),
                         region_name=os.environ.get('AWS_REGION'))
     bucket = s3.Bucket(f'heliumedu.{environment}')
 
