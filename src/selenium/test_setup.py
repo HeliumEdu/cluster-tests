@@ -86,10 +86,7 @@ class TestSeleniumAuth(SeleniumTestCase):
 
         self.assertEqual(os.path.join(self.app_host, 'planner', 'calendar'), self.driver.current_url.strip('/'))
 
-        # Wait for calendar to load
-        getting_started_modal = WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located((By.ID, "getting-started-modal"))
-        )
+        time.sleep(5)
 
         self.driver.save_screenshot("screenshot.png")
 
@@ -97,6 +94,11 @@ class TestSeleniumAuth(SeleniumTestCase):
         from src.utils.variablehelper import ENVIRONMENT
         s3_client = boto3.client('s3')
         s3_client.upload_file("screenshot.png", f"heliumedu.{ENVIRONMENT}", "screenshot.png")
+
+        # Wait for calendar to load
+        getting_started_modal = WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located((By.ID, "getting-started-modal"))
+        )
 
         # Click this to fire request to not show it on next login
         show_getting_started_checkbox = self.driver.find_element(By.ID, "show-getting-started")
