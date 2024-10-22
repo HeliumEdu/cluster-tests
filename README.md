@@ -14,10 +14,10 @@ The following environment variables must be set for the CI tests to run:
 - `AWS_REGION` (optional; if not `prod`, set to AWS S3 region)
 - `PROJECT_APP_HOST` (optional; if not `prod`, same as chosen in [platform](https://github.com/HeliumEdu/platform/blob/main/conf/configs/common.py#L32) for a `frontend` environment)
 - `PROJECT_API_HOST` (optional; if not `prod`, same as chosen in [platform](https://github.com/HeliumEdu/platform/blob/main/conf/configs/common.py#L32) for a `platform` API environment)
-- `PLATFORM_AWS_S3_ACCESS_KEY_ID` (same as used in [platform](https://github.com/HeliumEdu/platform) web to upload attachments)
-- `PLATFORM_AWS_S3_SECRET_ACCESS_KEY` (same as used in [platform](https://github.com/HeliumEdu/platform) web to upload attachments)
 - `PLATFORM_TWILIO_ACCOUNT_SID` (same as used in [platform](https://github.com/HeliumEdu/platform) worker to send texts)
 - `PLATFORM_TWILIO_AUTH_TOKEN` (same as used in [platform](https://github.com/HeliumEdu/platform) worker to send texts)
+- `CI_AWS_S3_ACCESS_KEY_ID` (same as used in [platform](https://github.com/HeliumEdu/platform) web to upload attachments)
+- `CI_AWS_S3_SECRET_ACCESS_KEY` (same as used in [platform](https://github.com/HeliumEdu/platform) web to upload attachments)
 - `CI_TWILIO_RECIPIENT_PHONE_NUMBER` (a phone number to which test texts will be sent)
 
 These CI tests require `heliumedu-ci-test@heliumedu.dev` to be setup to receive emails and store them in an S3
