@@ -92,7 +92,10 @@ class TestSeleniumAuth(SeleniumTestCase):
 
         import boto3
         from src.utils.variablehelper import ENVIRONMENT
-        s3_client = boto3.client('s3')
+        s3_client = boto3.client('s3',
+                                 aws_access_key_id=os.environ.get('CI_AWS_S3_ACCESS_KEY_ID'),
+                                 aws_secret_access_key=os.environ.get('CI_AWS_S3_SECRET_ACCESS_KEY'),
+                                 region_name=os.environ.get('AWS_REGION'))
         s3_client.upload_file("screenshot.png", f"heliumedu.{ENVIRONMENT}", "screenshot.png")
 
         # Wait for calendar to load
