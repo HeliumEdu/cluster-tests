@@ -1,0 +1,16 @@
+include:
+  - ../frontend/docker-compose.yml
+  - ../platform/docker-compose.yml
+services:
+  ci_tests:
+    image: helium/ci-tests
+    env_file: .env
+    container_name: helium_platform_ci_tests
+    depends_on:
+      - db
+      - cache
+      - storage
+      - frontend
+      - resource
+      - api
+      - worker
