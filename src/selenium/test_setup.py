@@ -86,19 +86,18 @@ class TestSeleniumAuth(SeleniumTestCase):
 
         self.assertEqual(os.path.join(self.app_host, 'planner', 'calendar'), self.driver.current_url.strip('/'))
 
-        # TODO: the assertion on the modal being shown are flaky, so commenting out for now
         # Wait for calendar to load
-        # getting_started_modal = WebDriverWait(self.driver, 10).until(
-        #     EC.visibility_of_element_located((By.ID, "getting-started-modal"))
-        # )
-        # 
+        getting_started_modal = WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located((By.ID, "getting-started-modal"))
+        )
+
         # Click this to fire request to not show it on next login
-        # show_getting_started_checkbox = self.driver.find_element(By.ID, "show-getting-started")
-        # show_getting_started_checkbox.click()
-        #
-        # close_getting_started_button = self.driver.find_element(By.ID, "close-getting-started")
-        # close_getting_started_button.click()
-        #
-        # WebDriverWait(self.driver, 10).until(
-        #     EC.invisibility_of_element(getting_started_modal)
-        # )
+        show_getting_started_checkbox = self.driver.find_element(By.ID, "show-getting-started")
+        show_getting_started_checkbox.click()
+
+        close_getting_started_button = self.driver.find_element(By.ID, "close-getting-started")
+        close_getting_started_button.click()
+
+        WebDriverWait(self.driver, 10).until(
+            EC.invisibility_of_element(getting_started_modal)
+        )
