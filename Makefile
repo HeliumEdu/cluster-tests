@@ -44,6 +44,7 @@ test-smoke:
 test-tavern:
 	@( \
 		source $(CI_VENV)/bin/activate; \
+		PYTHONWARNINGS="ignore:Unverified HTTPS request" \
 		ENVIRONMENT=$(ENVIRONMENT) \
 		AWS_REGION=$(AWS_REGION) \
 		PROJECT_APP_HOST=$(PROJECT_APP_HOST) \
@@ -54,6 +55,7 @@ test-tavern:
 test-tavern-smoke:
 	@( \
 		source $(CI_VENV)/bin/activate; \
+		PYTHONWARNINGS="ignore:Unverified HTTPS request" \
 		ENVIRONMENT=$(ENVIRONMENT) \
 		AWS_REGION=$(AWS_REGION) \
 		PROJECT_APP_HOST=$(PROJECT_APP_HOST) \
@@ -64,6 +66,7 @@ test-tavern-smoke:
 test-selenium:
 	@( \
 		source $(CI_VENV)/bin/activate; \
+		PYTHONWARNINGS="ignore:Unverified HTTPS request" \
 		ENVIRONMENT=$(ENVIRONMENT) \
 		AWS_REGION=$(AWS_REGION) \
 		PROJECT_APP_HOST=$(PROJECT_APP_HOST) \
@@ -74,6 +77,7 @@ test-selenium:
 test-selenium-smoke:
 	@( \
 		source $(CI_VENV)/bin/activate; \
+		PYTHONWARNINGS="ignore:Unverified HTTPS request" \
 		ENVIRONMENT=$(ENVIRONMENT) \
 		AWS_REGION=$(AWS_REGION) \
 		PROJECT_APP_HOST=$(PROJECT_APP_HOST) \
