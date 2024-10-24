@@ -33,7 +33,7 @@ nopyc:
 clean: nopyc
 	rm -rf $(CI_VENV)
 
-test:
+test: install
 	@( \
 		source $(CI_VENV)/bin/activate; \
 		ENVIRONMENT=$(ENVIRONMENT) \
@@ -43,7 +43,10 @@ test:
 		pytest -v src/tavern/test_setup.tavern.yaml src/tavern/tests/ src/tavern/test_teardown.tavern.yaml src/selenium/test_setup.py src/selenium/tests/ src/selenium/test_teardown.py -s --log-cli-level info; \
 	)
 
-test-smoke:
+test-local:
+	make -C ../.. test-ci
+
+test-smoke: install
 	@( \
 		source $(CI_VENV)/bin/activate; \
 		ENVIRONMENT=$(ENVIRONMENT) \
@@ -53,7 +56,7 @@ test-smoke:
 		pytest -v src/tavern/tests/test_api_info.tavern.yaml src/tavern/tests/test_api_status.tavern.yaml src/selenium/tests/test_pages.py src/selenium/tests/test_redirects.py -s --log-cli-level info; \
 	)
 
-test-tavern:
+test-tavern: install
 	@( \
 		source $(CI_VENV)/bin/activate; \
 		ENVIRONMENT=$(ENVIRONMENT) \
@@ -63,7 +66,7 @@ test-tavern:
 		pytest -v src/tavern/test_setup.tavern.yaml src/tavern/tests/ src/tavern/test_teardown.tavern.yaml -s --log-cli-level info; \
 	)
 
-test-selenium:
+test-selenium: install
 	@( \
 		source $(CI_VENV)/bin/activate; \
 		ENVIRONMENT=$(ENVIRONMENT) \

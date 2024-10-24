@@ -21,28 +21,28 @@ The following environment variables must be set for the CI tests to run:
 - `CI_TWILIO_RECIPIENT_PHONE_NUMBER` (a phone number to which test texts will be sent)
 
 These CI tests require `heliumedu-ci-test@heliumedu.dev` to be setup to receive emails and store them in an S3
-bucket, as documented [here](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-getting-started.html). If [the Terraform for `prod`](https://github.com/HeliumEdu/deploy/tree/main/terraform/environments/prod#readme)
-has already been applied, then this has been configured.
+bucket, as documented [here](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-getting-started.html).
+[The Terraform for `prod`](https://github.com/HeliumEdu/deploy/tree/main/terraform/environments/prod#readme) can be
+applied to configure this.
 
-### Running Locally
-
-These tests can also be run against Docker locally if provisioned by [the `deploy` repo](https://github.com/HeliumEdu/deploy).
-An Internet connection is still necessary to validate end-to-end functionality for emails (AWS SES) and text messages
-(Twilio), but [the minimal Terraform environment for `dev-local`](https://github.com/HeliumEdu/deploy/tree/main/terraform/environments/dev-local#readme)
-will provision this. When running these tests locally against Docker, ensure `PROJECT_APP_HOST` and `PROJECT_API_HOST`
-are set to [their respective `local` values](https://github.com/HeliumEdu/platform/blob/main/conf/configs/common.py#L33), and `AWS_REGION` is set to `us-east-2`, and
-`PLATFORM_EMAIL_HOST_USER` and `PLATFORM_EMAIL_HOST_PASSWORD` are defined for the local `platform` Worker.
-
-## Running Tests
-
-To install the necessary packages, execute:
-
-```sh
-make install
-```
-
-To run CI tests, execute:
+Once the above is done, the CI tests can be run with:
 
 ```sh
 make test
+```
+
+## Development
+
+### Running Locally
+
+These tests can be run locally against Docker to make development easier. The easiest way to achieve this is to use
+[the `deploy` project](https://github.com/HeliumEdu/deploy?tab=readme-ov-file#docker-setup) to setup the entire Helium
+stack locally. An Internet connection is still necessary to validate all end-to-end functionality (emails use
+AWS SES, text messages use Twilio). [The minimal Terraform for `dev-local`](https://github.com/HeliumEdu/deploy/tree/main/terraform/environments/dev-local#readme)
+can be applied to configure these services.
+
+Once the above is done, the CI tests can be run locally with:
+
+```sh
+make test-local
 ```
