@@ -1,26 +1,25 @@
-.PHONY: all docker-env virtualenv install nopyc clean test test-smoke test-tavern test-tavern-smoke test-selenium test-selenium-smoke build-docker run-docker
+.PHONY: all docker-env install nopyc clean test test-local test-smoke test-tavern test-tavern-smoke test-selenium test-selenium-smoke build-docker run-docker
 
 SHELL := /usr/bin/env bash
-CI_VENV ?= .venv
+PYTHON_BIN ?= python
+CI_VENV ?= venv
 ENVIRONMENT ?= prod
 AWS_REGION ?= us-east-1
 PROJECT_APP_HOST ?= https://www.heliumedu.com
 PROJECT_API_HOST ?= https://api.heliumedu.com
 
-all: virtualenv install test
+all: test
 
 docker-env:
 	@if [ ! -f ".env" ]; then \
 		cp -n .env.docker.example .env | true; \
 	fi
 
-virtualenv:
-	@if [ ! -d "$(CI_VENV)" ]; then \
-		python3 -m pip install virtualenv; \
-        python3 -m virtualenv $(CI_VENV); \
-	fi
+venv:
+	$(PYTHON_BIN) -m pip install virtualenv
+	$(PYTHON_BIN) -m virtualenv $(CI_VENV)
 
-install: virtualenv
+install: venv
 	@( \
 		source $(CI_VENV)/bin/activate; \
 		python -m pip install -r requirements.txt; \
