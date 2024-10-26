@@ -17,6 +17,7 @@ jobs:
     name: "CI Tests"
 
     env:
+      FORCE_COLOR: 1
       PLATFORM_TWILIO_ACCOUNT_SID: ${{ secrets.PLATFORM_TWILIO_ACCOUNT_SID }}
       PLATFORM_TWILIO_AUTH_TOKEN: ${{ secrets.PLATFORM_TWILIO_AUTH_TOKEN }}
       CI_AWS_S3_ACCESS_KEY_ID: ${{ secrets.CI_AWS_S3_ACCESS_KEY_ID }}
