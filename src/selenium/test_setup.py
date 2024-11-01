@@ -3,15 +3,15 @@ __license__ = "MIT"
 __version__ = "1.7.21"
 
 import os
-import time
 
+import requests
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 from src.selenium.seleniumtestcase import SeleniumTestCase
 from src.utils.emailhelper import get_verification_code
-from src.utils.workspacehelper import init_workspace
+from src.utils.workspacehelper import init_workspace, wait_for_example_schedule
 
 
 class TestSeleniumAuth(SeleniumTestCase):
@@ -64,8 +64,10 @@ class TestSeleniumAuth(SeleniumTestCase):
         self.assertTrue(success_status.is_displayed())
         self.assertIn("Your email address has been verified.", success_status.text)
 
-        # Cool down to ensure user example schedule is populated
-        time.sleep(10)
+        token_response = requests.post(f"{self.api_host}/auth/token/",
+                                       data={"username": self.test_username, "password": self.test_password},
+                                       verify=False)
+        wait_for_example_schedule(token_response, self.api_host, self.test_username, self.test_password)
 
     def test_3_login_new_user(self):
         self.driver.get(os.path.join(self.app_host, 'login'))

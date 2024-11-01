@@ -38,5 +38,3 @@ stages:
         password: "{test_password:s}"
     response:
       status_code: 204
-    # Cool down to ensure user is deleted before further tests run
-    delay_after: 10
