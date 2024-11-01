@@ -3,13 +3,13 @@ __license__ = "MIT"
 __version__ = "1.7.14"
 
 import os
-import time
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 from src.selenium.seleniumtestcase import SeleniumTestCase
+from src.utils.workspacehelper import wait_for_user_deletion
 
 
 class TestSeleniumAuth(SeleniumTestCase):
@@ -46,5 +46,4 @@ class TestSeleniumAuth(SeleniumTestCase):
         self.assertTrue(success_status.is_displayed())
         self.assertIn("Sorry to see you go!", success_status.text)
 
-        # Cool down to ensure user is deleted before further tests run
-        time.sleep(10)
+        wait_for_user_deletion(None, self.api_host, self.test_username, self.test_password)
