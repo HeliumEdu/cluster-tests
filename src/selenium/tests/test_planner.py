@@ -35,6 +35,8 @@ class TestSeleniumAuth(SeleniumTestCase):
                 self.driver.find_elements(By.XPATH, "//li[starts-with(@id, \"calendar-filter-category-\")]")) == 8
         )
 
+        self.save_screenshot_to_s3()
+
     def test_example_schedule_populated_classes_page(self):
         self.given_user_is_authenticated()
 

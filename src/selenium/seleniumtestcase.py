@@ -2,6 +2,7 @@ __copyright__ = "Copyright (c) 2018 Helium Edu"
 __license__ = "MIT"
 __version__ = "1.7.21"
 
+import inspect
 import os
 import time
 import unittest
@@ -52,9 +53,10 @@ class SeleniumTestCase(unittest.TestCase):
             EC.title_contains("Calendar")
         )
 
-    def save_screenshot_to_s3(self, test_name):
+    def save_screenshot_to_s3(self):
         timestamp = int(time.time() * 1000)
-        file_name = f"ci_screenshot-{test_name}-{timestamp}.png"
+        test_name = inspect.stack()[1].function
+        file_name = f"{test_name}_{timestamp}.png"
         self.driver.save_screenshot(file_name)
 
         s3_client = boto3.client('s3',
