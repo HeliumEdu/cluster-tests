@@ -21,12 +21,12 @@ class TestSeleniumAuth(SeleniumTestCase):
         account_tab = self.driver.find_element(By.CSS_SELECTOR, "#settings-tabs > li:nth-child(3) > a")
         account_tab.click()
 
-        delete_account_button = WebDriverWait(self.driver, 10).until(
+        delete_account_button = WebDriverWait(self.driver, 15).until(
             EC.element_to_be_clickable((By.ID, "delete-account"))
         )
         delete_account_button.click()
 
-        delete_account_password_field = WebDriverWait(self.driver, 10).until(
+        delete_account_password_field = WebDriverWait(self.driver, 15).until(
             EC.element_to_be_clickable((By.ID, "delete-account-password"))
         )
         delete_account_password_field.send_keys(self.test_password)

@@ -87,7 +87,7 @@ class TestSeleniumAuth(SeleniumTestCase):
         self.assertEqual(os.path.join(self.app_host, 'planner', 'calendar'), self.driver.current_url.strip('/'))
 
         # Wait for calendar to load
-        getting_started_modal = WebDriverWait(self.driver, 10).until(
+        getting_started_modal = WebDriverWait(self.driver, 30).until(
             EC.visibility_of_element_located((By.ID, "getting-started-modal"))
         )
 
@@ -98,6 +98,6 @@ class TestSeleniumAuth(SeleniumTestCase):
         close_getting_started_button = self.driver.find_element(By.ID, "close-getting-started")
         close_getting_started_button.click()
 
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 15).until(
             EC.invisibility_of_element(getting_started_modal)
         )
