@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 _RETRIES = 10
 
-_RETRY_DELAY = 2
+_RETRY_DELAY = 3
 
 
 def init_workspace(response, env_api_host, username, email, password):
@@ -28,18 +28,20 @@ def init_workspace(response, env_api_host, username, email, password):
 
     # If the user existed and was deleted, wait to ensure their data is fully deleted
     if response.status_code == 204:
-        time.sleep(3)
+        wait_for_user_deletion(None, env_api_host, username, password)
 
     return {}
 
 
-def wait_for_example_schedule(response, env_api_host, retry=0):
+def wait_for_example_schedule(response, env_api_host, username, password, retry=0):
+    if response is None:
+        response = requests.post(f"{env_api_host}/auth/token/",
+                                 data={"username": username, "password": password},
+                                 verify=False)
+
     logger.info('/auth/token/ response: {}'.format(response.json()))
 
     token = response.json()['token']
-
-    # It can take a few seconds for the example schedule to finish populating, so wait before wasting retries
-    time.sleep(10)
 
     events_response = requests.get(env_api_host + '/planner/events/',
                                    headers={'Authorization': "Token " + token},
@@ -68,7 +70,7 @@ def wait_for_example_schedule(response, env_api_host, retry=0):
         if retry < _RETRIES:
             time.sleep(_RETRY_DELAY)
 
-            return wait_for_example_schedule(response, env_api_host, retry + 1)
+            return wait_for_example_schedule(None, env_api_host, username, password, retry + 1)
         else:
             raise TestFailError(
                 "The example schedule was only populated with {} events and {} courses "
@@ -102,7 +104,7 @@ def wait_for_example_schedule(response, env_api_host, retry=0):
         if retry < _RETRIES:
             time.sleep(_RETRY_DELAY)
 
-            return wait_for_example_schedule(response, env_api_host, retry + 1)
+            return wait_for_example_schedule(None, env_api_host, username, password, retry + 1)
         else:
             raise TestFailError(
                 "The example schedule was only populated with {} categories and {} homework "
@@ -121,7 +123,7 @@ def wait_for_example_schedule(response, env_api_host, retry=0):
         if retry < _RETRIES:
             time.sleep(_RETRY_DELAY)
 
-            return wait_for_example_schedule(response, env_api_host, retry + 1)
+            return wait_for_example_schedule(None, env_api_host, username, password, retry + 1)
         else:
             raise TestFailError(
                 "The example schedule's course group {} grades were not properly calculated "
@@ -132,7 +134,7 @@ def wait_for_example_schedule(response, env_api_host, retry=0):
         if retry < _RETRIES:
             time.sleep(_RETRY_DELAY)
 
-            return wait_for_example_schedule(response, env_api_host, retry + 1)
+            return wait_for_example_schedule(None, env_api_host, username, password, retry + 1)
         else:
             raise TestFailError(
                 "The example schedule's category {} grades were not properly calculated "
@@ -152,3 +154,21 @@ def wait_for_example_schedule(response, env_api_host, retry=0):
         raise AssertionError("homework[0] month: {}".format(homework[0]['start'].month))
 
     return {}
+
+
+def wait_for_user_deletion(response, env_api_host, username, password, retry=0):
+    if response is None:
+        response = requests.post(f"{env_api_host}/auth/token/",
+                                 data={"username": username, "password": password},
+                                 verify=False)
+
+    logger.info('/auth/token/ response: {}'.format(response.json()))
+
+    if response.status_code != 400 and 'recognize that account' not in response.content:
+        if retry < _RETRIES:
+            time.sleep(_RETRY_DELAY)
+
+            return wait_for_user_deletion(None, env_api_host, username, password, retry + 1)
+        else:
+            raise TestFailError(
+                "The user was not deleted after {} retries.".format(retry))
