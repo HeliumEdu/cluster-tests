@@ -74,3 +74,5 @@ stages:
           function: src.utils.workspacehelper:wait_for_example_schedule
           extra_kwargs:
             env_api_host: "{tavern.env_vars.PROJECT_API_HOST}"
+            username: "{test_username:s}"
+            password: "{test_password:s}"
