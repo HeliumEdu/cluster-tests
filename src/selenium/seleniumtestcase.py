@@ -3,8 +3,10 @@ __license__ = "MIT"
 __version__ = "1.7.21"
 
 import os
+import time
 import unittest
 
+import boto3
 import requests
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -49,3 +51,16 @@ class SeleniumTestCase(unittest.TestCase):
         WebDriverWait(self.driver, 10).until(
             EC.title_contains("Calendar")
         )
+
+    def save_screenshot_to_s3(self, test_name):
+        timestamp = int(time.time() * 1000)
+        file_name = f"ci_screenshot-{test_name}-{timestamp}.png"
+        self.driver.save_screenshot(file_name)
+
+        s3_client = boto3.client('s3',
+                                 aws_access_key_id=os.environ.get('CI_AWS_S3_ACCESS_KEY_ID'),
+                                 aws_secret_access_key=os.environ.get('CI_AWS_S3_SECRET_ACCESS_KEY'),
+                                 region_name=os.environ.get('AWS_REGION'))
+        environment = os.environ.get('ENVIRONMENT')
+        bucket_name = f'heliumedu.{environment}'
+        s3_client.upload_file(file_name, bucket_name, file_name)

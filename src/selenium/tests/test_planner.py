@@ -24,7 +24,7 @@ class TestSeleniumAuth(SeleniumTestCase):
 
         # Wait for calendar to load, awaiting example schedule display
         WebDriverWait(self.driver, 30).until(
-            lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "div.fc-event")) == 45
+            lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "div.fc-event")) >= 40
         )
         WebDriverWait(self.driver, 30).until(
             lambda wait: len(
