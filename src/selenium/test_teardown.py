@@ -9,7 +9,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 from src.selenium.seleniumtestcase import SeleniumTestCase
-from src.utils.workspacehelper import wait_for_user_deletion
 
 
 class TestSeleniumAuth(SeleniumTestCase):
@@ -45,5 +44,3 @@ class TestSeleniumAuth(SeleniumTestCase):
         success_status = self.driver.find_element(By.CSS_SELECTOR, "#status")
         self.assertTrue(success_status.is_displayed())
         self.assertIn("Sorry to see you go!", success_status.text)
-
-        wait_for_user_deletion(None, self.api_host, self.test_username, self.test_password)
