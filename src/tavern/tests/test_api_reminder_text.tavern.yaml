@@ -147,8 +147,6 @@ stages:
       save:
         json:
           reminder_id: id
-    # Waiting 30 seconds for the worker to pickup the task
-    delay_after: 30
 
   - name: Verify reminder was marked as sent
     request:

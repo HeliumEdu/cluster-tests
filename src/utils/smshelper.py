@@ -14,9 +14,9 @@ from twilio.rest import Client
 
 logger = logging.getLogger(__name__)
 
-_RETRIES = 20
+_RETRIES = 24
 
-_RETRY_DELAY = 3
+_RETRY_DELAY = 5
 
 
 def get_verification_code(response, phone, retry=0):

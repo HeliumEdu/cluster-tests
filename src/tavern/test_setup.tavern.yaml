@@ -38,8 +38,6 @@ stages:
         time_zone: America/Chicago
     response:
       status_code: 201
-    # Cool down to ensure user example schedule is populated
-    delay_after: 10
 
   - name: Get verification code from email
     request:
@@ -76,3 +74,5 @@ stages:
           function: src.utils.workspacehelper:wait_for_example_schedule
           extra_kwargs:
             env_api_host: "{tavern.env_vars.PROJECT_API_HOST}"
+            username: "{test_username:s}"
+            password: "{test_password:s}"
