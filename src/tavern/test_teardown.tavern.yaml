@@ -38,10 +38,3 @@ stages:
         password: "{test_password:s}"
     response:
       status_code: 204
-      save:
-        $ext:
-          function: src.utils.workspacehelper:wait_for_user_deletion
-          extra_kwargs:
-            env_api_host: "{tavern.env_vars.PROJECT_API_HOST}"
-            username: "{test_username:s}"
-            password: "{test_password:s}"
