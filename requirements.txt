@@ -3,5 +3,5 @@ pytz==2024.2
 python-dateutil==2.9.0.post0
 boto3==1.35.72
 twilio==9.3.7
-selenium==4.26.1
+selenium==4.27.1
 PyYAML==6.0.2
