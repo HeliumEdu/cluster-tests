@@ -1,7 +1,7 @@
 tavern==2.11.0
 pytz==2024.2
 python-dateutil==2.9.0.post0
-boto3==1.35.81
+boto3==1.35.86
 twilio==9.4.1
 selenium==4.27.1
 PyYAML==6.0.2
