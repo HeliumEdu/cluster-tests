@@ -43,7 +43,7 @@ test: install
 	)
 
 test-local:
-	make -C ../.. build test-ci
+	make -C ../.. test-ci
 
 test-smoke: install
 	@( \
