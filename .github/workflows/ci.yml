@@ -26,7 +26,7 @@ jobs:
       CI_AWS_S3_SECRET_ACCESS_KEY: ${{ secrets.CI_AWS_S3_SECRET_ACCESS_KEY }}
       CI_TWILIO_RECIPIENT_PHONE_NUMBER: ${{ secrets.CI_TWILIO_RECIPIENT_PHONE_NUMBER }}
 
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
       - uses: actions/checkout@v4
