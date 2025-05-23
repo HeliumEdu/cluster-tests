@@ -37,9 +37,7 @@ Once the above is done, the CI tests can be run with:
 make test
 ```
 
-## Development
-
-### Running Locally
+### Running Locally in Docker
 
 These tests can be run locally against Docker to make development easier. The easiest way to achieve this is to use
 [the `deploy` project](https://github.com/HeliumEdu/deploy?tab=readme-ov-file#docker-setup) to setup the entire Helium
@@ -52,3 +50,8 @@ Once the above is done, the CI tests can be run locally with:
 ```sh
 make test-local
 ```
+
+#### Image Architecture
+
+Due to the nature of its dependencies, this project will only build an `linux/amd64` image, even when Docker is running
+on another architecture.
