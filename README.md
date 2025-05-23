@@ -4,6 +4,12 @@
 
 # Helium CI Tests
 
+The `ci-tests` that validate end-to-end functionality of [Helium Edu](https://www.heliumedu.com/).
+
+## Prerequisites
+
+- Python (>= 3.12)
+
 ## Getting Started
 
 CI tests are developed using Python and [Tavern](https://taverntesting.github.io/).
@@ -18,7 +24,7 @@ The following environment variables must be set for the CI tests to run:
 - `PLATFORM_TWILIO_AUTH_TOKEN` (same as used in [platform](https://github.com/HeliumEdu/platform) worker to send texts)
 - `CI_AWS_S3_ACCESS_KEY_ID` (same as used in [platform](https://github.com/HeliumEdu/platform) web to upload attachments)
 - `CI_AWS_S3_SECRET_ACCESS_KEY` (same as used in [platform](https://github.com/HeliumEdu/platform) web to upload attachments)
-- `CI_TWILIO_RECIPIENT_PHONE_NUMBER` (a phone number to which test texts will be sent)
+- `CI_TWILIO_RECIPIENT_PHONE_NUMBER` (a Twilio phone number to which test texts will be sent)
 
 These CI tests require `heliumedu-ci-test@heliumedu.dev` to be setup to receive emails and store them in an S3
 bucket, as documented [here](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-getting-started.html).
