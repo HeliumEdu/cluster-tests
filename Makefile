@@ -52,7 +52,7 @@ test-smoke: install
 		AWS_REGION=$(AWS_REGION) \
 		PROJECT_APP_HOST=$(PROJECT_APP_HOST) \
 		PROJECT_API_HOST=$(PROJECT_API_HOST) \
-		pytest -v src/tavern/tests/test_api_info.tavern.yaml src/tavern/tests/test_api_status.tavern.yaml src/selenium/tests/test_pages.py src/selenium/tests/test_redirects.py -s --log-cli-level info; \
+		pytest -v -o junit_suite_name=smoke src/tavern/tests/test_api_info.tavern.yaml src/tavern/tests/test_api_status.tavern.yaml src/selenium/tests/test_pages.py src/selenium/tests/test_redirects.py -s --log-cli-level info; \
 	)
 
 test-tavern: install
@@ -62,7 +62,7 @@ test-tavern: install
 		AWS_REGION=$(AWS_REGION) \
 		PROJECT_APP_HOST=$(PROJECT_APP_HOST) \
 		PROJECT_API_HOST=$(PROJECT_API_HOST) \
-		pytest -v src/tavern/test_setup.tavern.yaml src/tavern/tests/ src/tavern/test_teardown.tavern.yaml -s --log-cli-level info; \
+		pytest -v -o junit_suite_name=tavern src/tavern/test_setup.tavern.yaml src/tavern/tests/ src/tavern/test_teardown.tavern.yaml -s --log-cli-level info; \
 	)
 
 test-selenium: install
@@ -72,7 +72,7 @@ test-selenium: install
 		AWS_REGION=$(AWS_REGION) \
 		PROJECT_APP_HOST=$(PROJECT_APP_HOST) \
 		PROJECT_API_HOST=$(PROJECT_API_HOST) \
-		pytest -v src/selenium/test_setup.py src/selenium/tests/ src/selenium/test_teardown.py -s; \
+		pytest -v -o junit_suite_name=selenium src/selenium/test_setup.py src/selenium/tests/ src/selenium/test_teardown.py -s; \
 	)
 
 build-docker:

@@ -42,3 +42,16 @@ jobs:
       - name: Run full test suite
         if: ${{ github.event_name != 'pull_request' }}
         run: make test
+      - name: Upload test output
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-test-output
+          path: build/screenshots/
+          retention-days: 30
+      - name: Upload test results
+        if: ${{ !cancelled() && ${{ github.event_name != 'pull_request' }}
+        uses: codecov/test-results-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./build/test-results
