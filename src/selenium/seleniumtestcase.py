@@ -18,6 +18,10 @@ from src.utils.variablehelper import get_common_variables
 
 ROOT_DIR = os.path.normpath(
     os.path.join(os.path.abspath(os.path.dirname(__file__)), "..", ".."))
+SCREENSHOTS_DIR = os.path.join(ROOT_DIR, "build", "screenshots")
+
+if not os.path.exists(SCREENSHOTS_DIR):
+    os.makedirs(SCREENSHOTS_DIR)
 
 
 class SeleniumTestCase(unittest.TestCase):
@@ -58,5 +62,5 @@ class SeleniumTestCase(unittest.TestCase):
     def save_screenshot(self):
         timestamp = int(time.time() * 1000)
         test_name = inspect.stack()[1].function
-        file_name = os.path.join(ROOT_DIR, "build", "screenshots", f"{test_name}_{timestamp}.png")
+        file_name = os.path.join(SCREENSHOTS_DIR, f"{test_name}_{timestamp}.png")
         self.driver.save_screenshot(file_name)
