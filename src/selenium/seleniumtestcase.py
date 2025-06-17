@@ -7,7 +7,6 @@ import os
 import time
 import unittest
 
-import boto3
 import requests
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -16,6 +15,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 from src.utils.variablehelper import get_common_variables
+
+ROOT_DIR = os.path.normpath(
+    os.path.join(os.path.abspath(os.path.dirname(__file__)), ".."))
 
 
 class SeleniumTestCase(unittest.TestCase):
@@ -53,16 +55,8 @@ class SeleniumTestCase(unittest.TestCase):
             EC.title_contains("Calendar")
         )
 
-    def save_screenshot_to_s3(self):
+    def save_screenshot(self):
         timestamp = int(time.time() * 1000)
         test_name = inspect.stack()[1].function
-        file_name = f"{test_name}_{timestamp}.png"
+        file_name = os.path.join(ROOT_DIR, "build", "screenshots", f"{test_name}_{timestamp}.png")
         self.driver.save_screenshot(file_name)
-
-        s3_client = boto3.client('s3',
-                                 aws_access_key_id=os.environ.get('CI_AWS_S3_ACCESS_KEY_ID'),
-                                 aws_secret_access_key=os.environ.get('CI_AWS_S3_SECRET_ACCESS_KEY'),
-                                 region_name=os.environ.get('AWS_REGION'))
-        environment = os.environ.get('ENVIRONMENT')
-        bucket_name = f'heliumedu.{environment}'
-        s3_client.upload_file(file_name, bucket_name, file_name)

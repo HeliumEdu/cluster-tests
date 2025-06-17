@@ -5,4 +5,5 @@
 *.log
 venv
 .env
+build
 test_*.png

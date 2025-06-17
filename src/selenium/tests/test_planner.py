@@ -35,7 +35,7 @@ class TestSeleniumAuth(SeleniumTestCase):
                 self.driver.find_elements(By.XPATH, "//li[starts-with(@id, \"calendar-filter-category-\")]")) == 8
         )
 
-        self.save_screenshot_to_s3()
+        self.save_screenshot()
 
     def test_example_schedule_populated_classes_page(self):
         self.given_user_is_authenticated()
@@ -55,6 +55,8 @@ class TestSeleniumAuth(SeleniumTestCase):
             lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"course-\")]")) == 2
         )
 
+        self.save_screenshot()
+
     def test_example_schedule_populated_materials_page(self):
         self.given_user_is_authenticated()
 
@@ -73,6 +75,8 @@ class TestSeleniumAuth(SeleniumTestCase):
             lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"material-\")]")) == 4
         )
 
+        self.save_screenshot()
+
     def test_example_schedule_populated_grades_page(self):
         self.given_user_is_authenticated()
 
@@ -89,3 +93,5 @@ class TestSeleniumAuth(SeleniumTestCase):
         WebDriverWait(self.driver, 30).until(
             lambda wait: len(self.driver.find_elements(By.XPATH, "//div[starts-with(@id, \"course-body-\")]")) == 2
         )
+
+        self.save_screenshot()
