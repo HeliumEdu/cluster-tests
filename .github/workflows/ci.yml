@@ -50,7 +50,7 @@ jobs:
           path: build/screenshots/
           retention-days: 30
       - name: Upload test results
-        if: ${{ !cancelled() && ${{ github.event_name != 'pull_request' }}
+        if: ${{ !cancelled() }} && ${{ github.event_name != 'pull_request' }}
         uses: codecov/test-results-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
