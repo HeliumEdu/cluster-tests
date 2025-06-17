@@ -17,7 +17,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from src.utils.variablehelper import get_common_variables
 
 ROOT_DIR = os.path.normpath(
-    os.path.join(os.path.abspath(os.path.dirname(__file__)), ".."))
+    os.path.join(os.path.abspath(os.path.dirname(__file__)), "..", ".."))
 
 
 class SeleniumTestCase(unittest.TestCase):
