@@ -27,6 +27,8 @@ class TestSeleniumPages(SeleniumTestCase):
                                 verify=False)
         self.assertEqual(200, response.status_code)
 
+        self.save_screenshot()
+
     def test_docs(self):
         self.driver.get(os.path.join(self.api_host, 'docs'))
         self.assertEqual("Helium API Documentation", self.driver.title)
@@ -36,3 +38,5 @@ class TestSeleniumPages(SeleniumTestCase):
         response = requests.get(head_resource_link.get_attribute('href'),
                                 verify=False)
         self.assertEqual(200, response.status_code)
+
+        self.save_screenshot()

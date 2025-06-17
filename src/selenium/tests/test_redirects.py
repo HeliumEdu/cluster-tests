@@ -21,6 +21,8 @@ class TestSeleniumRedirects(SeleniumTestCase):
         )
         self.assertEqual(info['support_url'], self.driver.current_url.strip('/'))
 
+        self.save_screenshot()
+
     def test_docs_redirect(self):
         self.driver.get(os.path.join(self.app_host, 'docs'))
         # The /docs URL redirects to the API /docs page
@@ -29,6 +31,8 @@ class TestSeleniumRedirects(SeleniumTestCase):
         )
         self.assertEqual(os.path.join(self.api_host, 'docs'), self.driver.current_url.strip('/'))
 
+        self.save_screenshot()
+
     def test_status_redirect(self):
         start_url = os.path.join(self.app_host, 'status')
         self.driver.get(start_url)
@@ -36,3 +40,5 @@ class TestSeleniumRedirects(SeleniumTestCase):
         WebDriverWait(self.driver, 10).until(
             EC.url_changes(os.path.join(self.api_host, 'status'))
         )
+
+        self.save_screenshot()
