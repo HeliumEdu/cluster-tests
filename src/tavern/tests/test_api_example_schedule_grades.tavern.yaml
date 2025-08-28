@@ -89,7 +89,7 @@ stages:
     response:
       status_code: 200
       json:
-        title: "Example Semester"
+        title: "🍂 Example Semester"
         average_grade: "86.2108"
         trend: -0.0009202767444288602
         num_homework: 22
@@ -106,7 +106,7 @@ stages:
     response:
       status_code: 200
       json:
-        title: "American History"
+        title: "🇺🇸 American History"
         current_grade: "90.6358"
         trend: 0.0039735044860502375
         has_weighted_grading: true
@@ -124,7 +124,7 @@ stages:
     response:
       status_code: 200
       json:
-        title: "Writing Assignment"
+        title: "📝 Writing Assignment"
         average_grade: "92.6667"
         grade_by_weight: "18.5333"
         trend: 0.03833333333333341
