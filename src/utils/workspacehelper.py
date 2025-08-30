@@ -74,7 +74,7 @@ def wait_for_example_schedule(response, env_api_host, username, password, retry=
 
     course = None
     for course in courses:
-        if course['title'] == 'American History':
+        if course['title'] == '🇺🇸 American History':
             course = course
             break
     if course is None:
@@ -108,7 +108,7 @@ def wait_for_example_schedule(response, env_api_host, username, password, retry=
 
     category = None
     for category in categories:
-        if category['title'] == 'Writing Assignment':
+        if category['title'] == '📝 Writing Assignment':
             category = category
             break
     if category is None:
