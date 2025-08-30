@@ -16,7 +16,7 @@ from tavern._core.exceptions import TestFailError
 
 logger = logging.getLogger(__name__)
 
-_RETRIES = 24
+_RETRIES = 12 * 5
 
 _RETRY_DELAY = 5
 

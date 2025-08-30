@@ -14,7 +14,7 @@ from twilio.rest import Client
 
 logger = logging.getLogger(__name__)
 
-_RETRIES = 24
+_RETRIES = 12 * 3
 
 _RETRY_DELAY = 5
 
