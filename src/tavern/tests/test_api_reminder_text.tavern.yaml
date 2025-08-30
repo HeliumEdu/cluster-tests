@@ -78,7 +78,7 @@ stages:
 
   - name: Get courses
     request:
-      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/{course_group_id}/courses?title=%F0%9F%87%BA%F0%9F%87%B8%20American%20History"
+      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/{course_group_id}/courses/?title=%F0%9F%87%BA%F0%9F%87%B8%20American%20History"
       verify: false
       method: GET
       headers:
@@ -91,7 +91,7 @@ stages:
 
   - name: Get categories
     request:
-      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/{course_group_id}/courses/{course_id}/categories?title=%F0%9F%93%9D%20Writing%20Assignment"
+      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/{course_group_id}/courses/{course_id}/categories/?title=%F0%9F%93%9D%20Writing%20Assignment"
       verify: false
       method: GET
       headers:
