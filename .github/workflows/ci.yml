@@ -9,6 +9,11 @@ on:
   schedule:
     - cron: "0 9 * * *"
 
+permissions:
+  contents: read
+  issues: none
+  pull-requests: none
+
 concurrency:
   group: helium-singleton-ci-tests
 
