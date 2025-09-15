@@ -42,7 +42,7 @@ stages:
 
   - name: Get courses
     request:
-      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/{course_group_id}/courses/?title=%F0%9F%87%BA%F0%9F%87%B8%20American%20History"
+      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/{course_group_id}/courses/?title=World%20History%20%F0%9F%8C%8E"
       verify: false
       method: GET
       headers:
@@ -55,7 +55,7 @@ stages:
 
   - name: Get categories
     request:
-      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/{course_group_id}/courses/{course_id}/categories/?title=%F0%9F%93%9D%20Writing%20Assignment"
+      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/{course_group_id}/courses/{course_id}/categories/?title=Writing%20Assignment%20%F0%9F%93%9D"
       verify: false
       method: GET
       headers:
@@ -89,7 +89,7 @@ stages:
     response:
       status_code: 200
       json:
-        title: "🍂 Example Semester"
+        title: "Example Semester"
         average_grade: "86.2108"
         trend: -0.0009202767444288602
         num_homework: 22
@@ -106,7 +106,7 @@ stages:
     response:
       status_code: 200
       json:
-        title: "🇺🇸 American History"
+        title: "World History 🌎"
         current_grade: "90.6358"
         trend: 0.0039735044860502375
         has_weighted_grading: true
@@ -124,7 +124,7 @@ stages:
     response:
       status_code: 200
       json:
-        title: "📝 Writing Assignment"
+        title: "Writing Assignment 📝"
         average_grade: "92.6667"
         grade_by_weight: "18.5333"
         trend: 0.03833333333333341
