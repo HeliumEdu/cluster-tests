@@ -32,7 +32,7 @@ class TestSeleniumAuth(SeleniumTestCase):
         )
         WebDriverWait(self.driver, 30).until(
             lambda wait: len(
-                self.driver.find_elements(By.XPATH, "//li[starts-with(@id, \"calendar-filter-category-\")]")) == 8
+                self.driver.find_elements(By.XPATH, "//li[starts-with(@id, \"calendar-filter-category-\")]")) == 9
         )
 
         self.save_screenshot()
