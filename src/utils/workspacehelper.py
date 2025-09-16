@@ -31,11 +31,11 @@ def init_workspace(response, env_api_host, username, email, password):
 
 def wait_for_example_schedule(response, env_api_host, username, password, retry=0):
     if response is None:
-        response = requests.post(f"{env_api_host}/auth/token/",
+        response = requests.post(f"{env_api_host}/auth/legacy/token/",
                                  data={"username": username, "password": password},
                                  verify=False)
 
-    logger.info('/auth/token/ response: {}'.format(response.json()))
+    logger.info('/auth/legacy/token/ response: {}'.format(response.json()))
 
     token = response.json()['token']
 
