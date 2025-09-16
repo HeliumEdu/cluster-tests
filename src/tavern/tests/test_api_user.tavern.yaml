@@ -33,7 +33,7 @@ stages:
       status_code: 200
       save:
         json:
-          auth_token: token
+          auth_token: access
 
   - name: Get user
     request:
@@ -41,7 +41,7 @@ stages:
       verify: false
       method: GET
       headers:
-        Authorization: "Token {auth_token:s}"
+        Authorization: "Bearer {auth_token:s}"
     response:
       status_code: 200
       json:

@@ -65,7 +65,7 @@ def get_verification_code(response, phone, retry=0):
 
 def verify_reminder_marked_sent(response, env_api_host, token, reminder_id, retry=0):
     response = requests.get('{}/planner/reminders/{}/'.format(env_api_host, reminder_id),
-                            headers={'Authorization': "Token " + token},
+                            headers={'Authorization': "Bearer " + token},
                             verify=False)
 
     if not (response.status_code == 200 and response.json()["sent"]):

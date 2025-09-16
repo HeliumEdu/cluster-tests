@@ -25,7 +25,7 @@ stages:
       status_code: 200
       save:
         json:
-          auth_token: token
+          auth_token: access
 
   - name: Add phone number to account
     request:
@@ -33,7 +33,7 @@ stages:
       verify: false
       method: PUT
       headers:
-        Authorization: "Token {auth_token:s}"
+        Authorization: "Bearer {auth_token:s}"
       json:
         phone: "{tavern.env_vars.CI_TWILIO_RECIPIENT_PHONE_NUMBER:s}"
     response:
@@ -57,7 +57,7 @@ stages:
       verify: false
       method: PUT
       headers:
-        Authorization: "Token {auth_token:s}"
+        Authorization: "Bearer {auth_token:s}"
       json:
         phone_verification_code: "{sms_verification_code:d}"
     response:
@@ -69,7 +69,7 @@ stages:
       verify: false
       method: GET
       headers:
-        Authorization: "Token {auth_token:s}"
+        Authorization: "Bearer {auth_token:s}"
     response:
       status_code: 200
       save:
@@ -82,7 +82,7 @@ stages:
       verify: false
       method: GET
       headers:
-        Authorization: "Token {auth_token:s}"
+        Authorization: "Bearer {auth_token:s}"
     response:
       status_code: 200
       save:
@@ -95,7 +95,7 @@ stages:
       verify: false
       method: GET
       headers:
-        Authorization: "Token {auth_token:s}"
+        Authorization: "Bearer {auth_token:s}"
     response:
       status_code: 200
       save:
@@ -108,7 +108,7 @@ stages:
       verify: false
       method: POST
       headers:
-        Authorization: "Token {auth_token:s}"
+        Authorization: "Bearer {auth_token:s}"
       json:
         title: "CI Test Homework"
         all_day: false
@@ -134,7 +134,7 @@ stages:
       verify: false
       method: POST
       headers:
-        Authorization: "Token {auth_token:s}"
+        Authorization: "Bearer {auth_token:s}"
       json:
         title: "CI Test Reminder Title"
         message: "CI test reminder message"
