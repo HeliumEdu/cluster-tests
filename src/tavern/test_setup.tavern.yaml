@@ -57,7 +57,7 @@ stages:
       verify: false
       method: GET
     response:
-      status_code: 200
+      status_code: 204
 
   - name: Get token for user
     request:
