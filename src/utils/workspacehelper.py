@@ -31,23 +31,23 @@ def init_workspace(response, env_api_host, username, email, password):
 
 def wait_for_example_schedule(response, env_api_host, username, password, retry=0):
     if response is None:
-        response = requests.post(f"{env_api_host}/auth/legacy/token/",
+        response = requests.post(f"{env_api_host}/auth/token/",
                                  data={"username": username, "password": password},
                                  verify=False)
 
-    logger.info('/auth/legacy/token/ response: {}'.format(response.json()))
+    logger.info('/auth/token/ response: {}'.format(response.json()))
 
-    token = response.json()['token']
+    token = response.json()['access']
 
     events_response = requests.get(env_api_host + '/planner/events/',
-                                   headers={'Authorization': "Token " + token},
+                                   headers={'Authorization': "Bearer " + token},
                                    verify=False)
     if events_response.status_code != 200:
         raise AssertionError("events_response.status_code: {}".format(events_response.status_code))
     events = events_response.json()
 
     coursegroups_response = requests.get(env_api_host + '/planner/coursegroups/',
-                                         headers={'Authorization': "Token " + token},
+                                         headers={'Authorization': "Bearer " + token},
                                          verify=False)
     if coursegroups_response.status_code != 200:
         raise AssertionError("coursegroups_response.status_code: {}".format(coursegroups_response.status_code))
@@ -56,7 +56,7 @@ def wait_for_example_schedule(response, env_api_host, username, password, retry=
 
     courses_response = requests.get(
         env_api_host + '/planner/coursegroups/{}/courses/'.format(course_group['id']),
-        headers={'Authorization': "Token " + token},
+        headers={'Authorization': "Bearer " + token},
         verify=False)
     if courses_response.status_code != 200:
         raise AssertionError("courses_response.status_code: {}".format(courses_response.status_code))
@@ -82,7 +82,7 @@ def wait_for_example_schedule(response, env_api_host, username, password, retry=
 
     categories_response = requests.get(
         env_api_host + '/planner/coursegroups/{}/courses/{}/categories/'.format(course_group['id'], course['id']),
-        headers={'Authorization': "Token " + token},
+        headers={'Authorization': "Bearer " + token},
         verify=False)
     if categories_response.status_code != 200:
         raise AssertionError("categories_response.status_code: {}".format(categories_response.status_code))
@@ -90,7 +90,7 @@ def wait_for_example_schedule(response, env_api_host, username, password, retry=
 
     homework_response = requests.get(
         env_api_host + '/planner/coursegroups/{}/courses/{}/homework/'.format(course_group['id'], course['id']),
-        headers={'Authorization': "Token " + token},
+        headers={'Authorization': "Bearer " + token},
         verify=False)
     if homework_response.status_code != 200:
         raise AssertionError("homework_response.status_code: {}".format(homework_response.status_code))

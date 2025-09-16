@@ -9,7 +9,7 @@ import requests
 
 def create_attachment(response, env_api_host, token, course_id):
     response = requests.post('{}/planner/attachments/'.format(env_api_host),
-                             headers={'Authorization': "Token " + token},
+                             headers={'Authorization': "Bearer " + token},
                              data={'course': course_id},
                              files={
                                  'file[]': (os.path.basename('requirements.txt'), open('requirements.txt', 'rb'),
