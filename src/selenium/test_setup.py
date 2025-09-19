@@ -3,7 +3,6 @@ __license__ = "MIT"
 __version__ = "1.7.22"
 
 import os
-import time
 
 import requests
 from selenium.webdriver.common.by import By
