@@ -3,6 +3,7 @@ __license__ = "MIT"
 __version__ = "1.7.22"
 
 import os
+import time
 
 import requests
 from selenium.webdriver.common.by import By
@@ -42,6 +43,8 @@ class TestSeleniumAuth(SeleniumTestCase):
             EC.title_contains("Login")
         )
 
+        self.save_screenshot()
+
         self.assertEqual(os.path.join(self.app_host, 'login'), self.driver.current_url.strip('/'))
 
         success_status = self.driver.find_element(By.CSS_SELECTOR, "#status")
@@ -58,6 +61,8 @@ class TestSeleniumAuth(SeleniumTestCase):
         WebDriverWait(self.driver, 10).until(
             EC.title_contains("Login")
         )
+
+        self.save_screenshot()
 
         self.assertEqual(os.path.join(self.app_host, 'login'), self.driver.current_url.strip('/'))
         success_status = self.driver.find_element(By.CSS_SELECTOR, "#status")
@@ -85,6 +90,8 @@ class TestSeleniumAuth(SeleniumTestCase):
         WebDriverWait(self.driver, 10).until(
             EC.title_contains("Calendar")
         )
+
+        self.save_screenshot()
 
         self.assertEqual(os.path.join(self.app_host, 'planner', 'calendar'), self.driver.current_url.strip('/'))
 
