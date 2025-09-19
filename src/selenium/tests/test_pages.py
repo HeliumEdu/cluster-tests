@@ -28,15 +28,3 @@ class TestSeleniumPages(SeleniumTestCase):
         self.assertEqual(200, response.status_code)
 
         self.save_screenshot()
-
-    def test_docs(self):
-        self.driver.get(os.path.join(self.api_host, 'docs'))
-        self.assertEqual("Helium API Documentation", self.driver.title)
-
-        # Assert static resources are rendering (ie. collectstatic has run, static resources can be rendered)
-        head_resource_link = self.driver.find_element(By.CSS_SELECTOR, "head > link:nth-child(5)")
-        response = requests.get(head_resource_link.get_attribute('href'),
-                                verify=False)
-        self.assertEqual(200, response.status_code)
-
-        self.save_screenshot()

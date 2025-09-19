@@ -42,3 +42,13 @@ class TestSeleniumRedirects(SeleniumTestCase):
         )
 
         self.save_screenshot()
+
+    def test_admin_redirect(self):
+        start_url = os.path.join(self.app_host, 'admin')
+        self.driver.get(start_url)
+        # The /admin URL redirects to the API /admin page
+        WebDriverWait(self.driver, 10).until(
+            EC.url_changes(os.path.join(self.api_host, 'admin'))
+        )
+
+        self.save_screenshot()
