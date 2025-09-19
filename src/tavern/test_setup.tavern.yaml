@@ -23,7 +23,6 @@ stages:
           extra_kwargs:
             env_api_host: "{tavern.env_vars.PROJECT_API_HOST}"
             username: "{test_username:s}"
-            email: "{test_email:s}"
             password: "{test_password:s}"
 
   - name: Register new user

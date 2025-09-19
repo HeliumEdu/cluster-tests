@@ -20,11 +20,24 @@ _RETRIES = 10
 _RETRY_DELAY = 3
 
 
-def init_workspace(response, env_api_host, username, email, password):
-    # If the test user already exists, cleanup from a previous test
-    response = requests.delete(env_api_host + '/auth/user/delete/',
-                               data={'username': username, 'email': email, 'password': password},
-                               verify=False)
+def init_workspace(response, env_api_host, username, password):
+    response = requests.post(f"{env_api_host}/auth/token/",
+                             data={"username": username, "password": password},
+                             verify=False)
+
+    if response.status_code == 200:
+        token = response.json()['access']
+
+        # If the test user already exists, cleanup from a previous test
+        requests.delete(env_api_host + '/auth/user/delete/',
+                        headers={'Authorization': "Bearer " + token},
+                        data={'password': password},
+                        verify=False)
+
+    # If the test user already exists, inactive, from a previous failed test run
+    requests.delete(env_api_host + '/auth/user/delete/inactive/',
+                    data={'username': username, 'password': password},
+                    verify=False)
 
     return {}
 

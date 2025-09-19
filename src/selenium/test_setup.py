@@ -16,7 +16,7 @@ from src.utils.workspacehelper import init_workspace, wait_for_example_schedule
 
 class TestSeleniumAuth(SeleniumTestCase):
     def test_1_init_workspace(self):
-        init_workspace(self.get_info(), self.api_host, self.test_username, self.test_email, self.test_password)
+        init_workspace(self.get_info(), self.api_host, self.test_username, self.test_password)
 
     def test_2_register_new_user(self):
         self.driver.get(os.path.join(self.app_host, 'register'))
