@@ -33,8 +33,6 @@ stages:
       headers:
         Authorization: "Bearer {auth_token:s}"
       json:
-        username: "{test_username:s}"
-        email: "{test_email:s}"
         password: "{test_password:s}"
     response:
       status_code: 204
