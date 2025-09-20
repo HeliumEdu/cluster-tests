@@ -19,7 +19,7 @@ stages:
       verify: false
       method: GET
     response:
-      status_code: 403
+      status_code: 401
 
   - name: Get token for user
     request:
