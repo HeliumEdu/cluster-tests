@@ -2,6 +2,10 @@ test_name: Test frontend health
 
 strict: False
 
+marks:
+  - usefixtures:
+      - assets_prefix
+
 stages:
   - name: Get frontend health
     request:
@@ -17,6 +21,22 @@ stages:
   - name: Check frontend index returns 200
     request:
       url: "{tavern.env_vars.PROJECT_APP_HOST}"
+      verify: false
+      method: GET
+    response:
+      status_code: 200
+
+  - name: Check frontend vendor asset returns 200
+    request:
+      url: "{tavern.env_vars.PROJECT_APP_HOST}/assets/js/vendors/ace.min.js"
+      verify: false
+      method: GET
+    response:
+      status_code: 200
+
+  - name: Check frontend Helium asset returns 200
+    request:
+      url: "{tavern.env_vars.PROJECT_APP_HOST}/assets/js/base.{assets_prefix:s}min.js"
       verify: false
       method: GET
     response:
