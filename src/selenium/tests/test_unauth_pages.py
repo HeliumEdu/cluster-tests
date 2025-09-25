@@ -56,7 +56,7 @@ class TestSeleniumUnauthPages(SeleniumTestCase):
 
         self.assertEqual("{} | {}".format(self.info['name'], 'Privacy Policy'), self.driver.title)
 
-        patreon_img = WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 10).until(
             EC.visibility_of_element_located(
                 (By.CSS_SELECTOR, "img[src=\"/assets/img/support_patreon.png\"]"))
         )
