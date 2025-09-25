@@ -1,8 +1,7 @@
-tavern==2.17.0
+tavern[grpc]==2.17.0
 pytz==2025.1
 python-dateutil==2.9.0.post0
 boto3==1.37.13
 twilio==9.5.0
 selenium==4.35.0
 PyYAML==6.0.2
-grpcio-reflection==1.75.0
