@@ -25,7 +25,7 @@ class TestSeleniumUnauthRedirects(SeleniumTestCase):
     def test_support_redirect(self):
         self.driver.get(os.path.join(self.app_host, 'support'))
         # The /support URL redirects to an external portal
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 15).until(
             EC.url_matches(self.info['support_url'])
         )
 
@@ -36,7 +36,7 @@ class TestSeleniumUnauthRedirects(SeleniumTestCase):
     def test_contact_redirect(self):
         self.driver.get(os.path.join(self.app_host, 'contact'))
         # The /support URL redirects to an external portal
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 15).until(
             EC.url_matches(self.info['support_url'])
         )
 
@@ -47,7 +47,7 @@ class TestSeleniumUnauthRedirects(SeleniumTestCase):
     def test_docs_redirect(self):
         self.driver.get(os.path.join(self.app_host, 'docs'))
         # The /docs URL redirects to the API /docs page
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 15).until(
             EC.url_matches(os.path.join(self.api_host, 'docs'))
         )
 
@@ -71,7 +71,7 @@ class TestSeleniumUnauthRedirects(SeleniumTestCase):
         start_url = os.path.join(self.app_host, 'admin')
         self.driver.get(start_url)
         # The /admin URL redirects to the API /admin page
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 15).until(
             EC.url_matches(os.path.join(self.api_host, 'admin'))
         )
 

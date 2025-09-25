@@ -65,7 +65,7 @@ test-selenium: install
 		AWS_REGION=$(AWS_REGION) \
 		PROJECT_APP_HOST=$(PROJECT_APP_HOST) \
 		PROJECT_API_HOST=$(PROJECT_API_HOST) \
-			pytest -x -o junit_suite_name=selenium \
+			pytest -o junit_suite_name=selenium \
 			src/selenium/test_setup.py src/selenium/tests/ src/selenium/test_teardown.py; \
 	)
 
