@@ -8,12 +8,11 @@ AWS_REGION ?= us-east-1
 PROJECT_APP_HOST ?= https://www.heliumedu.com
 PROJECT_API_HOST ?= https://api.heliumedu.com
 
-ifeq ($(ENVIRONMENT), "prod")
+ifeq ("$(ENVIRONMENT)", "prod")
     ENVIRONMENT_PREFIX = ""
 else
     ENVIRONMENT_PREFIX = "$(ENVIRONMENT)."
 endif
-
 
 all: test
 
