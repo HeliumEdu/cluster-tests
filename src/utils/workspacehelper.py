@@ -39,7 +39,7 @@ def init_workspace(response, env_api_host, username, password):
 
     retries = 0
     while retries < _RETRIES and response.status_code != 401:
-        logger.info("Waiting for user deletion to complete ...")
+        logger.info(f"Response {response.status_code}, waiting for user deletion to complete ...")
 
         time.sleep(_RETRY_DELAY)
         retries += 1
