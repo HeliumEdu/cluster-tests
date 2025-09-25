@@ -1,39 +1,19 @@
-test_name: Check user API
+test_name: Test reminders
 
 strict: False
 
+marks:
+  - usefixtures:
+      - access_token
+
 stages:
-  - name: Populate variables
-    request:
-      url: "{tavern.env_vars.PROJECT_API_HOST}/info/"
-      verify: false
-      method: GET
-    response:
-      save:
-        $ext:
-          function: src.utils.variablehelper:get_common_variables
-
-  - name: Get token for user
-    request:
-      url: "{tavern.env_vars.PROJECT_API_HOST}/auth/token/"
-      verify: false
-      method: POST
-      json:
-        username: "{test_username:s}"
-        password: "{test_password:s}"
-    response:
-      status_code: 200
-      save:
-        json:
-          auth_token: access
-
   - name: Add phone number to account
     request:
       url: "{tavern.env_vars.PROJECT_API_HOST}/auth/user/profile/"
       verify: false
       method: PUT
       headers:
-        Authorization: "Bearer {auth_token:s}"
+        Authorization: "Bearer {access_token:s}"
       json:
         phone: "{tavern.env_vars.CI_TWILIO_RECIPIENT_PHONE_NUMBER:s}"
     response:
@@ -57,45 +37,45 @@ stages:
       verify: false
       method: PUT
       headers:
-        Authorization: "Bearer {auth_token:s}"
+        Authorization: "Bearer {access_token:s}"
       json:
         phone_verification_code: "{sms_verification_code:d}"
     response:
       status_code: 200
 
-  - name: Get course groups
+  - name: List course groups
     request:
       url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/"
       verify: false
       method: GET
       headers:
-        Authorization: "Bearer {auth_token:s}"
+        Authorization: "Bearer {access_token:s}"
     response:
       status_code: 200
       save:
         json:
           course_group_id: "[0].id"
 
-  - name: Get courses
+  - name: List courses
     request:
       url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/{course_group_id}/courses/?title=World%20History%20%F0%9F%8C%8E"
       verify: false
       method: GET
       headers:
-        Authorization: "Bearer {auth_token:s}"
+        Authorization: "Bearer {access_token:s}"
     response:
       status_code: 200
       save:
         json:
           course_id: "[0].id"
 
-  - name: Get categories
+  - name: List categories
     request:
       url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/{course_group_id}/courses/{course_id}/categories/?title=Writing%20Assignment%20%F0%9F%93%9D"
       verify: false
       method: GET
       headers:
-        Authorization: "Bearer {auth_token:s}"
+        Authorization: "Bearer {access_token:s}"
     response:
       status_code: 200
       save:
@@ -108,7 +88,7 @@ stages:
       verify: false
       method: POST
       headers:
-        Authorization: "Bearer {auth_token:s}"
+        Authorization: "Bearer {access_token:s}"
       json:
         title: "CI Test Homework"
         all_day: false
@@ -134,7 +114,7 @@ stages:
       verify: false
       method: POST
       headers:
-        Authorization: "Bearer {auth_token:s}"
+        Authorization: "Bearer {access_token:s}"
       json:
         title: "CI Test Reminder Title"
         message: "CI test reminder message"
@@ -159,7 +139,7 @@ stages:
           function: src.utils.smshelper:verify_reminder_marked_sent
           extra_kwargs:
             env_api_host: "{tavern.env_vars.PROJECT_API_HOST}"
-            token: "{auth_token:s}"
+            access_token: "{access_token:s}"
             reminder_id: "{reminder_id}"
 
   - name: Verify reminder text was received

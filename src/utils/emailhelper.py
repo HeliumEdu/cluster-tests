@@ -40,7 +40,8 @@ def get_verification_code(response, username, retry=0):
 
             return get_verification_code(response, username, retry + 1)
         else:
-            raise TestFailError("The verification email was not received after {} retries.".format(retry))
+            raise TestFailError(
+                "The verification email was not received after {} seconds.".format(_RETRIES * _RETRY_DELAY))
 
     logger.info('latest_key: {}'.format(latest_key))
 
@@ -74,7 +75,7 @@ def get_verification_code(response, username, retry=0):
 
             return get_verification_code(response, username, retry + 1)
         else:
-            raise TestFailError("No matching verification email could be validated after {} retries.".format(retry))
+            raise TestFailError("No matching verification email could be validated after {} seconds.".format(_RETRIES * _RETRY_DELAY))
 
     verification_code = email_body.split('verify?username={}&code='.format(username))[1].split('\n')[0].strip()
 

@@ -1,0 +1,9 @@
+---
+
+name: Common variables
+
+variables:
+    test_username: heliumedu-cluster1
+    test_email: heliumedu-cluster1@{tavern.env_vars.ENVIRONMENT_PREFIX}heliumedu.dev
+    test_password: test_pass_1!
+    contact_email: contact@{tavern.env_vars.ENVIRONMENT_PREFIX}heliumedu.com

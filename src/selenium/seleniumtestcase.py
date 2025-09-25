@@ -9,12 +9,11 @@ import unittest
 
 import requests
 from selenium import webdriver
+from selenium.common import WebDriverException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
-
-from src.utils.variablehelper import get_common_variables
 
 ROOT_DIR = os.path.normpath(
     os.path.join(os.path.abspath(os.path.dirname(__file__)), "..", ".."))
@@ -23,28 +22,50 @@ SCREENSHOTS_DIR = os.path.join(ROOT_DIR, "build", "screenshots")
 if not os.path.exists(SCREENSHOTS_DIR):
     os.makedirs(SCREENSHOTS_DIR)
 
+KNOWN_CONSOLE_ERRORS = [
+    "Deprecation warning: moment.langData is deprecated",
+    "Deprecation warning: moment().add",
+    "https://cdnjs.cloudflare.com/",
+    "https://www.googletagmanager.com",
+    "https://www.google-analytics.com/",
+]
+
 
 class SeleniumTestCase(unittest.TestCase):
     def setUp(self):
-        chrome_options = Options()
-        chrome_options.add_argument('--headless')
-        chrome_options.add_argument("--start-maximized")
-        chrome_options.add_argument('--no-sandbox')
-        self.driver = webdriver.Chrome(options=chrome_options)
+        options = Options()
+        options.add_argument('--headless')
+        options.add_argument("--start-maximized")
+        options.add_argument('--no-sandbox')
+        options.set_capability('goog:loggingPrefs', {'browser': 'ALL'})
+
+        self.driver = webdriver.Chrome(options=options)
 
         self.app_host = os.environ.get('PROJECT_APP_HOST')
         self.api_host = os.environ.get('PROJECT_API_HOST')
+        self.env_prefix = os.environ.get('ENVIRONMENT_PREFIX')
 
-        self.test_username = "heliumedu-ci-test"
-        self.test_email = get_common_variables(self.get_info())['test_email']
-        self.test_password = "test_pass_1!"
+        self.info_response = requests.get(os.path.join(self.api_host, 'info'),
+                                          headers={'Content-Type': 'application/json'},
+                                          verify=False)
+        self.info = self.info_response.json()
+
+        self.test_username = "heliumedu-cluster2"
+        self.test_email = f'heliumedu-cluster2@{self.env_prefix}heliumedu.dev'
+        self.test_password = "test_pass_2!"
 
     def tearDown(self):
-        self.driver.close()
+        self.driver.delete_all_cookies()
+        try:
+            self.driver.execute_script("localStorage.clear();")
+        except WebDriverException:
+            pass
+        try:
+            self.driver.execute_script("sessionStorage.clear();")
+        except WebDriverException:
+            pass
 
-    def get_info(self):
-        return requests.get(os.path.join(self.api_host, 'info'), headers={'Content-Type': 'application/json'},
-                            verify=False)
+        self.driver.close()
 
     def given_user_is_authenticated(self):
         self.driver.get(os.path.join(self.app_host, 'login'))
@@ -64,3 +85,16 @@ class SeleniumTestCase(unittest.TestCase):
         test_name = inspect.stack()[1].function
         file_name = os.path.join(SCREENSHOTS_DIR, f"{test_name}_{timestamp}.png")
         self.driver.save_screenshot(file_name)
+
+    def assert_no_console_errors(self):
+        logs = self.driver.get_log('browser')
+
+        for entry in logs:
+            if entry['level'] == 'SEVERE' or entry['level'] == 'WARNING':
+                known = False
+                for known_error in KNOWN_CONSOLE_ERRORS:
+                    if known_error in entry['message']:
+                        known = True
+                        break
+                if not known:
+                    raise AssertionError(f"Console error found: {entry['message']}")

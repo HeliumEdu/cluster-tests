@@ -1,0 +1,228 @@
+test_name: Test example schedule is populated
+
+strict: False
+
+marks:
+  - usefixtures:
+      - access_token
+
+stages:
+  - name: List course groups
+    request:
+      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/"
+      verify: false
+      method: GET
+      headers:
+        Authorization: "Bearer {access_token:s}"
+    response:
+      status_code: 200
+      save:
+        json:
+          course_group_id: "[0].id"
+
+  - name: List courses
+    request:
+      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/{course_group_id}/courses/?title=World%20History%20%F0%9F%8C%8E"
+      verify: false
+      method: GET
+      headers:
+        Authorization: "Bearer {access_token:s}"
+    response:
+      status_code: 200
+      save:
+        json:
+          course_id: "[0].id"
+
+  - name: List categories
+    request:
+      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/{course_group_id}/courses/{course_id}/categories/?title=Writing%20Assignment%20%F0%9F%93%9D"
+      verify: false
+      method: GET
+      headers:
+        Authorization: "Bearer {access_token:s}"
+    response:
+      status_code: 200
+      save:
+        json:
+          category_id: "[0].id"
+
+  - name: List homework
+    request:
+      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/{course_group_id}/courses/{course_id}/homework/"
+      verify: false
+      method: GET
+      headers:
+        Authorization: "Bearer {access_token:s}"
+    response:
+      status_code: 200
+      save:
+        json:
+          homework_id: "[5].id"
+
+  - name: Get course group
+    request:
+      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/{course_group_id}/"
+      verify: false
+      method: GET
+      headers:
+        Authorization: "Bearer {access_token:s}"
+    response:
+      status_code: 200
+      json:
+        title: "Example Semester"
+        average_grade: "86.2108"
+        trend: -0.0009202767444288602
+        num_homework: 22
+        num_homework_completed: 17
+        num_homework_graded: 17
+
+  - name: Get course
+    request:
+      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/{course_group_id}/courses/{course_id}/"
+      verify: false
+      method: GET
+      headers:
+        Authorization: "Bearer {access_token:s}"
+    response:
+      status_code: 200
+      json:
+        title: "World History 🌎"
+        current_grade: "90.6358"
+        trend: 0.0039735044860502375
+        has_weighted_grading: true
+        num_homework: 15
+        num_homework_completed: 11
+        num_homework_graded: 11
+
+  - name: Get category
+    request:
+      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/{course_group_id}/courses/{course_id}/categories/{category_id}/"
+      verify: false
+      method: GET
+      headers:
+        Authorization: "Bearer {access_token:s}"
+    response:
+      status_code: 200
+      json:
+        title: "Writing Assignment 📝"
+        average_grade: "92.6667"
+        grade_by_weight: "18.5333"
+        trend: 0.03833333333333341
+        num_homework: 6
+        num_homework_graded: 3
+
+  - name: Get homework
+    request:
+      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/{course_group_id}/courses/{course_id}/homework/{homework_id}/"
+      verify: false
+      method: GET
+      headers:
+        Authorization: "Bearer {access_token:s}"
+    response:
+      status_code: 200
+      json:
+        title: "Chapter 2 Prompts"
+        current_grade: "85/100"
+        completed: true
+
+  - name: List material groups
+    request:
+      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/materialgroups/"
+      verify: false
+      method: GET
+      headers:
+        Authorization: "Bearer {access_token:s}"
+    response:
+      status_code: 200
+      save:
+        json:
+          material_group_id: "[0].id"
+
+  - name: List materials
+    request:
+      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/materialgroups/{material_group_id}/materials/"
+      verify: false
+      method: GET
+      headers:
+        Authorization: "Bearer {access_token:s}"
+    response:
+      status_code: 200
+      save:
+        json:
+          material_id: "[0].id"
+
+  - name: Get material group
+    request:
+      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/materialgroups/{material_group_id}/"
+      verify: false
+      method: GET
+      headers:
+        Authorization: "Bearer {access_token:s}"
+    response:
+      status_code: 200
+      json:
+        title: "Example Textbooks"
+
+  - name: Get material
+    request:
+      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/materialgroups/{material_group_id}/materials/{material_id}/?title=Civilizations%20Past%20and%20Present%2C%20Combined%20Volume%2C%2013th%20edition"
+      verify: false
+      method: GET
+      headers:
+        Authorization: "Bearer {access_token:s}"
+    response:
+      status_code: 200
+      json:
+        title: "Civilizations Past and Present, Combined Volume, 13th edition"
+        status: 2
+        condition: 0
+        price: $27.01
+
+  - name: List reminders
+    request:
+      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/reminders/"
+      verify: false
+      method: GET
+      headers:
+        Authorization: "Bearer {access_token:s}"
+    response:
+      status_code: 200
+      save:
+        json:
+          reminder_id: "[0].id"
+
+  - name: Get reminder
+    request:
+      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/reminders/{reminder_id}/"
+      verify: false
+      method: GET
+      headers:
+        Authorization: "Bearer {access_token:s}"
+    response:
+      status_code: 200
+      json:
+        title: "Reminder for Chapter 1 Reading"
+        offset: 2
+        offset_type: 1
+        type: 0
+        sent: false
+
+  - name: Get grades
+    request:
+      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/grades/"
+      verify: false
+      method: GET
+      headers:
+        Authorization: "Bearer {access_token:s}"
+    response:
+      status_code: 200
+      json:
+        course_groups:
+          - title: Example Semester
+            overall_grade: 86.2108
+            courses:
+              - title: Computer Science 💻
+                overall_grade: 81.7857
+                categories:
+                  - title: Exam 📊
+                    overall_grade: -1.0

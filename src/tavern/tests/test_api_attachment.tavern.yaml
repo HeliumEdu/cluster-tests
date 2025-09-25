@@ -1,52 +1,32 @@
-test_name: Check user API
+test_name: Test API attachments
 
 strict: False
 
+marks:
+  - usefixtures:
+      - access_token
+
 stages:
-  - name: Populate variables
-    request:
-      url: "{tavern.env_vars.PROJECT_API_HOST}/info/"
-      verify: false
-      method: GET
-    response:
-      save:
-        $ext:
-          function: src.utils.variablehelper:get_common_variables
-
-  - name: Get token for user
-    request:
-      url: "{tavern.env_vars.PROJECT_API_HOST}/auth/token/"
-      verify: false
-      method: POST
-      json:
-        username: "{test_username:s}"
-        password: "{test_password:s}"
-    response:
-      status_code: 200
-      save:
-        json:
-          auth_token: access
-
-  - name: Get course groups
+  - name: List course groups
     request:
       url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/"
       verify: false
       method: GET
       headers:
-        Authorization: "Bearer {auth_token:s}"
+        Authorization: "Bearer {access_token:s}"
     response:
       status_code: 200
       save:
         json:
           course_group_id: "[0].id"
 
-  - name: Get courses
+  - name: List courses
     request:
       url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/{course_group_id}/courses/?title=World%20History%20%F0%9F%8C%8E"
       verify: false
       method: GET
       headers:
-        Authorization: "Bearer {auth_token:s}"
+        Authorization: "Bearer {access_token:s}"
     response:
       status_code: 200
       save:
@@ -64,12 +44,23 @@ stages:
           function: src.utils.attachmenthelper:create_attachment
           extra_kwargs:
             env_api_host: "{tavern.env_vars.PROJECT_API_HOST}"
-            token: "{auth_token:s}"
+            access_token: "{access_token:s}"
             course_id: "{course_id:d}"
+
+  - name: Get attachment
+    request:
+      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/attachments/{attachment.id}/"
+      verify: false
+      method: GET
+      headers:
+        Authorization: "Bearer {access_token:s}"
+    response:
+        json:
+          attachment: "{attachment.attachment}"
 
   - name: Verify attachment was uploaded
     request:
-      url: "{attachment_url:s}"
+      url: "{attachment.attachment:s}"
       verify: false
       method: GET
     response:

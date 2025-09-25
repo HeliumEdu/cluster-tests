@@ -1,18 +1,12 @@
-test_name: Check user API
+test_name: Test user API
 
 strict: False
 
-stages:
-  - name: Populate variables
-    request:
-      url: "{tavern.env_vars.PROJECT_API_HOST}/info/"
-      verify: false
-      method: GET
-    response:
-      save:
-        $ext:
-          function: src.utils.variablehelper:get_common_variables
+marks:
+  - usefixtures:
+      - access_token
 
+stages:
   - name: Get user unauthenticated
     request:
       url: "{tavern.env_vars.PROJECT_API_HOST}/auth/user/"
@@ -21,27 +15,13 @@ stages:
     response:
       status_code: 401
 
-  - name: Get token for user
-    request:
-      url: "{tavern.env_vars.PROJECT_API_HOST}/auth/token/"
-      verify: false
-      method: POST
-      json:
-        username: "{test_username:s}"
-        password: "{test_password:s}"
-    response:
-      status_code: 200
-      save:
-        json:
-          auth_token: access
-
   - name: Get user
     request:
       url: "{tavern.env_vars.PROJECT_API_HOST}/auth/user/"
       verify: false
       method: GET
       headers:
-        Authorization: "Bearer {auth_token:s}"
+        Authorization: "Bearer {access_token:s}"
     response:
       status_code: 200
       json:

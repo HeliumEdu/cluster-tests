@@ -1,0 +1,31 @@
+test_name: Test frontend health
+
+strict: False
+
+stages:
+  - name: Get frontend health
+    request:
+      url: "{tavern.env_vars.PROJECT_APP_HOST}/health"
+      verify: false
+      method: GET
+    response:
+      status_code: 200
+      save:
+        json:
+          health: ok
+
+  - name: Check frontend index returns 200
+    request:
+      url: "{tavern.env_vars.PROJECT_APP_HOST}"
+      verify: false
+      method: GET
+    response:
+      status_code: 200
+
+  - name: Check frontend handles not found
+    request:
+      url: "{tavern.env_vars.PROJECT_APP_HOST}/a-fake-page"
+      verify: false
+      method: GET
+    response:
+      status_code: 404
