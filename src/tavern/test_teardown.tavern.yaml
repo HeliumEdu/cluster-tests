@@ -1,37 +1,17 @@
-test_name: Teardown
+test_name: Teardown and delete the user
+
+marks:
+  - usefixtures:
+      - access_token
 
 stages:
-  - name: Populate variables
-    request:
-      url: "{tavern.env_vars.PROJECT_API_HOST}/info/"
-      verify: false
-      method: GET
-    response:
-      save:
-        $ext:
-          function: src.utils.variablehelper:get_common_variables
-
-  - name: Get token for user
-    request:
-      url: "{tavern.env_vars.PROJECT_API_HOST}/auth/token/"
-      verify: false
-      method: POST
-      json:
-        username: "{test_username:s}"
-        password: "{test_password:s}"
-    response:
-      status_code: 200
-      save:
-        json:
-          auth_token: access
-
   - name: Delete user
     request:
       url: "{tavern.env_vars.PROJECT_API_HOST}/auth/user/delete/"
       verify: false
       method: DELETE
       headers:
-        Authorization: "Bearer {auth_token:s}"
+        Authorization: "Bearer {access_token:s}"
       json:
         password: "{test_password:s}"
     response:

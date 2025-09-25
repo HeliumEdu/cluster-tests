@@ -2,8 +2,8 @@ include:
   - ../frontend/docker-compose.yml
   - ../platform/docker-compose.yml
 services:
-  ci_tests:
-    image: helium/ci-tests
+  cluster_tests:
+    image: helium/cluster-tests
     env_file: .env
     network_mode: "host"
     depends_on:

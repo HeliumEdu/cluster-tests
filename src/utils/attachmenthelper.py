@@ -7,9 +7,9 @@ import os
 import requests
 
 
-def create_attachment(response, env_api_host, token, course_id):
+def create_attachment(response, env_api_host, access_token, course_id):
     response = requests.post('{}/planner/attachments/'.format(env_api_host),
-                             headers={'Authorization': "Bearer " + token},
+                             headers={'Authorization': "Bearer " + access_token},
                              data={'course': course_id},
                              files={
                                  'file[]': (os.path.basename('requirements.txt'), open('requirements.txt', 'rb'),
@@ -20,4 +20,4 @@ def create_attachment(response, env_api_host, token, course_id):
     if response.status_code != 201:
         raise AssertionError("response.status_code: {}".format(response.status_code))
 
-    return {"attachment_url": response.json()[0]['attachment']}
+    return {"attachment": response.json()[0]}

@@ -11,7 +11,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from src.selenium.seleniumtestcase import SeleniumTestCase
 
 
-class TestSeleniumAuth(SeleniumTestCase):
+class TestSeleniumTeardown(SeleniumTestCase):
     def test_delete_user(self):
         self.given_user_is_authenticated()
 

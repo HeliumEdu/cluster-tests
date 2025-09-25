@@ -35,7 +35,8 @@ def get_verification_code(response, phone, retry=0):
 
             return get_verification_code(response, phone, retry + 1)
         else:
-            raise TestFailError("The verification SMS was not received after {} retries.".format(retry))
+            raise TestFailError(
+                "The verification SMS was not received after {} seconds.".format(_RETRY_DELAY * _RETRY_DELAY))
 
     logger.info('latest_message: {}'.format(latest_message))
 
@@ -53,7 +54,8 @@ def get_verification_code(response, phone, retry=0):
 
             return get_verification_code(response, phone, retry + 1)
         else:
-            raise TestFailError("No matching verification SMS could be validated after {} retries.".format(retry))
+            raise TestFailError(
+                "No matching verification SMS could be validated after {} seconds.".format(_RETRIES * _RETRY_DELAY))
 
     verification_code = int(latest_message.body.split('Helium\'s "Settings" page: ')[1])
 
@@ -63,18 +65,19 @@ def get_verification_code(response, phone, retry=0):
     return response
 
 
-def verify_reminder_marked_sent(response, env_api_host, token, reminder_id, retry=0):
+def verify_reminder_marked_sent(response, env_api_host, access_token, reminder_id, retry=0):
     response = requests.get('{}/planner/reminders/{}/'.format(env_api_host, reminder_id),
-                            headers={'Authorization': "Bearer " + token},
+                            headers={'Authorization': "Bearer " + access_token},
                             verify=False)
 
     if not (response.status_code == 200 and response.json()["sent"]):
         if retry < _RETRIES:
             time.sleep(_RETRY_DELAY)
 
-            return verify_reminder_marked_sent(response, env_api_host, token, reminder_id, retry + 1)
+            return verify_reminder_marked_sent(response, env_api_host, access_token, reminder_id, retry + 1)
         else:
-            raise TestFailError("The reminder was not marked as \"sent\" after {} retries.".format(retry))
+            raise TestFailError(
+                "The reminder was not marked as \"sent\" after {} seconds.".format(_RETRIES * _RETRY_DELAY))
 
     return {}
 
@@ -106,7 +109,7 @@ def verify_reminder_received(response, phone, retry=0):
 
             return verify_reminder_received(response, phone, retry + 1)
         else:
-            raise TestFailError("The reminder SMS was not received after {} retries.".format(retry))
+            raise TestFailError("The reminder SMS was not received after {} seconds.".format(_RETRIES * _RETRY_DELAY))
 
     if latest_message.body != '(CI Test Homework in World History 🌎 on Tue, Apr 17 at 09:00 PM) CI test reminder message':
         raise AssertionError("latest_message.body: {}".format(latest_message.body))

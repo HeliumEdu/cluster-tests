@@ -14,11 +14,10 @@ from src.utils.emailhelper import get_verification_code
 from src.utils.workspacehelper import init_workspace, wait_for_example_schedule
 
 
-class TestSeleniumAuth(SeleniumTestCase):
-    def test_1_init_workspace(self):
-        init_workspace(self.get_info(), self.api_host, self.test_username, self.test_password)
+class TestSeleniumSetup(SeleniumTestCase):
+    def test_1_register_new_user(self):
+        init_workspace(self.info_response, self.api_host, self.test_username, self.test_password)
 
-    def test_2_register_new_user(self):
         self.driver.get(os.path.join(self.app_host, 'register'))
 
         username_field = self.driver.find_element(By.ID, "id_username")
@@ -50,7 +49,7 @@ class TestSeleniumAuth(SeleniumTestCase):
         self.assertTrue(success_status.is_displayed())
         self.assertIn("The last step is to verify your email address.", success_status.text)
 
-        email_verification_code = get_verification_code(self.get_info(), self.test_username)[
+        email_verification_code = get_verification_code(self.info, self.test_username)[
             'email_verification_code']
 
         self.driver.get(os.path.join(self.app_host, "verify") +
@@ -71,7 +70,7 @@ class TestSeleniumAuth(SeleniumTestCase):
         token_response = requests.post(f"{self.api_host}/auth/token/",
                                        data={"username": self.test_username, "password": self.test_password},
                                        verify=False)
-        wait_for_example_schedule(token_response, self.api_host, self.test_username, self.test_password)
+        wait_for_example_schedule(token_response, self.api_host, token_response.json()["access"])
 
     def test_3_login_new_user(self):
         self.driver.get(os.path.join(self.app_host, 'login'))
