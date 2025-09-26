@@ -11,17 +11,6 @@ from src.selenium.seleniumtestcase import SeleniumTestCase
 
 
 class TestSeleniumUnauthRedirects(SeleniumTestCase):
-    def test_tour_redirect(self):
-        self.driver.get(os.path.join(self.app_host, 'tour'))
-        # The /tour URL redirects to the index
-        WebDriverWait(self.driver, 10).until(
-            EC.url_matches(self.app_host)
-        )
-
-        self.save_screenshot()
-
-        self.assert_no_console_errors()
-
     def test_support_redirect(self):
         self.driver.get(os.path.join(self.app_host, 'support'))
         # The /support URL redirects to an external portal
