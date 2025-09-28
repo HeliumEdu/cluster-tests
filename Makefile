@@ -41,7 +41,7 @@ clean: nopyc
 test-local:
 	make -C ../.. build test-cluster
 
-test: test-smoke# test-selenium
+test: test-smoke test-selenium
 
 test-smoke: install
 	@( \
