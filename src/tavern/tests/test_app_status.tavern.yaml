@@ -28,15 +28,15 @@ stages:
 
   - name: Check frontend vendor asset returns 200
     request:
-      url: "{tavern.env_vars.PROJECT_APP_HOST}/assets/{project_info.version:s}/js/vendors/ace{project_info.min_ext}.js"
+      url: "{tavern.env_vars.PROJECT_APP_HOST}/assets/{project_info.version:s}/css/font/FontAwesome.otf"
       verify: false
       method: GET
     response:
       status_code: 200
 
-  - name: Check frontend Helium asset returns 200
+  - name: Check frontend Helium bundle returns 200
     request:
-      url: "{tavern.env_vars.PROJECT_APP_HOST}/assets/{project_info.version:s}/js/base{project_info.min_ext}.js"
+      url: "{tavern.env_vars.PROJECT_APP_HOST}/assets/{project_info.version:s}/js/base.header.bundle.min.js"
       verify: false
       method: GET
     response:
