@@ -4,7 +4,7 @@ strict: False
 
 marks:
   - usefixtures:
-      - assets_prefix
+      - project_info
 
 stages:
   - name: Get frontend health
@@ -28,15 +28,15 @@ stages:
 
   - name: Check frontend vendor asset returns 200
     request:
-      url: "{tavern.env_vars.PROJECT_APP_HOST}/assets/js/vendors/ace.min.js"
+      url: "{tavern.env_vars.PROJECT_APP_HOST}/assets/{project_info.version:s}/css/font/FontAwesome.otf"
       verify: false
       method: GET
     response:
       status_code: 200
 
-  - name: Check frontend Helium asset returns 200
+  - name: Check frontend Helium bundle returns 200
     request:
-      url: "{tavern.env_vars.PROJECT_APP_HOST}/assets/js/base.{assets_prefix:s}min.js"
+      url: "{tavern.env_vars.PROJECT_APP_HOST}/assets/{project_info.version:s}/js/base.header.bundle.min.js"
       verify: false
       method: GET
     response:

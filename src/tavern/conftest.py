@@ -16,10 +16,10 @@ def access_token():
 
 
 @pytest.fixture
-def assets_prefix():
+def project_info():
     api_host = os.environ.get('PROJECT_API_HOST')
 
     response = requests.get(f"{api_host}/info/",
-                             verify=False)
+                            verify=False)
 
-    return response.json()["version"] + "."
+    return {"min_ext": "" if os.environ.get("ENVIRONMENT", "local") else ".min"} | response.json()
