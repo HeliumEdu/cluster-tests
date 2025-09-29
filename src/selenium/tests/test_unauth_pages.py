@@ -86,7 +86,7 @@ class TestSeleniumUnauthPages(SeleniumTestCase):
         self.assert_no_console_errors()
 
     def test_health(self):
-        response = requests.post(f"{self.app_host}/health/",
+        response = requests.post(f"{self.app_host}/info",
                                  verify=False)
 
         self.assertEqual(200, response.status_code)

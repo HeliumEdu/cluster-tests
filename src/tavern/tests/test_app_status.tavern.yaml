@@ -7,9 +7,9 @@ marks:
       - project_info
 
 stages:
-  - name: Get frontend health
+  - name: Get frontend info
     request:
-      url: "{tavern.env_vars.PROJECT_APP_HOST}/health"
+      url: "{tavern.env_vars.PROJECT_APP_HOST}/info"
       verify: false
       method: GET
     response:
