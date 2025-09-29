@@ -7,6 +7,14 @@ marks:
       - project_info
 
 stages:
+  - name: Check frontend index returns 200
+    request:
+      url: "{tavern.env_vars.PROJECT_APP_HOST}"
+      verify: false
+      method: GET
+    response:
+      status_code: 200
+
   - name: Get frontend info
     request:
       url: "{tavern.env_vars.PROJECT_APP_HOST}/info"
@@ -17,14 +25,6 @@ stages:
       save:
         json:
           health: ok
-
-  - name: Check frontend index returns 200
-    request:
-      url: "{tavern.env_vars.PROJECT_APP_HOST}"
-      verify: false
-      method: GET
-    response:
-      status_code: 200
 
   - name: Check frontend vendor asset returns 200
     request:
