@@ -55,8 +55,9 @@ stages:
       headers:
         Authorization: "Bearer {access_token:s}"
     response:
-        json:
-          attachment: "{attachment.attachment}"
+        status_code: 200
+      json:
+        attachment: "{attachment.attachment}"
 
   - name: Verify attachment was uploaded
     request:
