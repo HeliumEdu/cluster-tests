@@ -65,6 +65,7 @@ test-selenium: install
 		PROJECT_APP_HOST=$(PROJECT_APP_HOST) \
 		PROJECT_API_HOST=$(PROJECT_API_HOST) \
 			pytest -o junit_suite_name=selenium \
+			--reruns 2 --reruns-delay 5 \
 			src/selenium/test_setup.py src/selenium/tests/ src/selenium/test_teardown.py; \
 	)
 

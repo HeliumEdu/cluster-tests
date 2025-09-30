@@ -5,3 +5,4 @@ boto3==1.37.13
 twilio==9.5.0
 selenium==4.35.0
 PyYAML==6.0.2
+pytest-rerunfailures==14.0.0
