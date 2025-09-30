@@ -24,7 +24,7 @@ stages:
         name: Helium Student Planner
         tagline: Lightening Your Course Load
         support_email: "{contact_email:s}"
-        support_url: https://github.com/HeliumEdu/platform/wiki
+        support_url: https://github.com/HeliumEdu/platform/issues
         bug_report_url: https://github.com/HeliumEdu/platform/issues/new?assignees=&labels=bug&projects=&template=bug-report.yml
         max_upload_size: 10485760
 
