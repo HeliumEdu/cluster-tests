@@ -57,7 +57,7 @@ stages:
     response:
       status_code: 200
       json:
-        attachment: "{attachment.attachment}"
+        course: !int "{attachment.course}"
 
   - name: Verify attachment was uploaded
     request:
