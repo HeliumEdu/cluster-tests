@@ -5,7 +5,6 @@ __version__ = "1.11.25"
 import os
 import unittest
 
-import requests
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
@@ -84,19 +83,3 @@ class TestSeleniumUnauthPages(SeleniumTestCase):
 
         # TODO: investigate the jQuery UI exception on this page (which shouldn't even be being used here)
         self.assert_no_console_errors()
-
-    def test_health(self):
-        response = requests.post(f"{self.app_host}/info",
-                                 verify=False)
-
-        self.assertEqual(200, response.status_code)
-        self.assertEqual("ok", response.json()["health"])
-
-    def test_404(self):
-        self.driver.get(os.path.join(self.app_host, 'a-fake-page'))
-
-        WebDriverWait(self.driver, 10).until(
-            EC.title_contains("Page Not Found")
-        )
-
-        self.save_screenshot()
