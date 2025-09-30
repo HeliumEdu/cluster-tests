@@ -46,7 +46,7 @@ stages:
       verify: false
       method: GET
     response:
-      status_code: 204
+      status_code: 202
 
 ---
 
