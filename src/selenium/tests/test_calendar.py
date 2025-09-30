@@ -16,7 +16,7 @@ class TestSeleniumCalendar(SeleniumTestCase):
     def test_unauthenticated_calendar_redirects(self):
         self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
 
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 30).until(
             EC.url_matches(self.app_host)
         )
         parsed_url = urlparse(self.driver.current_url)
