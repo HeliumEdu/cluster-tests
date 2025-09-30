@@ -3,7 +3,6 @@ __license__ = "MIT"
 __version__ = "1.11.25"
 
 import os
-import unittest
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -17,7 +16,7 @@ class TestSeleniumUnauthPages(SeleniumTestCase):
         self.driver.get(self.app_host)
         self.assertEqual("{} | {}".format(self.info['name'], self.info['tagline']), self.driver.title)
 
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 30).until(
             EC.visibility_of_element_located((By.CSS_SELECTOR, "#tour-carousel > div > div:nth-child(1) > img"))
         )
 
@@ -25,58 +24,54 @@ class TestSeleniumUnauthPages(SeleniumTestCase):
 
         self.assert_no_console_errors()
 
-    @unittest.skip("Skipping for now while landing pages are flaky on Selenium")
     def test_about(self):
         self.driver.get(os.path.join(self.app_host, 'about'))
         self.assertEqual("{} | {}".format(self.info['name'], 'About'), self.driver.title)
 
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 30).until(
             EC.visibility_of_element_located(
-                (By.CSS_SELECTOR, "img[src=\"/assets/img/support_patreon.png\"]"))
+                (By.CSS_SELECTOR, "a[href=\"https://www.patreon.com/alexdlaird\"] img"))
         )
 
         self.save_screenshot()
 
         self.assert_no_console_errors()
 
-    @unittest.skip("Skipping for now while landing pages are flaky on Selenium")
     def test_press(self):
         self.driver.get(os.path.join(self.app_host, 'press'))
         self.assertEqual("{} | {}".format(self.info['name'], 'Press'), self.driver.title)
 
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 30).until(
             EC.visibility_of_element_located(
-                (By.CSS_SELECTOR, "img[src=\"/assets/img/support_patreon.png\"]"))
+                (By.CSS_SELECTOR, "a[href=\"https://www.patreon.com/alexdlaird\"] img"))
         )
 
         self.save_screenshot()
 
         self.assert_no_console_errors()
 
-    @unittest.skip("Skipping for now while landing pages are flaky on Selenium")
     def test_privacy(self):
         self.driver.get(os.path.join(self.app_host, 'privacy'))
 
         self.assertEqual("{} | {}".format(self.info['name'], 'Privacy Policy'), self.driver.title)
 
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 30).until(
             EC.visibility_of_element_located(
-                (By.CSS_SELECTOR, "img[src=\"/assets/img/support_patreon.png\"]"))
+                (By.CSS_SELECTOR, "a[href=\"https://www.patreon.com/alexdlaird\"] img"))
         )
 
         self.save_screenshot()
 
         self.assert_no_console_errors()
 
-    @unittest.skip("Skipping for now while landing pages are flaky on Selenium")
     def test_terms(self):
         self.driver.get(os.path.join(self.app_host, 'terms'))
 
         self.assertEqual("{} | {}".format(self.info['name'], 'Terms of Service'), self.driver.title)
 
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 30).until(
             EC.visibility_of_element_located(
-                (By.CSS_SELECTOR, "img[src=\"/assets/img/support_patreon.png\"]"))
+                (By.CSS_SELECTOR, "a[href=\"https://www.patreon.com/alexdlaird\"] img"))
         )
 
         self.save_screenshot()
