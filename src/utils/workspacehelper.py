@@ -22,12 +22,12 @@ def init_workspace(response, env_api_host, username, password):
     response = get_user_access_token(env_api_host, username, password)
 
     if response.status_code == 200:
-        token = response.json()['access']
+        access_token = response.json()['access']
 
         logger.info(f"Token obtained, so user {username} exists from a previous run and will be cleaned up")
 
         requests.delete(env_api_host + '/auth/user/delete/',
-                        headers={'Authorization': "Bearer " + token},
+                        headers={'Authorization': "Bearer " + access_token},
                         data={'password': password},
                         verify=False)
     else:

@@ -11,7 +11,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 from src.selenium.seleniumtestcase import SeleniumTestCase
 from src.utils.emailhelper import get_verification_code
-from src.utils.workspacehelper import init_workspace, wait_for_example_schedule
+from src.utils.workspacehelper import init_workspace, wait_for_example_schedule, get_user_access_token
 
 
 class TestSeleniumSetup(SeleniumTestCase):
@@ -108,3 +108,15 @@ class TestSeleniumSetup(SeleniumTestCase):
         WebDriverWait(self.driver, 15).until(
             EC.invisibility_of_element(getting_started_modal)
         )
+
+    def test_4_create_external_calendar(self):
+        response = get_user_access_token(self.api_host, self.test_username, self.test_password)
+
+        response = requests.post('{}/feed/externalcalendars/'.format(self.api_host),
+                                 headers={'Authorization': "Bearer " + response.json()['access']},
+                                 data={'title': 'Helium Test Calendar',
+                                       'url': 'https://calendar.google.com/calendar/ical/86c55b7d91f8d4c22ca722fe22ee19779774863c6e31b6b23346e475c44a23ad%40group.calendar.google.com/public/basic.ics',
+                                       'shown_on_calendar': True},
+                                 verify=False)
+
+        self.assertEqual(201, response.status_code)
