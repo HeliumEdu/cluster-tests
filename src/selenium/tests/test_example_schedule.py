@@ -55,6 +55,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         self.assertTrue(unchecked_assignment_html.startswith('<strong><input id="calendar-homework-checkbox-'))
         self.assertTrue(unchecked_assignment_html.endswith(
             'type="checkbox" class="ace calendar-homework-checkbox" "=""><span class="lbl" style="margin-top: -3px;"></span>Quiz 1</strong>, 11:00 AM'))
+        # TODO: only commented out while debugging so it doesn't break the test, this is stable
         # unchecked_assignment.find_element(By.CSS_SELECTOR, "input").click()
         # WebDriverWait(self.driver, 15).until(
         #     lambda wait: (
