@@ -5,9 +5,9 @@ __version__ = "1.11.42"
 import os
 
 import requests
+from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
 
 from src.selenium.seleniumtestcase import SeleniumTestCase
@@ -21,11 +21,14 @@ class TestSeleniumSetup(SeleniumTestCase):
 
         self.driver.get(os.path.join(self.app_host, 'register'))
 
+        time_zone_chosen = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.ID, "id_time_zone_chosen"))
+        )
+
         username_field = self.driver.find_element(By.ID, "id_username")
         email_field = self.driver.find_element(By.ID, "id_email")
         password_field = self.driver.find_element(By.ID, "id_password1")
         confirm_password_field = self.driver.find_element(By.ID, "id_password2")
-        time_zone_field = self.driver.find_element(By.ID, "id_time_zone")
         terms_checkbox = self.driver.find_element(By.CSS_SELECTOR,
                                                   "#register-form > div:nth-child(1) > div > fieldset > label:nth-child(6) > input")
 
@@ -33,8 +36,18 @@ class TestSeleniumSetup(SeleniumTestCase):
         email_field.send_keys(self.test_email)
         password_field.send_keys(self.test_password)
         confirm_password_field.send_keys(self.test_password)
-        select = Select(time_zone_field)
-        select.select_by_value("America/Chicago")
+
+        time_zone_chosen.click()
+        time_zone_chosen_search = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, ".chosen-search input"))
+        )
+        time_zone_chosen_search.send_keys("Chicago")
+        time_zone_chosen_search.send_keys(Keys.RETURN)
+
+        WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, '//*[@id="id_time_zone_chosen"]/a/span[text()="Chicago"]'))
+        )
+
         terms_checkbox.click()
 
         login_button = self.driver.find_element(By.CSS_SELECTOR, "#register-form > div:nth-child(2) > div > button")
