@@ -100,6 +100,8 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 29
         )
+        # External calendar items do not show the edit buttons like homework
+        self.assertEqual(25, len(self.driver.find_elements(By.XPATH, "//*[starts-with(@id, \"edit-homework-\")]")))
 
         self.driver.find_element(By.ID, "filter-clear").click()
         WebDriverWait(self.driver, 15).until(
@@ -109,6 +111,8 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         WebDriverWait(self.driver, 15).until(
             lambda wait: 22 < len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) <= 24
         )
+        # Calendar items for the class schedule do not show the edit buttons like other items
+        self.assertEqual(0, len(self.driver.find_elements(By.XPATH, "//*[starts-with(@id, \"edit-homework-\")]")))
 
         self.driver.find_element(By.ID, "filter-clear").click()
         WebDriverWait(self.driver, 15).until(
@@ -117,7 +121,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         self.driver.find_element(By.ID, "calendar-filter-homework").click()
         self.driver.find_element(By.ID, "calendar-filter-complete").click()
         WebDriverWait(self.driver, 15).until(
-            lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 17
+            lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 18
         )
 
         self.driver.find_element(By.ID, "filter-clear").click()
@@ -141,6 +145,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 2
         )
+        # TODO: assert on the table columns for the two items shown
 
         self.driver.find_element(By.ID, "calendar-search").clear()
         self.driver.find_element(By.ID, "filter-clear").click()
@@ -218,6 +223,8 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         self.assertIn("Sapiens: A Brief History of Humankind", assignment_hover_html)
         self.assertIn("<strong>Grade:</strong>", assignment_hover_html)
         self.assertIn("90%", assignment_hover_html)
+        self.assertNotIn("Python", assignment_hover_html)
+        self.assertNotIn("Civilizations", assignment_hover_html)
 
         self.save_screenshot()
 
@@ -277,6 +284,8 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         self.assertIn("in HSC 405", class_hover_html)
         self.assertIn("<strong>Materials:</strong>", class_hover_html)
         self.assertIn("Sapiens: A Brief History of Humankind", class_hover_html)
+        self.assertIn("Civilizations Past and Present, Combined Volume, 13th edition", class_hover_html)
+        self.assertNotIn("Python", class_hover_html)
         self.assertNotIn("Grade", class_hover_html)
 
         self.save_screenshot()
