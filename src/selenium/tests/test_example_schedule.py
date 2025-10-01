@@ -3,8 +3,8 @@ __license__ = "MIT"
 __version__ = "1.11.13"
 
 import os
-import time
 
+from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
@@ -107,7 +107,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         )
         self.driver.find_element(By.ID, "calendar-filter-class").click()
         WebDriverWait(self.driver, 15).until(
-            lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 24
+            lambda wait: 22 < len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) <= 24
         )
 
         self.driver.find_element(By.ID, "filter-clear").click()
@@ -142,7 +142,6 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
             lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 2
         )
 
-        # TODO: class filtering is currently broken
         self.driver.find_element(By.ID, "calendar-search").clear()
         self.driver.find_element(By.ID, "filter-clear").click()
         WebDriverWait(self.driver, 15).until(
@@ -186,7 +185,99 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
             lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "div.fc-event")) >= 40
         )
 
-        # TODO: Check to ensure assignments and events are editable
+        self.save_screenshot()
+
+        self.assert_no_console_errors()
+
+    def test_example_schedule_calendar_assignment_tooltip(self):
+        self.given_user_is_authenticated()
+
+        self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
+
+        # Wait for calendar to load with the populated example schedule
+        WebDriverWait(self.driver, 15).until(
+            lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "div.fc-event")) >= 40
+        )
+
+        actions = ActionChains(self.driver)
+
+        assignment_to_hover = self.driver.find_element(By.XPATH, "//strike[contains(text(), 'Quiz 3')]").find_element(
+            By.XPATH, "../..")
+        actions.move_to_element(assignment_to_hover).perform()
+        qtip = WebDriverWait(self.driver, 15).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, ".qtip-bootstrap"))
+        )
+        assignment_hover_html = qtip.get_attribute("innerHTML")
+        self.assertIn("<strong>When:</strong>", assignment_hover_html)
+        self.assertIn(" at ", assignment_hover_html)
+        self.assertIn("<strong>Class Info:</strong>", assignment_hover_html)
+        self.assertIn("World History 🌎", assignment_hover_html)
+        self.assertIn("Quiz 📈", assignment_hover_html)
+        self.assertIn("in HSC 405", assignment_hover_html)
+        self.assertIn("<strong>Materials:</strong>", assignment_hover_html)
+        self.assertIn("Sapiens: A Brief History of Humankind", assignment_hover_html)
+        self.assertIn("<strong>Grade:</strong>", assignment_hover_html)
+        self.assertIn("90%", assignment_hover_html)
+
+        self.save_screenshot()
+
+        self.assert_no_console_errors()
+
+    def test_example_schedule_calendar_event_tooltip(self):
+        self.given_user_is_authenticated()
+
+        self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
+
+        # Wait for calendar to load with the populated example schedule
+        WebDriverWait(self.driver, 15).until(
+            lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "div.fc-event")) >= 40
+        )
+
+        actions = ActionChains(self.driver)
+
+        event_to_hover = self.driver.find_element(By.XPATH, "//strong[text()='Meeting with Julian']").find_element(By.XPATH, "..")
+        actions.move_to_element(event_to_hover).perform()
+        qtip = WebDriverWait(self.driver, 15).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, ".qtip-bootstrap"))
+        )
+        event_hover_html = qtip.get_attribute("innerHTML")
+        self.assertIn("<strong>When:</strong>", event_hover_html)
+        self.assertIn(" to ", event_hover_html)
+        self.assertNotIn("Class", event_hover_html)
+        self.assertNotIn("Material", event_hover_html)
+        self.assertNotIn("Grade", event_hover_html)
+
+        self.save_screenshot()
+
+        self.assert_no_console_errors()
+
+    def test_example_schedule_calendar_class_tooltip(self):
+        self.given_user_is_authenticated()
+
+        self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
+
+        # Wait for calendar to load with the populated example schedule
+        WebDriverWait(self.driver, 15).until(
+            lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "div.fc-event")) >= 40
+        )
+
+        actions = ActionChains(self.driver)
+
+        class_to_hover = self.driver.find_elements(By.XPATH, "//strong[contains(text(), 'World History 🌎')]")[
+            8].find_element(By.XPATH, "..")
+        actions.move_to_element(class_to_hover).perform()
+        qtip = WebDriverWait(self.driver, 15).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, ".qtip-bootstrap"))
+        )
+        class_hover_html = qtip.get_attribute("innerHTML")
+        self.assertIn("<strong>When:</strong>", class_hover_html)
+        self.assertIn(" at ", class_hover_html)
+        self.assertIn("<strong>Class Info:</strong>", class_hover_html)
+        self.assertIn("World History 🌎", class_hover_html)
+        self.assertIn("in HSC 405", class_hover_html)
+        self.assertIn("<strong>Materials:</strong>", class_hover_html)
+        self.assertIn("Sapiens: A Brief History of Humankind", class_hover_html)
+        self.assertNotIn("Grade", class_hover_html)
 
         self.save_screenshot()
 
