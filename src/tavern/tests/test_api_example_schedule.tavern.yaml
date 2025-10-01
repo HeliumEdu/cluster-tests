@@ -16,11 +16,29 @@ stages:
         Authorization: "Bearer {access_token:s}"
     response:
       status_code: 200
+      verify_response_with:
+        function: src.utils.common:assert_response_length
+        extra_kwargs:
+          expected_length: 1
       save:
         json:
           course_group_id: "[0].id"
 
   - name: List courses
+    request:
+      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/{course_group_id}/courses/"
+      verify: false
+      method: GET
+      headers:
+        Authorization: "Bearer {access_token:s}"
+    response:
+      status_code: 200
+      verify_response_with:
+        function: src.utils.common:assert_response_length
+        extra_kwargs:
+          expected_length: 2
+
+  - name: List courses with title filter
     request:
       url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/{course_group_id}/courses/?title=World%20History%20%F0%9F%8C%8E"
       verify: false
@@ -34,6 +52,20 @@ stages:
           course_id: "[0].id"
 
   - name: List categories
+    request:
+      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/{course_group_id}/courses/{course_id}/categories/"
+      verify: false
+      method: GET
+      headers:
+        Authorization: "Bearer {access_token:s}"
+    response:
+      status_code: 200
+      verify_response_with:
+        function: src.utils.common:assert_response_length
+        extra_kwargs:
+          expected_length: 5
+
+  - name: List categories with title filter
     request:
       url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/{course_group_id}/courses/{course_id}/categories/?title=Writing%20Assignment%20%F0%9F%93%9D"
       verify: false
@@ -55,6 +87,10 @@ stages:
         Authorization: "Bearer {access_token:s}"
     response:
       status_code: 200
+      verify_response_with:
+        function: src.utils.common:assert_response_length
+        extra_kwargs:
+          expected_length: 15
       save:
         json:
           homework_id: "[5].id"
@@ -134,6 +170,10 @@ stages:
         Authorization: "Bearer {access_token:s}"
     response:
       status_code: 200
+      verify_response_with:
+        function: src.utils.common:assert_response_length
+        extra_kwargs:
+          expected_length: 1
       save:
         json:
           material_group_id: "[0].id"
@@ -147,6 +187,10 @@ stages:
         Authorization: "Bearer {access_token:s}"
     response:
       status_code: 200
+      verify_response_with:
+        function: src.utils.common:assert_response_length
+        extra_kwargs:
+          expected_length: 4
       save:
         json:
           material_id: "[0].id"
@@ -187,6 +231,10 @@ stages:
         Authorization: "Bearer {access_token:s}"
     response:
       status_code: 200
+      verify_response_with:
+        function: src.utils.common:assert_response_length
+        extra_kwargs:
+          expected_length: 5
       save:
         json:
           reminder_id: "[0].id"

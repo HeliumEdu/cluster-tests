@@ -11,6 +11,8 @@ import requests
 from dateutil import parser
 from tavern._core.exceptions import TestFailError
 
+from src.utils.common import get_user_access_token
+
 logger = logging.getLogger(__name__)
 
 _RETRIES = 10
@@ -162,9 +164,3 @@ def wait_for_example_schedule(response, env_api_host, access_token, retry=0):
         raise AssertionError("courses[1] month: {}".format(courses[1]['start_date'].month))
     if parser.parse(homework[0]['start']).month != now.month:
         raise AssertionError("homework[0] month: {}".format(homework[0]['start'].month))
-
-
-def get_user_access_token(env_api_host, username, password):
-    return requests.post(f"{env_api_host}/auth/token/",
-                         data={"username": username, "password": password},
-                         verify=False)
