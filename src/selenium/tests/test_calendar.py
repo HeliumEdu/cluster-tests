@@ -54,7 +54,7 @@ class TestSeleniumCalendar(SeleniumTestCase):
         self.assert_no_console_errors()
 
     @unittest.skip("TODO: implement")
-    def test_calendar_create_homework_with_reminder_and_attachment(self):
+    def test_calendar_create_homework_with_reminder_and_attachment_dismiss_reminder(self):
         self.given_user_is_authenticated()
 
         self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
@@ -111,6 +111,22 @@ class TestSeleniumCalendar(SeleniumTestCase):
 
     @unittest.skip("TODO: implement")
     def test_delete_event(self):
+        self.given_user_is_authenticated()
+
+        self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
+
+        self.assert_no_console_errors()
+
+    @unittest.skip("TODO: implement")
+    def test_hidden_course_group_not_shown(self):
+        self.given_user_is_authenticated()
+
+        self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
+
+        self.assert_no_console_errors()
+
+    @unittest.skip("TODO: implement")
+    def test_hidden_material_group_not_shown(self):
         self.given_user_is_authenticated()
 
         self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
