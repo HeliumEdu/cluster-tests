@@ -36,7 +36,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         )
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
-                self.driver.find_elements(By.XPATH, "//li[starts-with(@id, \"calendar-filter-category-\")]")) == 11
+                self.driver.find_elements(By.XPATH, "//li[starts-with(@id, \"calendar-filter-category-\")]")) == 9
         )
 
         # Event
@@ -55,13 +55,12 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         self.assertTrue(unchecked_assignment_html.startswith('<strong><input id="calendar-homework-checkbox-'))
         self.assertTrue(unchecked_assignment_html.endswith(
             'type="checkbox" class="ace calendar-homework-checkbox" "=""><span class="lbl" style="margin-top: -3px;"></span>Quiz 1</strong>, 11:00 AM'))
-        # TODO: only commented out while debugging so it doesn't break the test, this is stable
-        # unchecked_assignment.find_element(By.CSS_SELECTOR, "input").click()
-        # WebDriverWait(self.driver, 15).until(
-        #     lambda wait: (
-        #         self.driver.find_element(By.XPATH, "//strike[contains(text(), 'Quiz 1')]").find_element(By.XPATH, "..").get_attribute("innerHTML")
-        #     )
-        # )
+        unchecked_assignment.find_element(By.CSS_SELECTOR, "input").click()
+        WebDriverWait(self.driver, 15).until(
+            lambda wait: (
+                self.driver.find_element(By.XPATH, "//strike[contains(text(), 'Quiz 1')]").find_element(By.XPATH, "..").get_attribute("innerHTML")
+            )
+        )
 
         # Checked assignment
         checked_assignment = self.driver.find_element(By.XPATH, "//strike[contains(text(), 'Quiz 3')]").find_element(
@@ -88,9 +87,8 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         self.assertFalse(external_calendar_filter.is_displayed())
         self.driver.find_element(By.ID, "calendar-filters").click()
         WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located((By.ID, "calendar-filter-external"))
-        )
-        self.driver.find_element(By.ID, "calendar-filter-events").click()
+            EC.visibility_of_element_located((By.ID, "calendar-filter-events"))
+        ).click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 3
         )
@@ -122,41 +120,56 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
             lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 17
         )
 
-        # TODO: category and search filtering is currently broken, it seems
-        # self.driver.find_element(By.ID, "filter-clear").click()
-        # WebDriverWait(self.driver, 15).until(
-        #     lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 50
-        # )
-        # self.driver.find_element(By.ID, "calendar-filter-list").find_element(By.XPATH, "//span[contains(text(), 'Project 👨🏽‍💻')]").click()
-        # WebDriverWait(self.driver, 15).until(
-        #     lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 2
-        # )
-        # self.driver.find_element(By.ID, "filter-clear").click()
-        # WebDriverWait(self.driver, 15).until(
-        #     lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 50
-        # )
-        # self.driver.find_element(By.ID, "calendar-search").send_keys("Chapter 4")
-        # WebDriverWait(self.driver, 15).until(
-        #     lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 2
-        # )
+        self.driver.find_element(By.ID, "filter-clear").click()
+        WebDriverWait(self.driver, 15).until(
+            lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 50
+        )
+        self.driver.find_element(By.ID, "calendar-filter-homework").click()
+        self.driver.find_element(By.ID, "calendar-filter-list").find_element(By.XPATH, "//span[starts-with(text(), 'Project')]").click()
+        WebDriverWait(self.driver, 15).until(
+            lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 2
+        )
+        self.driver.find_element(By.ID, "calendar-filter-list").find_element(By.XPATH, "//span[starts-with(text(), 'Quiz')]").click()
+        WebDriverWait(self.driver, 15).until(
+            lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 9
+        )
+        self.driver.find_element(By.ID, "filter-clear").click()
+        WebDriverWait(self.driver, 15).until(
+            lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 50
+        )
+        self.driver.find_element(By.ID, "calendar-search").send_keys("CHApTER 4")
+        WebDriverWait(self.driver, 15).until(
+            lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 2
+        )
 
         # TODO: class filtering is currently broken
-        # self.driver.find_element(By.ID, "filter-clear").click()
-        # WebDriverWait(self.driver, 15).until(
-        #     lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 50
-        # )
-        # self.driver.find_elements(By.XPATH, "//[starts-with(@id, 'calendar-filter-course-')]")[0].click()
-        # WebDriverWait(self.driver, 15).until(
-        #     lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 17
-        # )
-        # self.driver.find_element(By.ID, "calendar-filters").click()
-        # calendar_filter_homework = WebDriverWait(self.driver, 10).until(
-        #     EC.visibility_of_element_located((By.ID, "calendar-filter-homework"))
-        # )
-        # calendar_filter_homework.click()
-        # WebDriverWait(self.driver, 15).until(
-        #     lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 7
-        # )
+        self.driver.find_element(By.ID, "calendar-search").clear()
+        self.driver.find_element(By.ID, "filter-clear").click()
+        WebDriverWait(self.driver, 15).until(
+            lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 50
+        )
+        self.driver.find_element(By.ID, "calendar-classes").click()
+        # All courses are shown by default, so click to disable one (thus filtering it out)
+        WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_any_elements_located((By.XPATH, "//*[starts-with(@id, \"calendar-filter-course-\")]"))
+        )[0].click()
+        WebDriverWait(self.driver, 15).until(
+            lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 36
+        )
+        # Filter further to only show the non-excluded courses assignments
+        self.driver.find_element(By.ID, "calendar-filters").click()
+        WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located((By.ID, "calendar-filter-homework"))
+        ).click()
+        WebDriverWait(self.driver, 15).until(
+            lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 15
+        )
+
+        # Reset class filters
+        self.driver.find_element(By.ID, "calendar-classes").click()
+        WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_any_elements_located((By.XPATH, "//*[starts-with(@id, \"calendar-filter-course-\")]"))
+        )[0].click()
 
         # Change back to month view, which can be detected by completed items having a strike again
         self.driver.find_element(By.CSS_SELECTOR, ".fc-button-month").click()
