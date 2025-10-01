@@ -7,6 +7,7 @@ import os
 import requests
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
 
 from src.selenium.seleniumtestcase import SeleniumTestCase
@@ -24,6 +25,7 @@ class TestSeleniumSetup(SeleniumTestCase):
         email_field = self.driver.find_element(By.ID, "id_email")
         password_field = self.driver.find_element(By.ID, "id_password1")
         confirm_password_field = self.driver.find_element(By.ID, "id_password2")
+        time_zone_field = self.driver.find_element(By.ID, "id_time_zone")
         terms_checkbox = self.driver.find_element(By.CSS_SELECTOR,
                                                   "#register-form > div:nth-child(1) > div > fieldset > label:nth-child(6) > input")
 
@@ -31,6 +33,8 @@ class TestSeleniumSetup(SeleniumTestCase):
         email_field.send_keys(self.test_email)
         password_field.send_keys(self.test_password)
         confirm_password_field.send_keys(self.test_password)
+        select = Select(time_zone_field)
+        select.select_by_value("America/Chicago")
         terms_checkbox.click()
 
         login_button = self.driver.find_element(By.CSS_SELECTOR, "#register-form > div:nth-child(2) > div > button")

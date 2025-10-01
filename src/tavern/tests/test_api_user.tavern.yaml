@@ -27,3 +27,11 @@ stages:
       json:
         username: "{test_username:s}"
         email: "{test_email:s}"
+        settings:
+          time_zone: America/Chicago
+          default_view: 0
+          week_starts_on: 0
+          show_getting_started: true
+          default_reminder_offset: 30
+          default_reminder_offset_type: 0
+          default_reminder_type: 0
