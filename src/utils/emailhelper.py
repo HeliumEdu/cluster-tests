@@ -30,7 +30,7 @@ def get_verification_code(response, username, retry=0):
     bucket = s3.Bucket(f'heliumedu.{environment}')
 
     latest_key = None
-    for key in bucket.objects.filter(Prefix='ci.email/{}/'.format(username)):
+    for key in bucket.objects.filter(Prefix='inbound.email/heliumedu-cluster/'):
         if not latest_key or key.last_modified > latest_key.last_modified:
             latest_key = key
 
