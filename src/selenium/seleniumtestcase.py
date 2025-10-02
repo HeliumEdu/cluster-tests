@@ -55,8 +55,8 @@ class SeleniumTestCase(unittest.TestCase):
                                           verify=False)
         self.info = self.info_response.json()
 
-        self.test_username = "heliumedu-cluster2"
-        self.test_email = f'heliumedu-cluster2@{self.env_prefix}heliumedu.dev'
+        self.test_username = "heliumedu-cluster-2"
+        self.test_email = f'heliumedu-cluster+2@{self.env_prefix}heliumedu.dev'
         self.test_password = "test_pass_2!"
 
     def tearDown(self):
