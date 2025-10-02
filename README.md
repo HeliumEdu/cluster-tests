@@ -26,7 +26,7 @@ The following environment variables must be set for the tests to run:
 - `CI_AWS_S3_ACCESS_KEY_ID` ([credentials with access](https://github.com/HeliumEdu/deploy/blob/main/terraform/modules/secretsmanager/ci_creds/main.tf#L5) to the inbound email S3 bucket)
 - `CI_AWS_S3_SECRET_ACCESS_KEY` ([credentials with access](https://github.com/HeliumEdu/deploy/blob/main/terraform/modules/secretsmanager/ci_creds/main.tf#L5) to the inbound email S3 bucket)
 
-These cluster tests require `heliumedu-cluster1@heliumedu.dev` and `heliumedu-cluster2@heliumedu.dev` to be provisioned
+These cluster tests require AWS SES inbound ruleset for `heliumedu-cluster@heliumedu.dev` to be provisioned
 to store inbound emails in an S3 bucket, as documented [here](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-getting-started.html).
 [The Terraform for `prod`](https://github.com/HeliumEdu/deploy/tree/main/terraform/environments/prod#readme) can be
 applied to configure this (or `dev-local` to run fully contained within Docker, as described below).
