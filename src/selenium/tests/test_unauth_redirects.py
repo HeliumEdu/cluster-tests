@@ -13,9 +13,9 @@ from src.selenium.seleniumtestcase import SeleniumTestCase
 class TestSeleniumUnauthRedirects(SeleniumTestCase):
     def test_support_redirect(self):
         self.driver.get(os.path.join(self.app_host, 'support'))
-        # The /support URL redirects to an external portal
+        # The /support URL redirects to support
         WebDriverWait(self.driver, 30).until(
-            EC.url_matches(self.info['support_url'])
+            EC.url_matches("https://heliumedu.freshdesk.com/support/home")
         )
 
         self.save_screenshot()
@@ -24,9 +24,9 @@ class TestSeleniumUnauthRedirects(SeleniumTestCase):
 
     def test_contact_redirect(self):
         self.driver.get(os.path.join(self.app_host, 'contact'))
-        # The /support URL redirects to an external portal
+        # The /contact URL redirects to support
         WebDriverWait(self.driver, 30).until(
-            EC.url_matches(self.info['support_url'])
+            EC.url_matches("https://heliumedu.freshdesk.com/support/home")
         )
 
         self.save_screenshot()
@@ -47,9 +47,9 @@ class TestSeleniumUnauthRedirects(SeleniumTestCase):
     def test_status_redirect(self):
         start_url = os.path.join(self.app_host, 'status')
         self.driver.get(start_url)
-        # The /status URL redirects to the API /status page
+        # The /status URL redirects to the status page
         WebDriverWait(self.driver, 30).until(
-            EC.url_matches(os.path.join(self.api_host, 'status'))
+            EC.url_matches("https://status.heliumedu.com")
         )
 
         self.save_screenshot()
