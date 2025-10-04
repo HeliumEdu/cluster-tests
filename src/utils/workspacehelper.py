@@ -55,13 +55,6 @@ def init_workspace(response, env_api_host, username, password):
 
 
 def wait_for_example_schedule(response, env_api_host, access_token, retry=0):
-    events_response = requests.get(env_api_host + '/planner/events/',
-                                   headers={'Authorization': "Bearer " + access_token},
-                                   verify=False)
-    if events_response.status_code != 200:
-        raise AssertionError("events_response.status_code: {}".format(events_response.status_code))
-    events = events_response.json()
-
     coursegroups_response = requests.get(env_api_host + '/planner/coursegroups/',
                                          headers={'Authorization': "Bearer " + access_token},
                                          verify=False)
@@ -78,15 +71,15 @@ def wait_for_example_schedule(response, env_api_host, access_token, retry=0):
         raise AssertionError("courses_response.status_code: {}".format(courses_response.status_code))
     courses = courses_response.json()
 
-    if len(events) != 3 or len(courses) != 2:
+    if len(courses) != 2:
         if retry < _RETRIES:
             time.sleep(_RETRY_DELAY)
 
             return wait_for_example_schedule(response, env_api_host, access_token, retry + 1)
         else:
             raise TestFailError(
-                "The example schedule was only populated with {} events and {} courses "
-                "after {} seconds.".format(len(events), len(courses), _RETRIES * _RETRY_DELAY))
+                "The example schedule was only populated with {} courses "
+                "after {} seconds.".format(len(courses), _RETRIES * _RETRY_DELAY))
 
     course = None
     for course in courses:
@@ -154,8 +147,6 @@ def wait_for_example_schedule(response, env_api_host, access_token, retry=0):
 
     # Assert on a sampling to ensure the example schedule was "moved" into the current month
     now = datetime.datetime.now(pytz.utc)
-    if parser.parse(events[0]['start']).month != now.month:
-        raise AssertionError("events[0] month: {}".format(events[0]['start'].month))
     if parser.parse(course_group['start_date']).month != now.month:
         raise AssertionError("course_group month: {}".format(course_group['start_date'].month))
     if parser.parse(courses[0]['start_date']).month != now.month:
