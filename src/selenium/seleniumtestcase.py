@@ -85,6 +85,16 @@ class SeleniumTestCase(unittest.TestCase):
             EC.title_contains("Calendar")
         )
 
+    def given_homework_incomplete(self, access_token, course_group_id, course_id, homework_id):
+        requests.patch(
+            '{}/planner/coursegroups/{}/courses/{}/homework/{}/?title=Quiz%201'.format(self.api_host,
+                                                                                       course_group_id,
+                                                                                       course_id,
+                                                                                       homework_id),
+            headers={'Authorization': "Bearer " + access_token},
+            data={"completed": False},
+            verify=False)
+
     def save_screenshot(self):
         timestamp = int(time.time() * 1000)
         test_name = inspect.stack()[1].function
