@@ -2,8 +2,10 @@ __copyright__ = "Copyright (c) 2025 Helium Edu"
 __license__ = "MIT"
 __version__ = "1.11.43"
 
+import datetime
 import os
 
+import pytz
 import requests
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
@@ -134,6 +136,26 @@ class TestSeleniumSetup(SeleniumTestCase):
                                  data={'title': 'Helium Test Calendar',
                                        'url': 'https://calendar.google.com/calendar/ical/86c55b7d91f8d4c22ca722fe22ee19779774863c6e31b6b23346e475c44a23ad%40group.calendar.google.com/public/basic.ics',
                                        'shown_on_calendar': True},
+                                 verify=False)
+
+        self.assertEqual(201, response.status_code)
+
+    def test_5_create_event(self):
+        response = get_user_access_token(self.api_host, self.test_username, self.test_password)
+
+        start = datetime.datetime.now(pytz.utc).replace(day=17, hour=18, minute=0, second=0)
+        end = start + datetime.timedelta(hours=1)
+
+        response = requests.post('{}/planner/events/'.format(self.api_host),
+                                 headers={'Authorization': "Bearer " + response.json()['access']},
+                                 data={'title': 'Meeting with John',
+                                       'all_day': False,
+                                       'show_end_time': True,
+                                       'start': start.isoformat(),
+                                       'end': end.isoformat(),
+                                       'priority': 75,
+                                       'comments': 'some comment',
+                                       'owner_id': '12345'},
                                  verify=False)
 
         self.assertEqual(201, response.status_code)
