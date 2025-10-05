@@ -40,8 +40,8 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         )
 
         # Event
-        event = self.driver.find_element(By.XPATH, "//strong[text()='Meeting with Julian']").find_element(By.XPATH, "..")
-        self.assertEqual("<strong>Meeting with Julian</strong>, 5:00 PM", event.get_attribute("innerHTML"))
+        event = self.driver.find_element(By.XPATH, "//strong[text()='Meeting with John']").find_element(By.XPATH, "..")
+        self.assertEqual("<strong>Meeting with John</strong>, 12:00 PM", event.get_attribute("innerHTML"))
 
         # Class schedule
         world_history_time = self.driver.find_elements(By.XPATH, "//strong[contains(text(), 'World History 🌎')]")[
@@ -90,11 +90,11 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
             EC.visibility_of_element_located((By.ID, "calendar-filter-events"))
         ).click()
         WebDriverWait(self.driver, 15).until(
-            lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 3
+            lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 1
         )
         self.driver.find_element(By.ID, "calendar-filter-external").click()
         WebDriverWait(self.driver, 15).until(
-            lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 7
+            lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 5
         )
         self.driver.find_element(By.ID, "calendar-filter-homework").click()
         WebDriverWait(self.driver, 15).until(
@@ -242,7 +242,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
 
         actions = ActionChains(self.driver)
 
-        event_to_hover = self.driver.find_element(By.XPATH, "//strong[text()='Meeting with Julian']").find_element(By.XPATH, "..")
+        event_to_hover = self.driver.find_element(By.XPATH, "//strong[text()='Meeting with John']").find_element(By.XPATH, "..")
         actions.move_to_element(event_to_hover).perform()
         qtip = WebDriverWait(self.driver, 15).until(
             EC.visibility_of_element_located((By.CSS_SELECTOR, ".qtip-bootstrap"))
