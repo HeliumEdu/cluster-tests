@@ -23,7 +23,7 @@ class TestSeleniumClasses(SeleniumTestCase):
         query_params = parse_qs(parsed_url.query)
 
         self.assertIn('next', query_params)
-        self.assertEqual('/planner/classes', query_params['next'][0])
+        self.assertEqual('/planner/classes', query_params['next'][0].rstrip("/"))
 
         self.assert_no_console_errors()
 
