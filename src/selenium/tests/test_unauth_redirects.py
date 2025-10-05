@@ -15,7 +15,7 @@ class TestSeleniumUnauthRedirects(SeleniumTestCase):
         self.driver.get(os.path.join(self.app_host, 'support'))
         # The /support URL redirects to support
         WebDriverWait(self.driver, 30).until(
-            EC.url_matches("https://heliumedu.freshdesk.com/support/home")
+            EC.url_matches("https://support.heliumedu.com")
         )
 
         self.save_screenshot()
@@ -26,7 +26,7 @@ class TestSeleniumUnauthRedirects(SeleniumTestCase):
         self.driver.get(os.path.join(self.app_host, 'contact'))
         # The /contact URL redirects to support
         WebDriverWait(self.driver, 30).until(
-            EC.url_matches("https://heliumedu.freshdesk.com/support/home")
+            EC.url_matches("https://support.heliumedu.com")
         )
 
         self.save_screenshot()
