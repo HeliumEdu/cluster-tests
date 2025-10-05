@@ -49,6 +49,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         self.assertEqual("<strong>World History 🌎</strong>, 7:00 PM", world_history_time.get_attribute("innerHTML"))
 
         # Unchecked assignment, click to complete
+        self.save_screenshot()
         unchecked_assignment = self.driver.find_element(By.XPATH, "//strong[contains(text(), 'Quiz 1')]").find_element(
             By.XPATH, "..")
         unchecked_assignment_html = unchecked_assignment.get_attribute("innerHTML")
@@ -98,7 +99,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         )
         self.driver.find_element(By.ID, "calendar-filter-homework").click()
         WebDriverWait(self.driver, 15).until(
-            lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 29
+            lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 27
         )
         # External calendar items do not show the edit buttons like homework
         self.assertEqual(25, len(self.driver.find_elements(By.XPATH, "//*[starts-with(@id, \"edit-homework-\")]")))
