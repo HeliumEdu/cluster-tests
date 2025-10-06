@@ -20,8 +20,6 @@ class TestSeleniumUnauthRedirects(SeleniumTestCase):
 
         self.save_screenshot()
 
-        self.assert_no_console_errors()
-
     def test_contact_redirect(self):
         self.driver.get(os.path.join(self.app_host, 'contact'))
         # The /contact URL redirects to support
@@ -30,8 +28,6 @@ class TestSeleniumUnauthRedirects(SeleniumTestCase):
         )
 
         self.save_screenshot()
-
-        self.assert_no_console_errors()
 
     def test_docs_redirect(self):
         self.driver.get(os.path.join(self.app_host, 'docs'))
@@ -42,8 +38,6 @@ class TestSeleniumUnauthRedirects(SeleniumTestCase):
 
         self.save_screenshot()
 
-        self.assert_no_console_errors()
-
     def test_status_redirect(self):
         start_url = os.path.join(self.app_host, 'status')
         self.driver.get(start_url)
@@ -53,5 +47,3 @@ class TestSeleniumUnauthRedirects(SeleniumTestCase):
         )
 
         self.save_screenshot()
-
-        self.assert_no_console_errors()

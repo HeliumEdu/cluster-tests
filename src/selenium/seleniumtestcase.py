@@ -112,5 +112,4 @@ class SeleniumTestCase(unittest.TestCase):
                         known = True
                         break
                 if not known:
-                    # TODO: leaving this as a warning for now until we resolve the flakiness, then raise an AssertionError
-                    logger.warning(f"Console error found: {entry['level']} - {entry['message']}")
+                    raise AssertionError(f"Console error found: {entry['level']} - {entry['message']}")
