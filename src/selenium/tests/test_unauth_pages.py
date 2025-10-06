@@ -76,5 +76,4 @@ class TestSeleniumUnauthPages(SeleniumTestCase):
 
         self.save_screenshot()
 
-        # TODO: investigate the jQuery UI exception on this page (which shouldn't even be being used here)
         self.assert_no_console_errors()
