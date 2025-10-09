@@ -5,13 +5,26 @@ strict: False
 stages:
   - name: Get API status
     request:
-      url: "{tavern.env_vars.PROJECT_API_HOST}/status/"
+      url: "{tavern.env_vars.PROJECT_API_HOST}/status/?format=json"
       verify: false
       method: GET
     response:
       status_code: 200
       json:
-        status: operational
+        Database: working
+        Cache: working
+        Storage: working
+        TaskProcessing: working
+
+  - name: Get API subset status
+    request:
+      url: "{tavern.env_vars.PROJECT_API_HOST}/status/cache/?format=json"
+      verify: false
+      method: GET
+    response:
+      status_code: 200
+      json:
+        Cache: working
 
   - name: Get API info
     request:
