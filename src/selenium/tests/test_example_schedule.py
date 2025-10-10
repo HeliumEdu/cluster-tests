@@ -1,9 +1,8 @@
 __copyright__ = "Copyright (c) 2025 Helium Edu"
 __license__ = "MIT"
-__version__ = "1.11.58"
+__version__ = "1.12.4"
 
 import os
-import unittest
 
 import requests
 from selenium.webdriver import ActionChains
@@ -53,7 +52,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         self.assertEqual("Meeting with John, 12:00 PM", event.text)
 
         # Class schedule
-        world_history_time = (self.driver.find_elements(By.XPATH, "//span[contains(text(), 'World History 🌎')]")[5]
+        world_history_time = (self.driver.find_elements(By.XPATH, "//span[contains(text(), 'World History 🌎')]")[4]
                               .find_element(By.XPATH, ".."))
         self.assertEqual("World History 🌎, 7:00 PM", world_history_time.text)
 
@@ -73,7 +72,6 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
             )
         )
 
-        # Checked assignment
         checked_assignment = self.driver.find_element(By.XPATH, "//s[contains(text(), 'Quiz 3')]").find_element(
             By.XPATH, "../..")
         checked_assignment_html = checked_assignment.get_attribute("innerHTML")
@@ -209,7 +207,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         )[0].click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
-                self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 15
+                self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 7
         )
         # Filter further to only show the non-excluded homework that is completed
         self.driver.find_element(By.ID, "calendar-filters").click()
@@ -218,7 +216,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         ).click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
-                self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 11
+                self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 6
         )
 
         # Reset class filters
@@ -336,7 +334,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         )[0].click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
-                self.driver.find_elements(By.XPATH, "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 9
+                self.driver.find_elements(By.XPATH, "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 5
         )
         # Filter further to only show the non-excluded courses assignments
         self.driver.find_element(By.ID, "calendar-filters").click()
@@ -345,7 +343,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         ).click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
-                self.driver.find_elements(By.XPATH, "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 5
+                self.driver.find_elements(By.XPATH, "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 2
         )
 
         self.save_screenshot()
@@ -430,7 +428,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
 
         actions = ActionChains(self.driver)
 
-        class_to_hover = (self.driver.find_elements(By.XPATH, "//span[contains(text(), 'World History 🌎')]")[5]
+        class_to_hover = (self.driver.find_elements(By.XPATH, "//span[contains(text(), 'World History 🌎')]")[4]
                           .find_element(By.XPATH, ".."))
         actions.move_to_element(class_to_hover).perform()
         qtip = WebDriverWait(self.driver, 15).until(
