@@ -56,10 +56,6 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
                               .find_element(By.XPATH, ".."))
         self.assertEqual("World History 🌎, 7:00 PM", world_history_time.text)
 
-        # TODO: This last step does cause an error in the console, but only on cluster tests. need to investigate
-        #  Checked assignment
-        self.assert_no_console_errors()
-
         # Unchecked assignment, click to complete
         unchecked_assignment = self.driver.find_element(By.XPATH, "//span[contains(text(), 'Quiz 1')]").find_element(
             By.XPATH, "..")
@@ -85,6 +81,8 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
             'type="checkbox" class="ace calendar-homework-checkbox" checked="checked"><span class="lbl" style="margin-top: -3px; margin-right: 3px;"></span><s>Quiz 3</s>, 2:00 PM</span>'))
 
         self.save_screenshot()
+
+        self.assert_no_console_errors()
 
     def test_example_schedule_populated_calendar_page_month_view_external_calendar(self):
         self.given_user_is_authenticated()
@@ -209,7 +207,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         )[0].click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
-                self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 15
+                self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 7
         )
         # Filter further to only show the non-excluded homework that is completed
         self.driver.find_element(By.ID, "calendar-filters").click()
@@ -218,7 +216,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         ).click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
-                self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 11
+                self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 6
         )
 
         # Reset class filters
@@ -336,7 +334,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         )[0].click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
-                self.driver.find_elements(By.XPATH, "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 9
+                self.driver.find_elements(By.XPATH, "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 5
         )
         # Filter further to only show the non-excluded courses assignments
         self.driver.find_element(By.ID, "calendar-filters").click()
@@ -345,7 +343,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         ).click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
-                self.driver.find_elements(By.XPATH, "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 5
+                self.driver.find_elements(By.XPATH, "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 2
         )
 
         self.save_screenshot()
