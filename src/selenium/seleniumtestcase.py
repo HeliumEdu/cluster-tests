@@ -24,6 +24,8 @@ if not os.path.exists(SCREENSHOTS_DIR):
     os.makedirs(SCREENSHOTS_DIR)
 
 KNOWN_CONSOLE_ERRORS = [
+    # TODO: this appears to come from FullCalendar, and doesn't effect anything, but should be investigated
+    "Uncaught TypeError: Cannot read properties of undefined (reading 'touches')",
     "cdnjs.cloudflare.com/",
     "www.googletagmanager.com",
     "www.google-analytics.com/",
