@@ -1,5 +1,5 @@
 tavern[grpc]==2.17.0
-pytz==2025.1
+pytz==2025.2
 python-dateutil==2.9.0.post0
 boto3==1.37.13
 twilio==9.5.0
