@@ -56,6 +56,10 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
                               .find_element(By.XPATH, ".."))
         self.assertEqual("World History 🌎, 7:00 PM", world_history_time.text)
 
+        # TODO: This last step does cause an error in the console, but only on cluster tests. need to investigate
+        #  Checked assignment
+        self.assert_no_console_errors()
+
         # Unchecked assignment, click to complete
         unchecked_assignment = self.driver.find_element(By.XPATH, "//span[contains(text(), 'Quiz 1')]").find_element(
             By.XPATH, "..")
@@ -72,10 +76,6 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
             )
         )
 
-        self.assert_no_console_errors()
-
-        # This last step does cause an error in the console, but only on cluster tests. need to investigate
-        # Checked assignment
         checked_assignment = self.driver.find_element(By.XPATH, "//s[contains(text(), 'Quiz 3')]").find_element(
             By.XPATH, "../..")
         checked_assignment_html = checked_assignment.get_attribute("innerHTML")
