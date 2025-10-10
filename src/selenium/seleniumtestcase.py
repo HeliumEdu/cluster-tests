@@ -24,8 +24,6 @@ if not os.path.exists(SCREENSHOTS_DIR):
     os.makedirs(SCREENSHOTS_DIR)
 
 KNOWN_CONSOLE_ERRORS = [
-    "Deprecation warning: moment.langData is deprecated",
-    "Deprecation warning: moment().add",
     "cdnjs.cloudflare.com/",
     "www.googletagmanager.com",
     "www.google-analytics.com/",
@@ -101,15 +99,21 @@ class SeleniumTestCase(unittest.TestCase):
         file_name = os.path.join(SCREENSHOTS_DIR, f"{test_name}_{timestamp}.png")
         self.driver.save_screenshot(file_name)
 
-    def assert_no_console_errors(self):
+    def assert_no_console_errors(self, test_ignore_errors=None):
+        if not test_ignore_errors:
+            test_ignore_errors = []
+        test_ignore_errors += KNOWN_CONSOLE_ERRORS
+
         logs = self.driver.get_log('browser')
 
         for entry in logs:
             if entry['level'] == 'SEVERE' or entry['level'] == 'WARNING':
                 known = False
-                for known_error in KNOWN_CONSOLE_ERRORS:
+                for known_error in test_ignore_errors:
                     if known_error in entry['message']:
                         known = True
                         break
                 if not known:
                     raise AssertionError(f"Console error found: {entry['level']} - {entry['message']}")
+                else:
+                    logger.warning(f"Known console issue found: {entry['level']} - {entry['message']}")
