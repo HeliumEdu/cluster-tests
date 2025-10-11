@@ -440,9 +440,9 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         self.assertIn("<strong>Class Info:</strong>", class_hover_html)
         self.assertIn("World History 🌎", class_hover_html)
         self.assertIn(" HSC 405", class_hover_html)
-        self.assertIn("<strong>Materials:</strong>", class_hover_html)
-        self.assertIn("Sapiens: A Brief History of Humankind", class_hover_html)
-        self.assertIn("Civilizations Past and Present, Combined Volume, 13th edition", class_hover_html)
+        self.assertNotIn("Materials:", class_hover_html)
+        self.assertNotIn("Sapiens: A Brief History of Humankind", class_hover_html)
+        self.assertNotIn("Civilizations Past and Present, Combined Volume, 13th edition", class_hover_html)
         self.assertNotIn("Python", class_hover_html)
         self.assertNotIn("Grade", class_hover_html)
 
