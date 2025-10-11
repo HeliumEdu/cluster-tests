@@ -128,7 +128,17 @@ class TestSeleniumSetup(SeleniumTestCase):
             EC.invisibility_of_element(getting_started_modal)
         )
 
-    def test_4_create_external_calendar(self):
+    def test_4_settings_disable_calendar_event_limit(self):
+        response = get_user_access_token(self.api_host, self.test_username, self.test_password)
+
+        response = requests.put('{}/auth/user/settings/'.format(self.api_host),
+                                 headers={'Authorization': "Bearer " + response.json()['access']},
+                                 data={'calendar_event_limit': False},
+                                 verify=False)
+
+        self.assertEqual(200, response.status_code)
+
+    def test_5_create_external_calendar(self):
         response = get_user_access_token(self.api_host, self.test_username, self.test_password)
 
         response = requests.post('{}/feed/externalcalendars/'.format(self.api_host),
@@ -140,7 +150,7 @@ class TestSeleniumSetup(SeleniumTestCase):
 
         self.assertEqual(201, response.status_code)
 
-    def test_5_create_event(self):
+    def test_6_create_event(self):
         response = get_user_access_token(self.api_host, self.test_username, self.test_password)
 
         start = datetime.datetime.now(pytz.utc).replace(day=17, hour=18, minute=0, second=0)
