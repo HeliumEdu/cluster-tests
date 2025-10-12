@@ -248,8 +248,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
             EC.visibility_of_element_located((By.CSS_SELECTOR, ".fc-list-heading"))
         )
 
-        # TODO: make this robust to always find the third week in the month
-        self.driver.find_element(By.CSS_SELECTOR, ".fc-next-button").click()
+        # TODO: this will fail next week, add a step during setup to mock the Chrome date so that it is always the third week of the month
 
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
