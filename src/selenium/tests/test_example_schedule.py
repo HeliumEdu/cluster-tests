@@ -1,6 +1,6 @@
 __copyright__ = "Copyright (c) 2025 Helium Edu"
 __license__ = "MIT"
-__version__ = "1.12.21"
+__version__ = "1.12.22"
 
 import calendar
 import datetime
