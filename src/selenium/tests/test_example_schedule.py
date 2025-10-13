@@ -2,6 +2,7 @@ __copyright__ = "Copyright (c) 2025 Helium Edu"
 __license__ = "MIT"
 __version__ = "1.12.21"
 
+import calendar
 import datetime
 import os
 
@@ -249,23 +250,20 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
             EC.visibility_of_element_located((By.CSS_SELECTOR, ".fc-list-heading"))
         )
 
-        # Dynamically determine what week we're in, and move to the third week—we should make this a generic function
         today = datetime.date.today()
-        first_day_of_month = today.replace(day=1)
 
-        first_weekday = first_day_of_month.weekday()
+        month_calendar = calendar.monthcalendar(today.year, today.month)
 
-        adjusted_day = today.day + first_weekday
+        third_week = month_calendar[2]
 
-        week_number = (adjusted_day - 1) // 7 + 1
+        day = today.day
 
-        adjustment = 3 - (week_number + 1)
-        if adjustment > 0:
-            for i in range(adjustment):
-                self.driver.find_element(By.CSS_SELECTOR, ".fc-next-button").click()
-        elif adjustment < 0:
-            for i in range(adjustment * -1):
-                self.driver.find_element(By.CSS_SELECTOR, ".fc-prev-button").click()
+        while day < third_week[0]:
+            self.driver.find_element(By.CSS_SELECTOR, ".fc-next-button").click()
+            day += 7
+        while day > third_week[-1]:
+            self.driver.find_element(By.CSS_SELECTOR, ".fc-prev-button").click()
+            day -= 7
 
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
