@@ -2,10 +2,6 @@ test_name: Test frontend health
 
 strict: False
 
-marks:
-  - usefixtures:
-      - project_info
-
 stages:
   - name: Check frontend index returns 200
     request:
@@ -22,13 +18,15 @@ stages:
       method: GET
     response:
       status_code: 200
+      json:
+        health: ok
       save:
         json:
-          health: ok
+          frontend_version: version
 
   - name: Check frontend vendor asset returns 200
     request:
-      url: "{tavern.env_vars.PROJECT_APP_HOST}/assets/{project_info.version:s}/css/font/FontAwesome.otf"
+      url: "{tavern.env_vars.PROJECT_APP_HOST}/assets/{frontend_version:s}/css/font/FontAwesome.otf"
       verify: false
       method: GET
     response:
@@ -36,7 +34,7 @@ stages:
 
   - name: Check frontend Helium bundle returns 200
     request:
-      url: "{tavern.env_vars.PROJECT_APP_HOST}/assets/{project_info.version:s}/js/base.header.bundle.min.js"
+      url: "{tavern.env_vars.PROJECT_APP_HOST}/assets/{frontend_version:s}/js/base.header.bundle.min.js"
       verify: false
       method: GET
     response:
