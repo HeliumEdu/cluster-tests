@@ -91,7 +91,7 @@ class TestSeleniumSetup(SeleniumTestCase):
                                        verify=False)
         wait_for_example_schedule(token_response, self.api_host, token_response.json()["access"])
 
-    def test_3_login_new_user(self):
+    def test_2_login_new_user(self):
         self.driver.get(os.path.join(self.app_host, 'login'))
 
         username_field = self.driver.find_element(By.ID, "id_username")
@@ -128,7 +128,7 @@ class TestSeleniumSetup(SeleniumTestCase):
             EC.invisibility_of_element(getting_started_modal)
         )
 
-    def test_4_settings_disable_calendar_event_limit(self):
+    def test_3_settings_disable_calendar_event_limit(self):
         response = get_user_access_token(self.api_host, self.test_username, self.test_password)
 
         response = requests.put('{}/auth/user/settings/'.format(self.api_host),
@@ -138,7 +138,7 @@ class TestSeleniumSetup(SeleniumTestCase):
 
         self.assertEqual(200, response.status_code)
 
-    def test_5_create_external_calendar(self):
+    def test_4_create_external_calendar(self):
         response = get_user_access_token(self.api_host, self.test_username, self.test_password)
 
         response = requests.post('{}/feed/externalcalendars/'.format(self.api_host),
@@ -150,7 +150,7 @@ class TestSeleniumSetup(SeleniumTestCase):
 
         self.assertEqual(201, response.status_code)
 
-    def test_6_create_event(self):
+    def test_5_create_event(self):
         response = get_user_access_token(self.api_host, self.test_username, self.test_password)
 
         start = datetime.datetime.now(pytz.utc).replace(day=17, hour=18, minute=0, second=0)
