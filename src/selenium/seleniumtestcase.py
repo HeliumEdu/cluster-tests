@@ -24,8 +24,6 @@ if not os.path.exists(SCREENSHOTS_DIR):
     os.makedirs(SCREENSHOTS_DIR)
 
 KNOWN_CONSOLE_ERRORS = [
-    # TODO: this doesn't cause issues, but identify why it happens on redirects and clean it up
-    "Attempting to call a FullCalendar method on an element with no calendar.",
     "cdnjs.cloudflare.com/",
     "www.googletagmanager.com",
     "www.google-analytics.com/",
