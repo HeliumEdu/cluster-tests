@@ -60,12 +60,12 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
 
         # Unchecked assignment, click to complete
         unchecked_assignment = self.driver.find_element(By.XPATH, "//span[contains(text(), 'Quiz 1')]").find_element(
-            By.XPATH, "..")
+            By.XPATH, "../..")
         unchecked_assignment_html = unchecked_assignment.get_attribute("innerHTML")
         self.assertTrue(unchecked_assignment_html.strip().startswith(
             '<span class="fc-title"><input id="calendar-homework-checkbox-'))
         self.assertTrue(unchecked_assignment_html.endswith(
-            'type="checkbox" class="ace calendar-homework-checkbox"><span class="lbl" style="margin-top: -3px; margin-right: 3px;"></span>Quiz 1, 11:00 AM</span>'))
+            'type="checkbox" class="ace calendar-homework-checkbox"><span class="lbl" style="margin-top: -3px; margin-right: 3px;"></span><span class="fc-has-url">Quiz 1</span>, 11:00 AM</span>'))
         unchecked_assignment.find_element(By.CSS_SELECTOR, "input").click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: (
@@ -75,12 +75,12 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         )
 
         checked_assignment = self.driver.find_element(By.XPATH, "//s[contains(text(), 'Quiz 3')]").find_element(
-            By.XPATH, "../..")
+            By.XPATH, "../../..")
         checked_assignment_html = checked_assignment.get_attribute("innerHTML")
         self.assertTrue(
             checked_assignment_html.strip().startswith('<span class="fc-title"><input id="calendar-homework-checkbox-'))
         self.assertTrue(checked_assignment_html.endswith(
-            'type="checkbox" class="ace calendar-homework-checkbox" checked="checked"><span class="lbl" style="margin-top: -3px; margin-right: 3px;"></span><s>Quiz 3</s>, 2:00 PM</span>'))
+            'type="checkbox" class="ace calendar-homework-checkbox" checked="checked"><span class="lbl" style="margin-top: -3px; margin-right: 3px;"></span><span class="fc-has-url"><s>Quiz 3</s></span>, 2:00 PM</span>'))
 
         self.save_screenshot()
 
