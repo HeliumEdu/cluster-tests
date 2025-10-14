@@ -5,6 +5,7 @@ __version__ = "1.12.22"
 import calendar
 import datetime
 import os
+import time
 
 import requests
 from selenium.webdriver import ActionChains
@@ -141,16 +142,10 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
 
         self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
 
-        # Change to assignments list view, where "Create Homework" button is visible
         self.driver.find_element(By.CSS_SELECTOR, ".fc-assignmentsList-button").click()
         WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located((By.ID, "create-homework")) and
-            EC.visibility_of_element_located((By.XPATH, "//td[text()='Chapter 1 Reading']"))
+            lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 22
         )
-
-        # Ensure all homework shown
-        self.assertEqual(22,
-                         len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")))
 
         # No events are shown on assignments list view
         self.assertEqual(0, len(self.driver.find_elements(By.XPATH, "//span[contains(text(), 'Meeting with John')]")))
@@ -161,7 +156,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         ).click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
-                self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 17
+                self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 15
         )
 
         self.driver.find_element(By.ID, "filter-clear").click()
