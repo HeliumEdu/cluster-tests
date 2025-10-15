@@ -24,7 +24,15 @@ stages:
         json:
           frontend_version: version
 
-  - name: Check frontend vendor asset returns 200
+  - name: Check frontend vendor non-versioned asset returns 200
+    request:
+      url: "{tavern.env_vars.PROJECT_APP_HOST}/assets/img/logo_full_blue.png"
+      verify: false
+      method: GET
+    response:
+      status_code: 200
+
+  - name: Check frontend vendor versioned asset returns 200
     request:
       url: "{tavern.env_vars.PROJECT_APP_HOST}/assets/{frontend_version:s}/css/font/FontAwesome.otf"
       verify: false
