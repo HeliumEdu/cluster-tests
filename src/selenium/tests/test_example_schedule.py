@@ -249,21 +249,21 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
 
         month_calendar = calendar.monthcalendar(today.year, today.month)
 
-        third_week = month_calendar[2]
+        desired_week = month_calendar[2]
 
         day = today.day
 
-        while day < third_week[0]:
+        while day < desired_week[0]:
             self.driver.find_element(By.CSS_SELECTOR, ".fc-next-button").click()
             day += 7
-        while day > third_week[-1]:
+        while day > desired_week[-1]:
             self.driver.find_element(By.CSS_SELECTOR, ".fc-prev-button").click()
             day -= 7
 
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
                 self.driver.find_elements(By.XPATH,
-                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 13
+                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 11
         )
 
         # Filter dropdown visibility and action
@@ -284,14 +284,14 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
                 self.driver.find_elements(By.XPATH,
-                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 8
+                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 6
         )
 
         self.driver.find_element(By.ID, "filter-clear").click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
                 self.driver.find_elements(By.XPATH,
-                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 13
+                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 11
         )
         self.driver.find_element(By.ID, "calendar-filter-class").click()
         WebDriverWait(self.driver, 15).until(
@@ -304,21 +304,21 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
                 self.driver.find_elements(By.XPATH,
-                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 13
+                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 11
         )
         self.driver.find_element(By.ID, "calendar-filter-homework").click()
         self.driver.find_element(By.ID, "calendar-filter-complete").click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
                 self.driver.find_elements(By.XPATH,
-                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 2
+                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 5
         )
 
         self.driver.find_element(By.ID, "filter-clear").click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
                 self.driver.find_elements(By.XPATH,
-                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 13
+                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 11
         )
         self.driver.find_element(By.ID, "calendar-filter-homework").click()
         self.driver.find_element(By.ID, "calendar-filter-list").find_element(By.XPATH,
@@ -326,19 +326,19 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
                 self.driver.find_elements(By.XPATH,
-                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 2
+                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 1
         )
         self.driver.find_element(By.ID, "filter-clear").click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
                 self.driver.find_elements(By.XPATH,
-                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 13
+                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 11
         )
         self.driver.find_element(By.ID, "calendar-search").send_keys("CHApTER 1")
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
                 self.driver.find_elements(By.XPATH,
-                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 2
+                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 1
         )
 
         self.driver.find_element(By.ID, "calendar-search").clear()
@@ -346,7 +346,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
                 self.driver.find_elements(By.XPATH,
-                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 13
+                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 11
         )
         self.driver.find_element(By.ID, "calendar-classes").click()
         # All courses are shown by default, so click to disable one (thus filtering it out)
