@@ -141,7 +141,9 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
 
         self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
 
-        self.driver.find_element(By.CSS_SELECTOR, ".fc-assignmentsList-button").click()
+        WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, ".fc-assignmentsList-button"))
+        ).click()
         WebDriverWait(self.driver, 10).until(
             lambda wait: len(
                 self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 22
@@ -240,7 +242,9 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
 
         # Change to agenda (week) view
-        self.driver.find_element(By.CSS_SELECTOR, ".fc-listWeek-button").click()
+        WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, ".fc-listWeek-button"))
+        ).click()
         WebDriverWait(self.driver, 10).until(
             EC.visibility_of_element_located((By.CSS_SELECTOR, ".fc-list-heading"))
         )
