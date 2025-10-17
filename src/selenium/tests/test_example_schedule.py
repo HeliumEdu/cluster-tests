@@ -10,6 +10,7 @@ import requests
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
 
 from src.selenium.seleniumtestcase import SeleniumTestCase
@@ -144,6 +145,13 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         WebDriverWait(self.driver, 10).until(
             EC.visibility_of_element_located((By.CSS_SELECTOR, ".fc-assignmentsList-button"))
         ).click()
+
+        WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, 'select[name="calendar-list-table_length"]'))
+        )
+        select = Select(self.driver.find_element(By.CSS_SELECTOR, 'select[name="calendar-list-table_length"]'))
+        select.select_by_value("50")
+
         WebDriverWait(self.driver, 10).until(
             lambda wait: len(
                 self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 22
