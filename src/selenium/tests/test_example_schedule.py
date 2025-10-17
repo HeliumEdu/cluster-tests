@@ -517,14 +517,14 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         # Wait for materials to load with the populated example schedule
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
-                self.driver.find_elements(By.XPATH, "//span[starts-with(@id, \"material-group-title-\")]")) == 1
+                self.driver.find_elements(By.XPATH, "//span[starts-with(@id, \"material-group-title-\")]")) == 2
         )
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
-                self.driver.find_elements(By.CSS_SELECTOR, "ul#material-group-tabs > li:not(.hidden-xs)")) == 1
+                self.driver.find_elements(By.CSS_SELECTOR, "ul#material-group-tabs > li:not(.hidden-xs)")) == 2
         )
         WebDriverWait(self.driver, 15).until(
-            lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"material-\")]")) == 4
+            lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"material-\")]")) == 5
         )
 
         # TODO: assert that elements of material are displayed
