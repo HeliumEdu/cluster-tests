@@ -173,7 +173,7 @@ stages:
       verify_response_with:
         function: src.utils.common:assert_response_length
         extra_kwargs:
-          expected_length: 1
+          expected_length: 2
       save:
         json:
           material_group_id: "[0].id"
