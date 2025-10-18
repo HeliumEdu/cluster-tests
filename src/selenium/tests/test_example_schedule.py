@@ -497,7 +497,8 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         )
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
-                self.driver.find_elements(By.CSS_SELECTOR, "ul#course-group-tabs > li:not(.hidden-xs)")) == 1
+                # One group, one "create"
+                self.driver.find_elements(By.CSS_SELECTOR, "ul#course-group-tabs > li")) == 2
         )
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"course-\")]")) == 2
@@ -521,7 +522,8 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         )
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
-                self.driver.find_elements(By.CSS_SELECTOR, "ul#material-group-tabs > li:not(.hidden-xs)")) == 2
+                # Two group, one "create"
+                self.driver.find_elements(By.CSS_SELECTOR, "ul#material-group-tabs > li")) == 3
         )
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"material-\")]")) == 5
