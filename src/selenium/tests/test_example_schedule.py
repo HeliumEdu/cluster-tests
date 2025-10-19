@@ -259,6 +259,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
 
         today = datetime.date.today()
 
+        calendar.setfirstweekday(calendar.SUNDAY)
         month_calendar = calendar.monthcalendar(today.year, today.month)
 
         desired_week = month_calendar[2]
