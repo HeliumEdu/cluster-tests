@@ -31,7 +31,7 @@ class TestSeleniumTeardown(SeleniumTestCase):
         delete_account_password_field.send_keys(self.test_password)
 
         delete_account_ok_button = self.driver.find_element(By.CSS_SELECTOR,
-                                                            "body > div.bootbox.modal.fade.in > div > div > div.modal-footer > button.btn.btn-primary")
+                                                            "body > div.bootbox.modal.fade.in > div > div > div.modal-footer > button.btn.btn-danger")
         delete_account_ok_button.click()
 
         # Delete will log us out and redirect to login page
