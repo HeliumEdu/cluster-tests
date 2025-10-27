@@ -147,9 +147,9 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         ).click()
 
         WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR, 'select[name="calendar-list-table_length"]'))
+            EC.visibility_of_element_located((By.CSS_SELECTOR, 'select[name="assignments-list-table_length"]'))
         )
-        select = Select(self.driver.find_element(By.CSS_SELECTOR, 'select[name="calendar-list-table_length"]'))
+        select = Select(self.driver.find_element(By.CSS_SELECTOR, 'select[name="assignments-list-table_length"]'))
         select.select_by_value("50")
 
         WebDriverWait(self.driver, 10).until(
