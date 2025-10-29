@@ -106,8 +106,8 @@ stages:
       status_code: 200
       json:
         title: "Example Semester"
-        average_grade: "86.2108"
-        trend: -0.0009202767444288602
+        average_grade: "86.2193"
+        trend: -0.0004999191176470279
         num_homework: 22
         num_homework_completed: 17
         num_homework_graded: 17
@@ -123,8 +123,8 @@ stages:
       status_code: 200
       json:
         title: "World History 🌎"
-        current_grade: "90.6358"
-        trend: 0.0039735044860502375
+        current_grade: "90.3571"
+        trend: 0.004898836363636367
         has_weighted_grading: true
         num_homework: 15
         num_homework_completed: 11
@@ -143,7 +143,7 @@ stages:
         title: "Writing Assignment 📝"
         average_grade: "92.6667"
         grade_by_weight: "18.5333"
-        trend: 0.03833333333333341
+        trend: 0.038333499999999944
         num_homework: 6
         num_homework_graded: 3
 
@@ -267,10 +267,12 @@ stages:
       json:
         course_groups:
           - title: Example Semester
-            overall_grade: 86.2108
+            overall_grade: 86.2193
             courses:
               - title: Computer Science 💻
-                overall_grade: 81.7857
+                overall_grade: 82.0815
                 categories:
                   - title: Exam 📊
                     overall_grade: -1.0
+                  - title: Quiz 📈
+                    overall_grade: 92.5
