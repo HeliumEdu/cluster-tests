@@ -106,7 +106,7 @@ stages:
       status_code: 200
       json:
         title: "Example Semester"
-        average_grade: "86.2193"
+        overall_grade: "86.2193"
         trend: -0.0004999191176470279
         num_homework: 22
         num_homework_completed: 17
