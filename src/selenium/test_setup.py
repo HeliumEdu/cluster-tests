@@ -1,7 +1,8 @@
 __copyright__ = "Copyright (c) 2025 Helium Edu"
 __license__ = "MIT"
-__version__ = "1.12.22"
+__version__ = "1.15.22"
 
+import calendar
 import datetime
 import os
 
@@ -153,7 +154,14 @@ class TestSeleniumSetup(SeleniumTestCase):
     def test_5_create_event(self):
         response = get_user_access_token(self.api_host, self.test_username, self.test_password)
 
-        start = datetime.datetime.now(pytz.utc).replace(day=17, hour=18, minute=0, second=0)
+        today = datetime.date.today()
+
+        calendar.setfirstweekday(calendar.SUNDAY)
+        month_calendar = calendar.monthcalendar(today.year, today.month)
+
+        desired_week = month_calendar[2]
+
+        start = datetime.datetime.now(pytz.utc).replace(day=desired_week[0], hour=18, minute=0, second=0)
         end = start + datetime.timedelta(hours=1)
 
         response = requests.post('{}/planner/events/'.format(self.api_host),
