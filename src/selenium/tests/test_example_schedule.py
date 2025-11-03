@@ -1,6 +1,6 @@
 __copyright__ = "Copyright (c) 2025 Helium Edu"
 __license__ = "MIT"
-__version__ = "1.13.8"
+__version__ = "1.15.8"
 
 import calendar
 import datetime
@@ -147,9 +147,9 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         ).click()
 
         WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR, 'select[name="calendar-list-table_length"]'))
+            EC.visibility_of_element_located((By.CSS_SELECTOR, 'select[name="assignments-list-table_length"]'))
         )
-        select = Select(self.driver.find_element(By.CSS_SELECTOR, 'select[name="calendar-list-table_length"]'))
+        select = Select(self.driver.find_element(By.CSS_SELECTOR, 'select[name="assignments-list-table_length"]'))
         select.select_by_value("50")
 
         WebDriverWait(self.driver, 10).until(
@@ -407,7 +407,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         assignment_hover_html = qtip.get_attribute("innerHTML")
         self.assertIn("<strong>When:</strong>", assignment_hover_html)
         self.assertIn(" at ", assignment_hover_html)
-        self.assertIn("<strong>Class Info:</strong>", assignment_hover_html)
+        self.assertIn("<strong>Info:</strong>", assignment_hover_html)
         self.assertIn("World History 🌎", assignment_hover_html)
         self.assertIn("Quiz 📈", assignment_hover_html)
         self.assertIn(" HSC 405", assignment_hover_html)
@@ -473,8 +473,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         class_hover_html = qtip.get_attribute("innerHTML")
         self.assertIn("<strong>When:</strong>", class_hover_html)
         self.assertIn(" at ", class_hover_html)
-        self.assertIn("<strong>Class Info:</strong>", class_hover_html)
-        self.assertIn("World History 🌎", class_hover_html)
+        self.assertIn("<strong>Info:</strong>", class_hover_html)
         self.assertIn(" HSC 405", class_hover_html)
         self.assertNotIn("Materials:", class_hover_html)
         self.assertNotIn("Sapiens: A Brief History of Humankind", class_hover_html)
