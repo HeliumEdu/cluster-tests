@@ -135,7 +135,7 @@ def wait_for_example_schedule(response, env_api_host, access_token, retry=0):
                 "after {} seconds.".format(course_group, _RETRIES * _RETRY_DELAY))
 
     if category['average_grade'] != '92.6667' or category['grade_by_weight'] != '18.5333' \
-            or category['trend'] != 0.038333499999999944:
+            or category['trend'] != 0.03833333333333341:
         if retry < _RETRIES:
             time.sleep(_RETRY_DELAY)
 
