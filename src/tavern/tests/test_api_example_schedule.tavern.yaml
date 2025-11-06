@@ -106,8 +106,8 @@ stages:
       status_code: 200
       json:
         title: "Example Semester"
-        overall_grade: "86.2193"
-        trend: -0.0004999191176470279
+        overall_grade: "86.5119"
+        trend: -0.0010405588235294092
         num_homework: 22
         num_homework_completed: 17
         num_homework_graded: 17
@@ -267,12 +267,12 @@ stages:
       json:
         course_groups:
           - title: Example Semester
-            overall_grade: 86.2193
+            overall_grade: 86.5119
             courses:
               - title: Computer Science 💻
-                overall_grade: 82.0815
+                overall_grade: 82.6667
                 categories:
-                  - title: Exam 📊
+                  - title: Final Exam 📈
                     overall_grade: -1.0
-                  - title: Quiz 📈
+                  - title: Quiz 💡
                     overall_grade: 92.5
