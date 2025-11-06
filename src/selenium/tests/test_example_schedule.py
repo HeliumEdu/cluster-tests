@@ -42,11 +42,11 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         )
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
-                self.driver.find_elements(By.XPATH, "//li[starts-with(@id, \"calendar-filter-course-\")]")) == 2
+                self.driver.find_elements(By.XPATH, "//input[starts-with(@id, \"calendar-filter-course-\")]")) == 2
         )
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
-                self.driver.find_elements(By.XPATH, "//li[starts-with(@id, \"calendar-filter-category-\")]")) == 7
+                self.driver.find_elements(By.XPATH, "//input[starts-with(@id, \"calendar-filter-category-\")]")) == 7
         )
 
         # Event
@@ -119,7 +119,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         # Filter to just homework, and the item should disappear
         self.driver.find_element(By.ID, "calendar-filters").click()
         WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located((By.ID, "calendar-filter-homework"))
+            EC.visibility_of_element_located((By.CSS_SELECTOR, "[for='calendar-filter-homework']"))
         ).click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "a.fc-event")) == 0
@@ -162,7 +162,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
 
         self.driver.find_element(By.ID, "calendar-filters").click()
         WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located((By.ID, "calendar-filter-complete"))
+            EC.visibility_of_element_located((By.CSS_SELECTOR, "[for='calendar-filter-complete']"))
         ).click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
@@ -176,13 +176,13 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         )
 
         self.driver.find_element(By.ID, "calendar-filter-list").find_element(By.XPATH,
-                                                                             "//span[starts-with(text(), 'Project')]").click()
+                                                                             "//label[starts-with(text(), ' Project')]").click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
                 self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 2
         )
         self.driver.find_element(By.ID, "calendar-filter-list").find_element(By.XPATH,
-                                                                             "//span[starts-with(text(), 'Quiz')]").click()
+                                                                             "//label[starts-with(text(), ' Quiz')]").click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
                 self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 9
@@ -210,7 +210,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
 
         # All courses are shown by default, so click to disable one (thus filtering it out)
         WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_any_elements_located((By.XPATH, "//*[starts-with(@id, \"calendar-filter-course-\")]"))
+            EC.visibility_of_any_elements_located((By.XPATH, "//label[starts-with(@for, \"calendar-filter-course-\")]"))
         )[0].click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
@@ -219,7 +219,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         # Filter further to only show the non-excluded homework that is completed
         self.driver.find_element(By.ID, "calendar-filters").click()
         WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located((By.ID, "calendar-filter-complete"))
+            EC.visibility_of_element_located((By.CSS_SELECTOR, "[for='calendar-filter-complete']"))
         ).click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
@@ -229,7 +229,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         # Reset class filters
         self.driver.find_element(By.ID, "calendar-classes").click()
         WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_any_elements_located((By.XPATH, "//*[starts-with(@id, \"calendar-filter-course-\")]"))
+            EC.visibility_of_any_elements_located((By.XPATH, "//label[starts-with(@for, \"calendar-filter-course-\")]"))
         )[0].click()
 
         self.save_screenshot()
@@ -286,14 +286,14 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         self.assertFalse(external_calendar_filter.is_displayed())
         self.driver.find_element(By.ID, "calendar-filters").click()
         WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located((By.ID, "calendar-filter-events"))
+            EC.visibility_of_element_located((By.CSS_SELECTOR, "[for='calendar-filter-events']"))
         ).click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
                 self.driver.find_elements(By.XPATH,
                                           "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 1
         )
-        self.driver.find_element(By.ID, "calendar-filter-homework").click()
+        self.driver.find_element(By.CSS_SELECTOR, "[for='calendar-filter-homework']").click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
                 self.driver.find_elements(By.XPATH,
@@ -306,7 +306,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
                 self.driver.find_elements(By.XPATH,
                                           "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 11
         )
-        self.driver.find_element(By.ID, "calendar-filter-class").click()
+        self.driver.find_element(By.CSS_SELECTOR, "[for='calendar-filter-class']").click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
                 self.driver.find_elements(By.XPATH,
@@ -319,8 +319,8 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
                 self.driver.find_elements(By.XPATH,
                                           "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 11
         )
-        self.driver.find_element(By.ID, "calendar-filter-homework").click()
-        self.driver.find_element(By.ID, "calendar-filter-complete").click()
+        self.driver.find_element(By.CSS_SELECTOR, "[for='calendar-filter-homework']").click()
+        self.driver.find_element(By.CSS_SELECTOR, "[for='calendar-filter-complete']").click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
                 self.driver.find_elements(By.XPATH,
@@ -333,9 +333,9 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
                 self.driver.find_elements(By.XPATH,
                                           "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 11
         )
-        self.driver.find_element(By.ID, "calendar-filter-homework").click()
+        self.driver.find_element(By.CSS_SELECTOR, "[for='calendar-filter-homework']").click()
         self.driver.find_element(By.ID, "calendar-filter-list").find_element(By.XPATH,
-                                                                             "//span[starts-with(text(), 'Quiz')]").click()
+                                                                             "//label[starts-with(text(), ' Quiz')]").click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
                 self.driver.find_elements(By.XPATH,
@@ -364,7 +364,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         self.driver.find_element(By.ID, "calendar-classes").click()
         # All courses are shown by default, so click to disable one (thus filtering it out)
         WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_any_elements_located((By.XPATH, "//*[starts-with(@id, \"calendar-filter-course-\")]"))
+            EC.visibility_of_any_elements_located((By.XPATH, "//*[starts-with(@for, \"calendar-filter-course-\")]"))
         )[0].click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
@@ -374,7 +374,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         # Filter further to only show the non-excluded courses assignments
         self.driver.find_element(By.ID, "calendar-filters").click()
         WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located((By.ID, "calendar-filter-homework"))
+            EC.visibility_of_element_located((By.CSS_SELECTOR, "[for='calendar-filter-homework']"))
         ).click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
