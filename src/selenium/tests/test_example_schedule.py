@@ -46,7 +46,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         )
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
-                self.driver.find_elements(By.XPATH, "//li[starts-with(@id, \"calendar-filter-category-\")]")) == 9
+                self.driver.find_elements(By.XPATH, "//li[starts-with(@id, \"calendar-filter-category-\")]")) == 7
         )
 
         # Event
@@ -409,7 +409,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         self.assertIn(" at ", assignment_hover_html)
         self.assertIn("<strong>Info:</strong>", assignment_hover_html)
         self.assertIn("World History 🌎", assignment_hover_html)
-        self.assertIn("Quiz 📈", assignment_hover_html)
+        self.assertIn("Quiz 💡", assignment_hover_html)
         self.assertIn(" HSC 405", assignment_hover_html)
         self.assertIn("<strong>Materials:</strong>", assignment_hover_html)
         self.assertIn("Sapiens: A Brief History of Humankind", assignment_hover_html)
