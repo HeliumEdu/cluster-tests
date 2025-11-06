@@ -107,7 +107,7 @@ stages:
       json:
         title: "Example Semester"
         overall_grade: "86.5119"
-        trend: -0.0010405588235294092
+        trend: -0.0016730980392157333
         num_homework: 22
         num_homework_completed: 17
         num_homework_graded: 17
