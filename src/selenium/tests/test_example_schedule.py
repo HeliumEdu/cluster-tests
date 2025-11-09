@@ -6,6 +6,7 @@ import calendar
 import datetime
 import os
 
+import pytz
 import requests
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
@@ -257,14 +258,16 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
             EC.visibility_of_element_located((By.CSS_SELECTOR, ".fc-list-heading"))
         )
 
-        today = datetime.date.today()
+        target_timezone = pytz.timezone('America/Chicago')
+        utc_now = pytz.utc.localize(datetime.datetime.now())
+        local_today = utc_now.astimezone(target_timezone).date()
 
         calendar.setfirstweekday(calendar.SUNDAY)
-        month_calendar = calendar.monthcalendar(today.year, today.month)
+        month_calendar = calendar.monthcalendar(local_today.year, local_today.month)
 
         desired_week = month_calendar[2]
 
-        day = today.day
+        day = local_today.day
 
         while day < desired_week[0]:
             self.driver.find_element(By.CSS_SELECTOR, ".fc-next-button").click()
