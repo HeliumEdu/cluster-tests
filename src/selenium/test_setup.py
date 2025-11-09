@@ -154,10 +154,12 @@ class TestSeleniumSetup(SeleniumTestCase):
     def test_5_create_event(self):
         response = get_user_access_token(self.api_host, self.test_username, self.test_password)
 
-        today = datetime.date.today()
+        target_timezone = pytz.timezone('America/Chicago')
+        utc_now = pytz.utc.localize(datetime.datetime.now())
+        local_today = utc_now.astimezone(target_timezone).date()
 
         calendar.setfirstweekday(calendar.SUNDAY)
-        month_calendar = calendar.monthcalendar(today.year, today.month)
+        month_calendar = calendar.monthcalendar(local_today.year, local_today.month)
 
         desired_week = month_calendar[2]
 
