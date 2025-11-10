@@ -9,6 +9,7 @@ import time
 import pytz
 import requests
 from dateutil import parser
+from dateutil.relativedelta import relativedelta
 from tavern._core.exceptions import TestFailError
 
 from src.utils.common import get_user_access_token
@@ -71,7 +72,7 @@ def wait_for_example_schedule(response, env_api_host, access_token, retry=0):
         raise AssertionError("courses_response.status_code: {}".format(courses_response.status_code))
     courses = courses_response.json()
 
-    if len(courses) != 2:
+    if len(courses) != 3:
         if retry < _RETRIES:
             time.sleep(_RETRY_DELAY)
 
@@ -83,7 +84,7 @@ def wait_for_example_schedule(response, env_api_host, access_token, retry=0):
 
     course = None
     for course in courses:
-        if course['title'] == 'World History 🌎':
+        if course['title'] == 'Intro to Psychology 🧠':
             course = course
             break
     if course is None:
@@ -105,7 +106,7 @@ def wait_for_example_schedule(response, env_api_host, access_token, retry=0):
         raise AssertionError("homework_response.status_code: {}".format(homework_response.status_code))
     homework = homework_response.json()
 
-    if len(categories) != 5 or len(homework) != 15:
+    if len(categories) != 6 or len(homework) != 17:
         if retry < _RETRIES:
             time.sleep(_RETRY_DELAY)
 
@@ -117,14 +118,14 @@ def wait_for_example_schedule(response, env_api_host, access_token, retry=0):
 
     category = None
     for category in categories:
-        if category['title'] == 'Writing Assignment 📝':
+        if category['title'] == 'Midterm 📈':
             category = category
             break
     if category is None:
         raise AssertionError("category is None")
 
     # Await grade accuracy if worker processing is slow
-    if course_group['overall_grade'] != '86.5119' or course_group['trend'] != -0.0016730980392157333:
+    if course_group['overall_grade'] != '87.7934' or course_group['trend'] != 0.0010061923076923659:
         if retry < _RETRIES:
             time.sleep(_RETRY_DELAY)
 
@@ -134,8 +135,7 @@ def wait_for_example_schedule(response, env_api_host, access_token, retry=0):
                 "The example schedule's course group {} grades were not properly calculated "
                 "after {} seconds.".format(course_group, _RETRIES * _RETRY_DELAY))
 
-    if category['average_grade'] != '92.6667' or category['grade_by_weight'] != '18.5333' \
-            or category['trend'] != 0.03833333333333341:
+    if category['average_grade'] != '89.7500' or category['grade_by_weight'] != '13.4625':
         if retry < _RETRIES:
             time.sleep(_RETRY_DELAY)
 
@@ -145,8 +145,8 @@ def wait_for_example_schedule(response, env_api_host, access_token, retry=0):
                 "The example schedule's category {} grades were not properly calculated "
                 "after {} seconds.".format(category, _RETRIES * _RETRY_DELAY))
 
-    # Assert on a sampling to ensure the example schedule was "moved" into the current month
-    now = datetime.datetime.now(pytz.utc)
+    # Assert on a sampling to ensure the example schedule was "moved" into the current month (minus one)
+    now = datetime.datetime.now(pytz.utc) - relativedelta(months=1)
     if parser.parse(course_group['start_date']).month != now.month:
         raise AssertionError("course_group month: {}".format(course_group['start_date'].month))
     if parser.parse(courses[0]['start_date']).month != now.month:

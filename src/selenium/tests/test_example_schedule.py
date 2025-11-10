@@ -22,7 +22,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
     def test_example_schedule_populated_calendar_page_month_view(self):
         self.given_user_is_authenticated()
         access_token = get_user_access_token(self.api_host, self.test_username, self.test_password).json()['access']
-        course = requests.get('{}/planner/courses/?title=Computer%20Science%20%F0%9F%92%BB'.format(self.api_host),
+        course = requests.get('{}/planner/courses/?title=Creative%20Writing%20%E2%9C%8D%EF%B8%8F'.format(self.api_host),
                               headers={'Authorization': "Bearer " + access_token},
                               verify=False).json()[0]
         homework = requests.get('{}/planner/homework/?title=Quiz%201'.format(self.api_host),
@@ -32,57 +32,57 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
 
         self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
 
-        # Getting started shouldn't show since we ticked box on last login
-        WebDriverWait(self.driver, 5).until_not(
+        WebDriverWait(self.driver, 15).until(
             EC.visibility_of_element_located((By.ID, "getting-started-modal"))
         )
+        self.driver.find_element(By.ID, "close-getting-started").click()
 
         # Wait for month view to load with the populated example schedule
         WebDriverWait(self.driver, 15).until(
-            lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "a.fc-event")) >= 40
+            lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "a.fc-event")) >= 75
         )
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
-                self.driver.find_elements(By.XPATH, "//input[starts-with(@id, \"calendar-filter-course-\")]")) == 2
+                self.driver.find_elements(By.XPATH, "//input[starts-with(@id, \"calendar-filter-course-\")]")) == 3
         )
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
-                self.driver.find_elements(By.XPATH, "//input[starts-with(@id, \"calendar-filter-category-\")]")) == 7
+                self.driver.find_elements(By.XPATH, "//input[starts-with(@id, \"calendar-filter-category-\")]")) == 11
         )
 
         # Event
-        event = self.driver.find_element(By.XPATH, "//span[contains(text(), 'Meeting with John')]").find_element(
+        event = self.driver.find_element(By.XPATH, "//span[contains(text(), 'Study Session (Final, Programming)')]").find_element(
             By.XPATH, "..")
-        self.assertEqual("Meeting with John, 12:00 PM", event.text)
+        self.assertEqual("Study Session (Final, Programming), 12:00 PM", event.text)
 
         # Class schedule
-        world_history_time = (self.driver.find_elements(By.XPATH, "//span[contains(text(), 'World History 🌎')]")[4]
+        intro_to_psych = (self.driver.find_elements(By.XPATH, "//span[contains(text(), 'Intro to Psychology 🧠')]")[4]
                               .find_element(By.XPATH, ".."))
-        self.assertEqual("World History 🌎, 7:00 PM", world_history_time.text)
+        self.assertEqual("Intro to Psychology 🧠, 1:00 PM", intro_to_psych.text)
 
         # Unchecked assignment, click to complete
-        unchecked_assignment = self.driver.find_element(By.XPATH, "//span[contains(text(), 'Quiz 1')]").find_element(
+        unchecked_assignment = self.driver.find_element(By.XPATH, "//span[contains(text(), 'Short Stories 4')]").find_element(
             By.XPATH, "../..")
         unchecked_assignment_html = unchecked_assignment.get_attribute("innerHTML")
         self.assertTrue(unchecked_assignment_html.strip().startswith(
             '<span class="fc-title"><input id="calendar-homework-checkbox-'))
         self.assertTrue(unchecked_assignment_html.endswith(
-            'type="checkbox" class="ace calendar-homework-checkbox"><span class="lbl" style="margin-top: -3px; margin-right: 3px;"></span><span class="fc-has-url">Quiz 1</span>, 11:00 AM</span>'))
+            'type="checkbox" class="ace calendar-homework-checkbox"><span class="lbl" style="margin-top: -3px; margin-right: 3px;"></span><span class="fc-has-url">Short Stories 4</span>, 11:00 AM</span>'))
         unchecked_assignment.find_element(By.CSS_SELECTOR, "input").click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: (
-                self.driver.find_element(By.XPATH, "//s[contains(text(), 'Quiz 1')]")
+                self.driver.find_element(By.XPATH, "//s[contains(text(), 'Short Stories 4')]")
                 .find_element(By.XPATH, "..").get_attribute("innerHTML")
             )
         )
 
-        checked_assignment = self.driver.find_element(By.XPATH, "//s[contains(text(), 'Quiz 3')]").find_element(
+        checked_assignment = self.driver.find_element(By.XPATH, "//s[contains(text(), 'Essay 5')]").find_element(
             By.XPATH, "../../..")
         checked_assignment_html = checked_assignment.get_attribute("innerHTML")
         self.assertTrue(
             checked_assignment_html.strip().startswith('<span class="fc-title"><input id="calendar-homework-checkbox-'))
         self.assertTrue(checked_assignment_html.endswith(
-            'type="checkbox" class="ace calendar-homework-checkbox" checked="checked"><span class="lbl" style="margin-top: -3px; margin-right: 3px;"></span><span class="fc-has-url"><s>Quiz 3</s></span>, 2:00 PM</span>'))
+            'type="checkbox" class="ace calendar-homework-checkbox" checked="checked"><span class="lbl" style="margin-top: -3px; margin-right: 3px;"></span><span class="fc-has-url"><s>Essay 5</s></span>, 11:00 AM</span>'))
 
         self.save_screenshot()
 
@@ -94,7 +94,12 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
 
         WebDriverWait(self.driver, 15).until(
-            lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "a.fc-event")) >= 40
+            EC.visibility_of_element_located((By.ID, "getting-started-modal"))
+        )
+        self.driver.find_element(By.ID, "close-getting-started").click()
+
+        WebDriverWait(self.driver, 15).until(
+            lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "a.fc-event")) >= 75
         )
 
         found = False
@@ -133,7 +138,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
     def test_example_schedule_populated_calendar_page_assignments_list_view(self):
         self.given_user_is_authenticated()
         access_token = get_user_access_token(self.api_host, self.test_username, self.test_password).json()['access']
-        course = requests.get('{}/planner/courses/?title=Computer%20Science%20%F0%9F%92%BB'.format(self.api_host),
+        course = requests.get('{}/planner/courses/?title=Creative%20Writing%20%E2%9C%8D%EF%B8%8F'.format(self.api_host),
                               headers={'Authorization': "Bearer " + access_token},
                               verify=False).json()[0]
         homework = requests.get('{}/planner/homework/?title=Quiz%201'.format(self.api_host),
@@ -143,6 +148,11 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
 
         self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
 
+        WebDriverWait(self.driver, 15).until(
+            EC.visibility_of_element_located((By.ID, "getting-started-modal"))
+        )
+        self.driver.find_element(By.ID, "close-getting-started").click()
+
         WebDriverWait(self.driver, 10).until(
             EC.visibility_of_element_located((By.CSS_SELECTOR, ".fc-assignmentsList-button"))
         ).click()
@@ -151,15 +161,15 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
             EC.visibility_of_element_located((By.CSS_SELECTOR, 'select[name="assignments-list-table_length"]'))
         )
         select = Select(self.driver.find_element(By.CSS_SELECTOR, 'select[name="assignments-list-table_length"]'))
-        select.select_by_value("50")
+        select.select_by_value("100")
 
         WebDriverWait(self.driver, 10).until(
             lambda wait: len(
-                self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 22
+                self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 53
         )
 
         # No events are shown on assignments list view
-        self.assertEqual(0, len(self.driver.find_elements(By.XPATH, "//span[contains(text(), 'Meeting with John')]")))
+        self.assertEqual(0, len(self.driver.find_elements(By.XPATH, "//span[contains(text(), 'Study Session (Final, Programming)')]")))
 
         self.driver.find_element(By.ID, "calendar-filters").click()
         WebDriverWait(self.driver, 10).until(
@@ -167,36 +177,36 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         ).click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
-                self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 17
+                self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 35
         )
 
         self.driver.find_element(By.ID, "filter-clear").click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
-                self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 22
+                self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 53
         )
 
         self.driver.find_element(By.ID, "calendar-filter-list").find_element(By.XPATH,
                                                                              "//label[starts-with(text(), ' Project')]").click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
-                self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 2
+                self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 3
         )
         self.driver.find_element(By.ID, "calendar-filter-list").find_element(By.XPATH,
                                                                              "//label[starts-with(text(), ' Quiz')]").click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
-                self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 9
+                self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 16
         )
         self.driver.find_element(By.ID, "filter-clear").click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
-                self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 22
+                self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 53
         )
-        self.driver.find_element(By.ID, "calendar-search").send_keys("CHApTER 4")
+        self.driver.find_element(By.ID, "calendar-search").send_keys("sTudy")
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
-                self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 2
+                self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 4
         )
 
         # TODO: assert on the table columns for the two items shown
@@ -205,7 +215,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         self.driver.find_element(By.ID, "filter-clear").click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
-                self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 22
+                self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 53
         )
         self.driver.find_element(By.ID, "calendar-classes").click()
 
@@ -215,7 +225,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         )[0].click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
-                self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 7
+                self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 16
         )
         # Filter further to only show the non-excluded homework that is completed
         self.driver.find_element(By.ID, "calendar-filters").click()
@@ -224,7 +234,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         ).click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
-                self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 6
+                self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 11
         )
 
         # Reset class filters
@@ -240,7 +250,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
     def test_example_schedule_populated_calendar_page_agenda_view(self):
         self.given_user_is_authenticated()
         access_token = get_user_access_token(self.api_host, self.test_username, self.test_password).json()['access']
-        course = requests.get('{}/planner/courses/?title=Computer%20Science%20%F0%9F%92%BB'.format(self.api_host),
+        course = requests.get('{}/planner/courses/?title=Creative%20Writing%20%E2%9C%8D%EF%B8%8F'.format(self.api_host),
                               headers={'Authorization': "Bearer " + access_token},
                               verify=False).json()[0]
         homework = requests.get('{}/planner/homework/?title=Quiz%201'.format(self.api_host),
@@ -249,6 +259,11 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         self.given_homework_incomplete(access_token, course["course_group"], course["id"], homework["id"])
 
         self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
+
+        WebDriverWait(self.driver, 15).until(
+            EC.visibility_of_element_located((By.ID, "getting-started-modal"))
+        )
+        self.driver.find_element(By.ID, "close-getting-started").click()
 
         # Change to agenda (week) view
         WebDriverWait(self.driver, 10).until(
@@ -265,7 +280,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         calendar.setfirstweekday(calendar.SUNDAY)
         month_calendar = calendar.monthcalendar(local_today.year, local_today.month)
 
-        desired_week = month_calendar[2]
+        desired_week = month_calendar[1]
 
         day = local_today.day
 
@@ -279,7 +294,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
                 self.driver.find_elements(By.XPATH,
-                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 11
+                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 18
         )
 
         # Filter dropdown visibility and action
@@ -294,9 +309,36 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
                 self.driver.find_elements(By.XPATH,
-                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 1
+                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 3
         )
         self.driver.find_element(By.CSS_SELECTOR, "[for='calendar-filter-homework']").click()
+        WebDriverWait(self.driver, 15).until(
+            lambda wait: len(
+                self.driver.find_elements(By.XPATH,
+                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 10
+        )
+
+        self.driver.find_element(By.ID, "filter-clear").click()
+        WebDriverWait(self.driver, 15).until(
+            lambda wait: len(
+                self.driver.find_elements(By.XPATH,
+                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 18
+        )
+        self.driver.find_element(By.CSS_SELECTOR, "[for='calendar-filter-class']").click()
+        WebDriverWait(self.driver, 15).until(
+            lambda wait: len(
+                self.driver.find_elements(By.XPATH,
+                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 8
+        )
+
+        self.driver.find_element(By.ID, "filter-clear").click()
+        WebDriverWait(self.driver, 15).until(
+            lambda wait: len(
+                self.driver.find_elements(By.XPATH,
+                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 18
+        )
+        self.driver.find_element(By.CSS_SELECTOR, "[for='calendar-filter-homework']").click()
+        self.driver.find_element(By.CSS_SELECTOR, "[for='calendar-filter-complete']").click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
                 self.driver.find_elements(By.XPATH,
@@ -307,34 +349,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
                 self.driver.find_elements(By.XPATH,
-                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 11
-        )
-        self.driver.find_element(By.CSS_SELECTOR, "[for='calendar-filter-class']").click()
-        WebDriverWait(self.driver, 15).until(
-            lambda wait: len(
-                self.driver.find_elements(By.XPATH,
-                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 5
-        )
-
-        self.driver.find_element(By.ID, "filter-clear").click()
-        WebDriverWait(self.driver, 15).until(
-            lambda wait: len(
-                self.driver.find_elements(By.XPATH,
-                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 11
-        )
-        self.driver.find_element(By.CSS_SELECTOR, "[for='calendar-filter-homework']").click()
-        self.driver.find_element(By.CSS_SELECTOR, "[for='calendar-filter-complete']").click()
-        WebDriverWait(self.driver, 15).until(
-            lambda wait: len(
-                self.driver.find_elements(By.XPATH,
-                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 5
-        )
-
-        self.driver.find_element(By.ID, "filter-clear").click()
-        WebDriverWait(self.driver, 15).until(
-            lambda wait: len(
-                self.driver.find_elements(By.XPATH,
-                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 11
+                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 18
         )
         self.driver.find_element(By.CSS_SELECTOR, "[for='calendar-filter-homework']").click()
         self.driver.find_element(By.ID, "calendar-filter-list").find_element(By.XPATH,
@@ -342,15 +357,15 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
                 self.driver.find_elements(By.XPATH,
-                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 1
+                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 2
         )
         self.driver.find_element(By.ID, "filter-clear").click()
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
                 self.driver.find_elements(By.XPATH,
-                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 11
+                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 18
         )
-        self.driver.find_element(By.ID, "calendar-search").send_keys("CHApTER 1")
+        self.driver.find_element(By.ID, "calendar-search").send_keys("sTudy")
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
                 self.driver.find_elements(By.XPATH,
@@ -362,7 +377,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
                 self.driver.find_elements(By.XPATH,
-                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 11
+                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 18
         )
         self.driver.find_element(By.ID, "calendar-classes").click()
         # All courses are shown by default, so click to disable one (thus filtering it out)
@@ -372,7 +387,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
                 self.driver.find_elements(By.XPATH,
-                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 5
+                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 8
         )
         # Filter further to only show the non-excluded courses assignments
         self.driver.find_element(By.ID, "calendar-filters").click()
@@ -382,7 +397,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
                 self.driver.find_elements(By.XPATH,
-                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 2
+                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) == 3
         )
 
         self.save_screenshot()
@@ -394,9 +409,14 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
 
         self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
 
+        WebDriverWait(self.driver, 15).until(
+            EC.visibility_of_element_located((By.ID, "getting-started-modal"))
+        )
+        self.driver.find_element(By.ID, "close-getting-started").click()
+
         # Wait for calendar to load with the populated example schedule
         WebDriverWait(self.driver, 15).until(
-            lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "a.fc-event")) >= 40
+            lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "a.fc-event")) > 75
         )
 
         actions = ActionChains(self.driver)
@@ -411,15 +431,15 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         self.assertIn("<strong>When:</strong>", assignment_hover_html)
         self.assertIn(" at ", assignment_hover_html)
         self.assertIn("<strong>Info:</strong>", assignment_hover_html)
-        self.assertIn("World History 🌎", assignment_hover_html)
+        self.assertIn("Intro to Psychology 🧠", assignment_hover_html)
         self.assertIn("Quiz 💡", assignment_hover_html)
-        self.assertIn(" HSC 405", assignment_hover_html)
+        self.assertIn(" SOC 110", assignment_hover_html)
         self.assertIn("<strong>Materials:</strong>", assignment_hover_html)
-        self.assertIn("Sapiens: A Brief History of Humankind", assignment_hover_html)
+        self.assertIn("Psychology, 14th Edition", assignment_hover_html)
         self.assertIn("<strong>Grade:</strong>", assignment_hover_html)
-        self.assertIn("90%", assignment_hover_html)
+        self.assertIn("85%", assignment_hover_html)
         self.assertNotIn("Python", assignment_hover_html)
-        self.assertNotIn("Civilizations", assignment_hover_html)
+        self.assertNotIn("Bird", assignment_hover_html)
 
         self.save_screenshot()
 
@@ -430,15 +450,20 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
 
         self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
 
+        WebDriverWait(self.driver, 15).until(
+            EC.visibility_of_element_located((By.ID, "getting-started-modal"))
+        )
+        self.driver.find_element(By.ID, "close-getting-started").click()
+
         # Wait for calendar to load with the populated example schedule
         WebDriverWait(self.driver, 15).until(
-            lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "a.fc-event")) >= 40
+            lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "a.fc-event")) >= 75
         )
 
         actions = ActionChains(self.driver)
 
         event_to_hover = self.driver.find_element(By.XPATH,
-                                                  "//span[contains(text(), 'Meeting with John')]").find_element(
+                                                  "//span[contains(text(), 'Final Portfolio Writing Workshop')]").find_element(
             By.XPATH, "..")
         actions.move_to_element(event_to_hover).perform()
         qtip = WebDriverWait(self.driver, 15).until(
@@ -460,14 +485,19 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
 
         self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
 
+        WebDriverWait(self.driver, 15).until(
+            EC.visibility_of_element_located((By.ID, "getting-started-modal"))
+        )
+        self.driver.find_element(By.ID, "close-getting-started").click()
+
         # Wait for calendar to load with the populated example schedule
         WebDriverWait(self.driver, 15).until(
-            lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "a.fc-event")) >= 40
+            lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "a.fc-event")) >= 75
         )
 
         actions = ActionChains(self.driver)
 
-        class_to_hover = (self.driver.find_elements(By.XPATH, "//span[contains(text(), 'World History 🌎')]")[4]
+        class_to_hover = (self.driver.find_elements(By.XPATH, "//span[contains(text(), 'Intro to Psychology 🧠')]")[4]
                           .find_element(By.XPATH, ".."))
         actions.move_to_element(class_to_hover).perform()
         qtip = WebDriverWait(self.driver, 15).until(
@@ -477,10 +507,10 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         self.assertIn("<strong>When:</strong>", class_hover_html)
         self.assertIn(" at ", class_hover_html)
         self.assertIn("<strong>Info:</strong>", class_hover_html)
-        self.assertIn(" HSC 405", class_hover_html)
+        self.assertIn(" SOC 110", class_hover_html)
         self.assertNotIn("Materials:", class_hover_html)
-        self.assertNotIn("Sapiens: A Brief History of Humankind", class_hover_html)
-        self.assertNotIn("Civilizations Past and Present, Combined Volume, 13th edition", class_hover_html)
+        self.assertNotIn("14th Edition", class_hover_html)
+        self.assertNotIn("Bird", class_hover_html)
         self.assertNotIn("Python", class_hover_html)
         self.assertNotIn("Grade", class_hover_html)
 
@@ -504,7 +534,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
                 self.driver.find_elements(By.CSS_SELECTOR, "ul#course-group-tabs > li")) == 2
         )
         WebDriverWait(self.driver, 15).until(
-            lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"course-\")]")) == 2
+            lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"course-\")]")) == 3
         )
 
         # TODO: assert that elements of class are displayed
@@ -521,12 +551,12 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         # Wait for materials to load with the populated example schedule
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
-                self.driver.find_elements(By.XPATH, "//span[starts-with(@id, \"material-group-title-\")]")) == 2
+                self.driver.find_elements(By.XPATH, "//span[starts-with(@id, \"material-group-title-\")]")) == 3
         )
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
                 # Two group, one "create"
-                self.driver.find_elements(By.CSS_SELECTOR, "ul#material-group-tabs > li")) == 3
+                self.driver.find_elements(By.CSS_SELECTOR, "ul#material-group-tabs > li")) == 4
         )
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"material-\")]")) == 5
@@ -552,7 +582,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
             lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "ul#course-group-tabs > li")) == 1
         )
         WebDriverWait(self.driver, 15).until(
-            lambda wait: len(self.driver.find_elements(By.XPATH, "//div[starts-with(@id, \"course-body-\")]")) == 2
+            lambda wait: len(self.driver.find_elements(By.XPATH, "//div[starts-with(@id, \"course-body-\")]")) == 3
         )
 
         self.save_screenshot()

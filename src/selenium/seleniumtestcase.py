@@ -85,10 +85,10 @@ class SeleniumTestCase(unittest.TestCase):
 
     def given_homework_incomplete(self, access_token, course_group_id, course_id, homework_id):
         requests.patch(
-            '{}/planner/coursegroups/{}/courses/{}/homework/{}/?title=Quiz%201'.format(self.api_host,
-                                                                                       course_group_id,
-                                                                                       course_id,
-                                                                                       homework_id),
+            '{}/planner/coursegroups/{}/courses/{}/homework/{}/?title=Short%20Stories%204'.format(self.api_host,
+                                                                                                  course_group_id,
+                                                                                                  course_id,
+                                                                                                  homework_id),
             headers={'Authorization': "Bearer " + access_token},
             data={"completed": False},
             verify=False)
