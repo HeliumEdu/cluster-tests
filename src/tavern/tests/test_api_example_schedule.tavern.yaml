@@ -36,11 +36,11 @@ stages:
       verify_response_with:
         function: src.utils.common:assert_response_length
         extra_kwargs:
-          expected_length: 2
+          expected_length: 3
 
   - name: List courses with title filter
     request:
-      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/{course_group_id}/courses/?title=World%20History%20%F0%9F%8C%8E"
+      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/{course_group_id}/courses/?title=Intro%20to%20Psychology%20%F0%9F%A7%A0"
       verify: false
       method: GET
       headers:
@@ -63,11 +63,11 @@ stages:
       verify_response_with:
         function: src.utils.common:assert_response_length
         extra_kwargs:
-          expected_length: 5
+          expected_length: 6
 
   - name: List categories with title filter
     request:
-      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/{course_group_id}/courses/{course_id}/categories/?title=Writing%20Assignment%20%F0%9F%93%9D"
+      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/{course_group_id}/courses/{course_id}/categories/?title=Case%20Study%20%F0%9F%93%9D"
       verify: false
       method: GET
       headers:
@@ -90,10 +90,10 @@ stages:
       verify_response_with:
         function: src.utils.common:assert_response_length
         extra_kwargs:
-          expected_length: 15
+          expected_length: 17
       save:
         json:
-          homework_id: "[5].id"
+          homework_id: "[4].id"
 
   - name: Get course group
     request:
@@ -105,12 +105,12 @@ stages:
     response:
       status_code: 200
       json:
-        title: "Example Semester"
-        overall_grade: "86.5119"
-        trend: -0.0016730980392157333
-        num_homework: 22
-        num_homework_completed: 17
-        num_homework_graded: 17
+        title: "Fall Semester"
+        overall_grade: "87.7934"
+        trend: 0.0010061923076923659
+        num_homework: 53
+        num_homework_completed: 35
+        num_homework_graded: 25
 
   - name: Get course
     request:
@@ -122,13 +122,13 @@ stages:
     response:
       status_code: 200
       json:
-        title: "World History 🌎"
-        current_grade: "90.3571"
-        trend: 0.004898836363636367
+        title: "Intro to Psychology 🧠"
+        current_grade: "84.9700"
+        trend: 0.01880931428571422
         has_weighted_grading: true
-        num_homework: 15
-        num_homework_completed: 11
-        num_homework_graded: 11
+        num_homework: 17
+        num_homework_completed: 10
+        num_homework_graded: 6
 
   - name: Get category
     request:
@@ -140,12 +140,12 @@ stages:
     response:
       status_code: 200
       json:
-        title: "Writing Assignment 📝"
-        average_grade: "92.6667"
-        grade_by_weight: "18.5333"
-        trend: 0.03833333333333341
-        num_homework: 6
-        num_homework_graded: 3
+        title: "Case Study 📝"
+        average_grade: "89.0000"
+        grade_by_weight: "22.2500"
+        trend: 0.1100000000000001
+        num_homework: 3
+        num_homework_graded: 2
 
   - name: Get homework
     request:
@@ -157,8 +157,8 @@ stages:
     response:
       status_code: 200
       json:
-        title: "Chapter 2 Prompts"
-        current_grade: "85/100"
+        title: "Quiz 2"
+        current_grade: "81.25/100"
         completed: true
 
   - name: List material groups
@@ -173,10 +173,10 @@ stages:
       verify_response_with:
         function: src.utils.common:assert_response_length
         extra_kwargs:
-          expected_length: 2
+          expected_length: 3
       save:
         json:
-          material_group_id: "[0].id"
+          material_group_id: "[2].id"
 
   - name: List materials
     request:
@@ -190,10 +190,10 @@ stages:
       verify_response_with:
         function: src.utils.common:assert_response_length
         extra_kwargs:
-          expected_length: 4
+          expected_length: 3
       save:
         json:
-          material_id: "[0].id"
+          material_id: "[2].id"
 
   - name: Get material group
     request:
@@ -205,11 +205,11 @@ stages:
     response:
       status_code: 200
       json:
-        title: "Example Textbooks"
+        title: "Textbooks"
 
   - name: Get material
     request:
-      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/materialgroups/{material_group_id}/materials/{material_id}/?title=Civilizations%20Past%20and%20Present%2C%20Combined%20Volume%2C%2013th%20edition"
+      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/materialgroups/{material_group_id}/materials/{material_id}/"
       verify: false
       method: GET
       headers:
@@ -217,10 +217,10 @@ stages:
     response:
       status_code: 200
       json:
-        title: "Civilizations Past and Present, Combined Volume, 13th edition"
-        status: 2
+        title: "Psychology, 14th Edition"
+        status: 0
         condition: 0
-        price: $27.01
+        price: $45.00
 
   - name: List reminders
     request:
@@ -234,7 +234,7 @@ stages:
       verify_response_with:
         function: src.utils.common:assert_response_length
         extra_kwargs:
-          expected_length: 5
+          expected_length: 7
       save:
         json:
           reminder_id: "[0].id"
@@ -249,9 +249,9 @@ stages:
     response:
       status_code: 200
       json:
-        title: "Reminder for Chapter 1 Reading"
-        offset: 2
-        offset_type: 1
+        title: "90 minute group study session"
+        offset: 30
+        offset_type: 0
         type: 0
         sent: false
 
@@ -266,13 +266,13 @@ stages:
       status_code: 200
       json:
         course_groups:
-          - title: Example Semester
-            overall_grade: 86.5119
+          - title: Fall Semester
+            overall_grade: 87.7934
             courses:
-              - title: Computer Science 💻
-                overall_grade: 82.6667
+              - title: Creative Writing ✍️
+                overall_grade: 89.3269
                 categories:
-                  - title: Final Exam 📈
-                    overall_grade: -1.0
-                  - title: Quiz 💡
-                    overall_grade: 92.5
+                  - title: Essay 📝
+                    overall_grade: 88.6
+                  - title: Final Portfolio 📚
+                    overall_grade: -1
