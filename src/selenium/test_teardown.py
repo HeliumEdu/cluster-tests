@@ -12,7 +12,30 @@ from src.selenium.seleniumtestcase import SeleniumTestCase
 
 
 class TestSeleniumTeardown(SeleniumTestCase):
-    def test_delete_user(self):
+    def test_1_delete_example_schedule(self):
+        self.given_user_is_authenticated()
+
+        self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
+
+        # Wait for getting started modal to show
+        WebDriverWait(self.driver, 30).until(
+            EC.visibility_of_element_located((By.ID, "getting-started-modal"))
+        )
+
+        # Click this to fire request to not show it on next login
+        show_getting_started_checkbox = self.driver.find_element(By.ID, "delete-example-schedule")
+        show_getting_started_checkbox.click()
+
+        # Ensure all items on the calendar were deleted
+        WebDriverWait(self.driver, 15).until(
+            lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "a.fc-event")) == 0
+        )
+
+        self.save_screenshot()
+
+        self.assert_no_console_errors()
+
+    def test_2_delete_user(self):
         self.given_user_is_authenticated()
 
         self.driver.get(os.path.join(self.app_host, 'settings'))

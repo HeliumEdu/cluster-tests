@@ -2,11 +2,8 @@ __copyright__ = "Copyright (c) 2025 Helium Edu"
 __license__ = "MIT"
 __version__ = "1.15.22"
 
-import calendar
-import datetime
 import os
 
-import pytz
 import requests
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
@@ -114,28 +111,17 @@ class TestSeleniumSetup(SeleniumTestCase):
         self.assertEqual(os.path.join(self.app_host, 'planner', 'calendar'), self.driver.current_url.strip('/'))
 
         # Wait for calendar to load
-        getting_started_modal = WebDriverWait(self.driver, 30).until(
+        WebDriverWait(self.driver, 30).until(
             EC.visibility_of_element_located((By.ID, "getting-started-modal"))
-        )
-
-        # Click this to fire request to not show it on next login
-        show_getting_started_checkbox = self.driver.find_element(By.ID, "show-getting-started")
-        show_getting_started_checkbox.click()
-
-        close_getting_started_button = self.driver.find_element(By.ID, "close-getting-started")
-        close_getting_started_button.click()
-
-        WebDriverWait(self.driver, 15).until(
-            EC.invisibility_of_element(getting_started_modal)
         )
 
     def test_3_settings_disable_calendar_event_limit(self):
         response = get_user_access_token(self.api_host, self.test_username, self.test_password)
 
         response = requests.put('{}/auth/user/settings/'.format(self.api_host),
-                                 headers={'Authorization': "Bearer " + response.json()['access']},
-                                 data={'calendar_event_limit': False},
-                                 verify=False)
+                                headers={'Authorization': "Bearer " + response.json()['access']},
+                                data={'calendar_event_limit': False},
+                                verify=False)
 
         self.assertEqual(200, response.status_code)
 
@@ -147,35 +133,6 @@ class TestSeleniumSetup(SeleniumTestCase):
                                  data={'title': 'Helium Test Calendar',
                                        'url': 'https://calendar.google.com/calendar/ical/86c55b7d91f8d4c22ca722fe22ee19779774863c6e31b6b23346e475c44a23ad%40group.calendar.google.com/public/basic.ics',
                                        'shown_on_calendar': True},
-                                 verify=False)
-
-        self.assertEqual(201, response.status_code)
-
-    def test_5_create_event(self):
-        response = get_user_access_token(self.api_host, self.test_username, self.test_password)
-
-        target_timezone = pytz.timezone('America/Chicago')
-        utc_now = pytz.utc.localize(datetime.datetime.now())
-        local_today = utc_now.astimezone(target_timezone).date()
-
-        calendar.setfirstweekday(calendar.SUNDAY)
-        month_calendar = calendar.monthcalendar(local_today.year, local_today.month)
-
-        desired_week = month_calendar[2]
-
-        start = datetime.datetime.now(pytz.utc).replace(day=desired_week[0], hour=18, minute=0, second=0)
-        end = start + datetime.timedelta(hours=1)
-
-        response = requests.post('{}/planner/events/'.format(self.api_host),
-                                 headers={'Authorization': "Bearer " + response.json()['access']},
-                                 data={'title': 'Meeting with John',
-                                       'all_day': False,
-                                       'show_end_time': True,
-                                       'start': start.isoformat(),
-                                       'end': end.isoformat(),
-                                       'priority': 75,
-                                       'comments': 'some comment',
-                                       'owner_id': '12345'},
                                  verify=False)
 
         self.assertEqual(201, response.status_code)
