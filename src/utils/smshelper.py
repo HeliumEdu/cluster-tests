@@ -103,7 +103,7 @@ def verify_reminder_received(response, phone, retry=0):
     logger.info('right_window: {}'.format(right_window))
 
     in_test_window = left_window <= latest_message.date_created <= right_window
-    if not latest_message or not in_test_window or 'CI Test Homework in World History 🌎' not in latest_message.body:
+    if not latest_message or not in_test_window or 'CI Test Homework in Intro to Psychology 🧠' not in latest_message.body:
         if retry < _RETRIES:
             time.sleep(_RETRY_DELAY)
 
@@ -111,7 +111,7 @@ def verify_reminder_received(response, phone, retry=0):
         else:
             raise TestFailError("The reminder SMS was not received after {} seconds.".format(_RETRIES * _RETRY_DELAY))
 
-    if latest_message.body != '(CI Test Homework in World History 🌎 on Tue, Apr 17 at 09:00 PM) CI test reminder message':
+    if latest_message.body != '(CI Test Homework in Intro to Psychology 🧠 on Tue, Apr 17 at 09:00 PM) CI test reminder message':
         raise AssertionError("latest_message.body: {}".format(latest_message.body))
 
     return {}

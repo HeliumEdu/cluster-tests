@@ -22,7 +22,7 @@ stages:
 
   - name: List courses
     request:
-      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/{course_group_id}/courses/?title=World%20History%20%F0%9F%8C%8E"
+      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/{course_group_id}/courses/?title=Intro%20to%20Psychology%20%F0%9F%A7%A0"
       verify: false
       method: GET
       headers:
