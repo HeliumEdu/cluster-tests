@@ -71,7 +71,7 @@ stages:
 
   - name: List categories
     request:
-      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/{course_group_id}/courses/{course_id}/categories/?title=Case%20Study%20%F0%9F%93%9D"
+      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/{course_group_id}/courses/{course_id}/categories/?title=Case%20Study%20%F0%9F%94%8E"
       verify: false
       method: GET
       headers:
