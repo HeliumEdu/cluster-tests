@@ -118,7 +118,7 @@ def wait_for_example_schedule(response, env_api_host, access_token, retry=0):
 
     category = None
     for category in categories:
-        if category['title'] == 'Midterm 📈':
+        if category['title'] == 'Midterm 📊':
             category = category
             break
     if category is None:

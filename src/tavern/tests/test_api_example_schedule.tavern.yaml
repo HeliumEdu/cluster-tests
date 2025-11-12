@@ -140,7 +140,7 @@ stages:
     response:
       status_code: 200
       json:
-        title: "Case Study 📝"
+        title: "Case Study 🔎"
         average_grade: "89.0000"
         grade_by_weight: "22.2500"
         trend: 0.1100000000000001
@@ -249,7 +249,7 @@ stages:
     response:
       status_code: 200
       json:
-        title: "90 minute group study session"
+        title: "90 minutes to complete exam"
         offset: 30
         offset_type: 0
         type: 0
