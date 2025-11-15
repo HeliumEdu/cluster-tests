@@ -576,7 +576,7 @@ class TestSeleniumExampleSchedule(SeleniumTestCase):
         # Wait for grades to load with the populated example schedule
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
-                self.driver.find_elements(By.XPATH, "//div[starts-with(@id, \"course-group-container-\")]")) == 1
+                self.driver.find_elements(By.XPATH, "//div[starts-with(@id, \"tab-course-group-\")]")) == 1
         )
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "ul#course-group-tabs > li")) == 1
