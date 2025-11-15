@@ -34,8 +34,8 @@ stages:
     response:
       status_code: 200
       json:
-        name: Helium Student Planner
-        tagline: Lightening Your Course Load
+        name: Helium Edu
+        tagline: Academic Calendar App
         support_email: "{contact_email:s}"
         max_upload_size: 10485760
 
