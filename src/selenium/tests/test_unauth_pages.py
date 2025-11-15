@@ -14,7 +14,7 @@ from src.selenium.seleniumtestcase import SeleniumTestCase
 class TestSeleniumUnauthPages(SeleniumTestCase):
     def test_index(self):
         self.driver.get(self.app_host)
-        self.assertEqual("{} — {}".format(self.info['name'], self.info['tagline']), self.driver.title)
+        self.assertEqual("{} – {}".format(self.info['name'], self.info['tagline']), self.driver.title)
 
         WebDriverWait(self.driver, 30).until(
             EC.visibility_of_element_located((By.CSS_SELECTOR, "#tour-carousel > div > div:nth-child(1) > img"))
