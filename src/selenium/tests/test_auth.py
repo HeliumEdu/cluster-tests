@@ -13,9 +13,17 @@ from src.selenium.seleniumtestcase import SeleniumTestCase
 
 
 class TestSeleniumAuth(SeleniumTestCase):
-    @unittest.skip("TODO: implement")
     def test_logout(self):
+        self.given_user_is_authenticated()
+
         self.driver.get(os.path.join(self.app_host, 'logout'))
+
+        access_token = self.driver.execute_script("return sessionStorage.getItem('access_token');")
+        refresh_token = self.driver.execute_script("return sessionStorage.getItem('refresh_token');")
+
+        self.assertEqual("{} | {}".format('Login', self.info['name']), self.driver.title)
+        self.assertIsNone(access_token)
+        self.assertIsNone(refresh_token)
 
         self.assert_no_console_errors()
 
