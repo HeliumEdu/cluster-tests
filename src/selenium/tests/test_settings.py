@@ -34,12 +34,6 @@ class TestSeleniumSettings(SeleniumTestCase):
         self.assert_no_console_errors()
 
     @unittest.skip("TODO: implement")
-    def test_change_phone_number(self):
-        self.driver.get(os.path.join(self.app_host, 'planner', 'settings'))
-
-        self.assert_no_console_errors()
-
-    @unittest.skip("TODO: implement")
     def test_change_username(self):
         self.driver.get(os.path.join(self.app_host, 'planner', 'settings'))
 
