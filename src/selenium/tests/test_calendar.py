@@ -186,7 +186,7 @@ class TestSeleniumCalendar(SeleniumTestCase):
                 self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 53
         )
 
-        # No events are shown on "todo" list view
+        # No events are shown on assignment's list view
         self.assertEqual(0, len(self.driver.find_elements(By.XPATH,
                                                           "//span[contains(text(), 'Study Session (Final, Programming)')]")))
 
