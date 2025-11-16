@@ -6,6 +6,7 @@ import os
 import unittest
 from urllib.parse import urlparse, parse_qs
 
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
@@ -26,6 +27,32 @@ class TestSeleniumClasses(SeleniumTestCase):
         self.assertEqual('/planner/classes', query_params['next'][0].rstrip("/"))
 
         self.assert_no_console_errors()
+
+    def test_example_schedule_populated_classes_page(self):
+        self.given_user_is_authenticated()
+
+        self.driver.get(os.path.join(self.app_host, 'planner', 'classes'))
+
+        # Wait for classes to load with the populated example schedule
+        WebDriverWait(self.driver, 15).until(
+            lambda wait: len(
+                self.driver.find_elements(By.XPATH, "//span[starts-with(@id, \"course-group-title-\")]")) == 1
+        )
+        WebDriverWait(self.driver, 15).until(
+            lambda wait: len(
+                # One group, one "create"
+                self.driver.find_elements(By.CSS_SELECTOR, "ul#course-group-tabs > li")) == 2
+        )
+        WebDriverWait(self.driver, 15).until(
+            lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"course-\")]")) == 3
+        )
+
+        # TODO: assert that elements of class are displayed
+
+        self.save_screenshot()
+
+        self.assert_no_console_errors()
+
 
     @unittest.skip("TODO: implement")
     def test_classes_click_class_populates_dialog(self):
