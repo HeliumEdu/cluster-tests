@@ -33,6 +33,20 @@ logger = logging.getLogger(__name__)
 
 
 class SeleniumTestCase(unittest.TestCase):
+    CLASS_INTRO_TO_PSYCH_BADGE = '<span class="label label-sm title-label" style="background-color: #3033cf !important">Intro to Psychology 🧠</span>'
+    CLASS_CREATIVE_WRITING_BADGE = '<span class="label label-sm title-label" style="background-color: #bd42a4 !important">Creative Writing ✍️</span>'
+    CLASS_FUNDAMENTALS_OF_PROGRAMMING_BADGE = '<span class="label label-sm title-label" style="background-color: #05cc90 !important"><a href="https://automatetheboringstuff.com" target="_blank" class="planner-title-with-link">Fundamentals of Programming 💻 <i class="icon-external-link"></i></a></span>'
+    MATERIAL_BIRD_BY_BIRD_BADGE = '<span class="label label-sm title-label" style="background-color: #dc7d50 !important;"><a href="https://www.amazon.com/Bird-Some-Instructions-Writing-Life/dp/0385480016" target="_blank" class="planner-title-with-link">Bird by Bird: Some Instructions on Writing and Life <i class="icon-external-link"></i></a></span>'
+    MATERIAL_AUTOMATE_BORING_STUFF_BADGE = '<span class="label label-sm title-label" style="background-color: #dc7d50 !important;"><a href="https://automatetheboringstuff.com" target="_blank" class="planner-title-with-link">Automate the Boring Stuff with Python <i class="icon-external-link"></i></a></span>'
+    MATERIAL_NOTEBOOK_BADGE = '<span class="label label-sm title-label" style="background-color: #dc7d50 !important;">Notebook 📓</span>'
+    MATERIAL_GOOGLE_WORKSPACE_BADGE = '<span class="label label-sm title-label" style="background-color: #dc7d50 !important"><a href="https://workspace.google.com/" target="_blank" class="planner-title-with-link">Google Workspace (Docs, Drive) <i class="icon-external-link"></i></a></span>'
+    MATERIAL_PSYCH_14TH_EDITION_BADGE = '<span class="label label-sm title-label" style="background-color: #dc7d50 !important"><a href="https://www.pearson.com/en-us/subject-catalog/p/psychology/P200000009860" target="_blank" class="planner-title-with-link">Psychology, 14th Edition <i class="icon-external-link"></i></a></span>'
+    CATEGORY_INTRO_TO_PSYCH_CATEGORY_QUIZ_BADGE = '<span class="label label-sm" style="background-color: #5658d7 !important">Quiz 💡</span>'
+    TERM_GRADE_BADGE = '<span class="badge" style="background-color: #9d629d !important">87.79%  <span class="icon-x arrow-up-icon light-green"></span></span>'
+    INTRO_TO_PSYCH_CLASS_GRADE_BADGE = '<span class="badge" style="background-color: #9d629d !important">84.97% <span class="icon-x arrow-up-icon light-green"></span></span>'
+    INTRO_TO_PSYCH_CATEGORY_QUIZ_GRADE_BADGE = '<span class="badge" style="background-color: #9d629d !important">80.42% <span class="icon-x arrow-up-icon light-green"></span></span>'
+    INTRO_TO_PSYCH_ASSIGNMENT_QUIZ3_GRADE_BADGE = '<span class="badge" style="background-color: #9d629d !important">85%</span>'
+
     def setUp(self):
         options = Options()
         options.add_argument('--headless=new')
