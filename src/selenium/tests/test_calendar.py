@@ -186,7 +186,7 @@ class TestSeleniumCalendar(SeleniumTestCase):
                 self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 53
         )
 
-        # No events are shown on "todo" list view
+        # No events are shown on assignment's list view
         self.assertEqual(0, len(self.driver.find_elements(By.XPATH,
                                                           "//span[contains(text(), 'Study Session (Final, Programming)')]")))
 
@@ -448,7 +448,7 @@ class TestSeleniumCalendar(SeleniumTestCase):
         )
         assignment_hover_html = qtip.get_attribute("innerHTML")
         self.assertIn("<strong>When:</strong>", assignment_hover_html)
-        self.assertIn(" at ", assignment_hover_html)
+        self.assertIn(" • ", assignment_hover_html)
         self.assertIn("<strong>Info:</strong>", assignment_hover_html)
         self.assertIn(self.CLASS_INTRO_TO_PSYCH_BADGE, assignment_hover_html)
         self.assertIn(self.CATEGORY_INTRO_TO_PSYCH_CATEGORY_QUIZ_BADGE, assignment_hover_html)
@@ -524,7 +524,7 @@ class TestSeleniumCalendar(SeleniumTestCase):
         )
         class_hover_html = qtip.get_attribute("innerHTML")
         self.assertIn("<strong>When:</strong>", class_hover_html)
-        self.assertIn(" at ", class_hover_html)
+        self.assertIn(" • ", class_hover_html)
         self.assertIn("<strong>Info:</strong>", class_hover_html)
         self.assertIn(" SOC 110", class_hover_html)
         self.assertNotIn("Materials:", class_hover_html)
