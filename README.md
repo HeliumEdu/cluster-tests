@@ -4,7 +4,7 @@
 
 # Helium Cluster Tests
 
-The `cluster-tests` validate integration and end-to-end functionality of the [Helium Edu](https://www.heliumedu.com/) APIs and UI.
+The `cluster-tests` validate integration and end-to-end functionality of the [Helium](https://www.heliumedu.com/) APIs and UI.
 
 ## Prerequisites
 
