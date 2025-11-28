@@ -253,7 +253,8 @@ stages:
         offset: 30
         offset_type: 0
         type: 0
-        sent: false
+        sent: true
+        dismissed: false
 
   - name: Get grades
     request:
