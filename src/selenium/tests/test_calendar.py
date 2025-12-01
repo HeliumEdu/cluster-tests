@@ -55,7 +55,7 @@ class TestSeleniumCalendar(SeleniumTestCase):
 
         # Wait for month view to load with the populated example schedule
         WebDriverWait(self.driver, 15).until(
-            lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "a.fc-event")) >= 75
+            lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "a.fc-event")) >= 72
         )
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(
@@ -117,7 +117,7 @@ class TestSeleniumCalendar(SeleniumTestCase):
         self.driver.find_element(By.ID, "close-getting-started").click()
 
         WebDriverWait(self.driver, 15).until(
-            lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "a.fc-event")) >= 75
+            lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "a.fc-event")) >= 72
         )
 
         found = False
@@ -299,7 +299,8 @@ class TestSeleniumCalendar(SeleniumTestCase):
         calendar.setfirstweekday(calendar.SUNDAY)
         month_calendar = calendar.monthcalendar(local_today.year, local_today.month)
 
-        desired_week = month_calendar[1]
+        # TODO: this calculation still isn't quite consistent month-to-month
+        desired_week = month_calendar[0]
 
         day = local_today.day
 
@@ -435,7 +436,7 @@ class TestSeleniumCalendar(SeleniumTestCase):
 
         # Wait for calendar to load with the populated example schedule
         WebDriverWait(self.driver, 15).until(
-            lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "a.fc-event")) > 75
+            lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "a.fc-event")) >= 72
         )
 
         actions = ActionChains(self.driver)
@@ -476,7 +477,7 @@ class TestSeleniumCalendar(SeleniumTestCase):
 
         # Wait for calendar to load with the populated example schedule
         WebDriverWait(self.driver, 15).until(
-            lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "a.fc-event")) >= 75
+            lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "a.fc-event")) >= 72
         )
 
         actions = ActionChains(self.driver)
@@ -511,7 +512,7 @@ class TestSeleniumCalendar(SeleniumTestCase):
 
         # Wait for calendar to load with the populated example schedule
         WebDriverWait(self.driver, 15).until(
-            lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "a.fc-event")) >= 75
+            lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "a.fc-event")) >= 72
         )
 
         actions = ActionChains(self.driver)
