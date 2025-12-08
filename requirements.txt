@@ -3,6 +3,6 @@ pytz==2025.2
 python-dateutil==2.9.0.post0
 boto3==1.41.2
 twilio==9.8.7
-selenium==4.38.0
+selenium==4.39.0
 PyYAML==6.0.3
 pytest-rerunfailures==16.1
