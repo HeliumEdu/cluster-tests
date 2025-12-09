@@ -249,7 +249,7 @@ stages:
     response:
       status_code: 200
       json:
-        title: "90 minutes to complete exam"
+        title: "In ENG 305 instead"
         offset: 30
         offset_type: 0
         type: 0
