@@ -145,6 +145,10 @@ class TestSeleniumCalendar(SeleniumTestCase):
         WebDriverWait(self.driver, 10).until(
             EC.visibility_of_element_located((By.CSS_SELECTOR, "[for='calendar-filter-homework']"))
         ).click()
+        # Wait for filter dropdown to close and calendar to re-render
+        WebDriverWait(self.driver, 10).until(
+            EC.invisibility_of_element_located((By.CSS_SELECTOR, "[for='calendar-filter-homework']"))
+        )
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "a.fc-event")) == 0
         )
