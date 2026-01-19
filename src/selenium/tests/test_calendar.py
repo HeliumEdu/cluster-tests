@@ -142,30 +142,20 @@ class TestSeleniumCalendar(SeleniumTestCase):
 
         # Filter to just homework, and the item should disappear
         self.driver.find_element(By.ID, "calendar-filters").click()
-        WebDriverWait(self.driver, 10).until(
+        homework_filter = WebDriverWait(self.driver, 10).until(
             EC.visibility_of_element_located((By.ID, "calendar-filter-homework"))
         )
-        # Click the checkbox and trigger change event via JavaScript for reliability
-        self.driver.execute_script("""
-            var checkbox = document.getElementById('calendar-filter-homework');
-            checkbox.checked = true;
-            $(checkbox).trigger('change');
-        """)
-        # Wait for localStorage to be updated (indicates filter was applied)
-        WebDriverWait(self.driver, 10).until(
-            lambda wait: self.driver.execute_script(
-                "return localStorage.getItem('filter_show_external') === 'false'"
-            )
+        # Click the checkbox directly and verify it's checked
+        if not homework_filter.is_selected():
+            homework_filter.click()
+        WebDriverWait(self.driver, 5).until(
+            lambda wait: homework_filter.is_selected()
         )
         # Close the dropdown by clicking elsewhere
         self.driver.find_element(By.CSS_SELECTOR, ".fc-left h2").click()
         # Wait for filter dropdown to close
         WebDriverWait(self.driver, 10).until(
             EC.invisibility_of_element_located((By.ID, "calendar-filter-homework"))
-        )
-        # Wait for any pending AJAX calls to complete (calendar refresh)
-        WebDriverWait(self.driver, 15).until(
-            lambda wait: self.driver.execute_script("return helium.ajax_calls.length === 0")
         )
         # Wait for calendar to refresh and external events to be filtered out
         WebDriverWait(self.driver, 15).until(
