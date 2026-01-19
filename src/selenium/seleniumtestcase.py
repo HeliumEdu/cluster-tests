@@ -50,12 +50,13 @@ class SeleniumTestCase(unittest.TestCase):
     def setUp(self):
         options = Options()
         options.add_argument('--headless=new')
-        options.add_argument('--start-maximized')
+        options.add_argument('--window-size=1920,1080')
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-gpu')
         options.set_capability('goog:loggingPrefs', {'browser': 'ALL'})
 
         self.driver = webdriver.Chrome(options=options)
+        self.driver.set_window_size(1920, 1080)
         self.driver.command_executor._client_config._timeout = 10000
 
         self.app_host = os.environ.get('PROJECT_APP_HOST')
