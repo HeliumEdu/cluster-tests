@@ -163,9 +163,11 @@ class TestSeleniumCalendar(SeleniumTestCase):
         WebDriverWait(self.driver, 10).until(
             EC.invisibility_of_element_located((By.ID, "calendar-filter-homework"))
         )
-        # Wait for any pending AJAX calls to complete (calendar refresh)
+        # Wait for calendar loading spinner to finish (FullCalendar loading callback)
         WebDriverWait(self.driver, 15).until(
-            lambda wait: self.driver.execute_script("return helium.ajax_calls.length === 0")
+            lambda wait: self.driver.execute_script(
+                "return document.querySelector('#loading-fullcalendar > div') === null"
+            )
         )
         # Wait for calendar to refresh and external events to be filtered out
         WebDriverWait(self.driver, 15).until(
