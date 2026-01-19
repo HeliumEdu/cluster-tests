@@ -108,10 +108,10 @@ class SeleniumTestCase(unittest.TestCase):
             data={"completed": False},
             verify=False)
 
-    def save_screenshot(self):
+    def save_screenshot(self, suffix=''):
         timestamp = int(time.time() * 1000)
         test_name = inspect.stack()[1].function
-        file_name = os.path.join(SCREENSHOTS_DIR, f"{test_name}_{timestamp}.png")
+        file_name = os.path.join(SCREENSHOTS_DIR, f"{test_name}_{timestamp}{suffix}.png")
         self.driver.save_screenshot(file_name)
 
     def assert_no_console_errors(self, test_ignore_errors=None):
