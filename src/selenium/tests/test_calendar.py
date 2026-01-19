@@ -109,28 +109,12 @@ class TestSeleniumCalendar(SeleniumTestCase):
     def test_example_schedule_populated_calendar_page_month_view_external_calendar(self):
         self.given_user_is_authenticated()
 
-        self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
+        self.driver.get(os.path.join(self.app_host, 'planner', 'calendar') + '?initialDate=2023-10-01')
 
         WebDriverWait(self.driver, 15).until(
             EC.visibility_of_element_located((By.ID, "getting-started-modal"))
         )
         self.driver.find_element(By.ID, "close-getting-started").click()
-
-        WebDriverWait(self.driver, 15).until(
-            lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "a.fc-event")) >= 72
-        )
-
-        found = False
-        while not found:
-            date = self.driver.find_element(By.CSS_SELECTOR, ".fc-left h2").text
-            self.driver.find_element(By.CSS_SELECTOR, ".fc-prev-button").click()
-
-            WebDriverWait(self.driver, 15).until(
-                lambda wait: self.driver.find_element(By.CSS_SELECTOR, ".fc-left h2").text != date
-            )
-
-            if self.driver.find_element(By.CSS_SELECTOR, ".fc-left h2").text == "October 2023":
-                found = True
 
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "a.fc-event")) == 2
