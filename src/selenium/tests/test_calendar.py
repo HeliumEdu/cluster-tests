@@ -142,22 +142,13 @@ class TestSeleniumCalendar(SeleniumTestCase):
 
         # Filter to just homework, and the item should disappear
         self.driver.find_element(By.ID, "calendar-filters").click()
-        homework_filter = WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located((By.ID, "calendar-filter-homework"))
-        )
-        # Click the checkbox directly and verify it's checked
-        if not homework_filter.is_selected():
-            homework_filter.click()
-        WebDriverWait(self.driver, 5).until(
-            lambda wait: homework_filter.is_selected()
-        )
-        # Close the dropdown by clicking elsewhere
-        self.driver.find_element(By.CSS_SELECTOR, ".fc-left h2").click()
-        # Wait for filter dropdown to close
         WebDriverWait(self.driver, 10).until(
-            EC.invisibility_of_element_located((By.ID, "calendar-filter-homework"))
+            EC.visibility_of_element_located((By.CSS_SELECTOR, "[for='calendar-filter-homework']"))
+        ).click()
+        # Wait for filter dropdown to close and calendar to re-render
+        WebDriverWait(self.driver, 10).until(
+            EC.invisibility_of_element_located((By.CSS_SELECTOR, "[for='calendar-filter-homework']"))
         )
-        # Wait for calendar to refresh and external events to be filtered out
         WebDriverWait(self.driver, 15).until(
             lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "a.fc-event")) == 0
         )
