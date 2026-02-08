@@ -34,4 +34,4 @@ stages:
           show_getting_started: true
           default_reminder_offset: 30
           default_reminder_offset_type: 0
-          default_reminder_type: 0
+          default_reminder_type: 3
