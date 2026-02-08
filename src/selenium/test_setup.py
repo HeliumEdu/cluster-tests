@@ -120,7 +120,8 @@ class TestSeleniumSetup(SeleniumTestCase):
 
         response = requests.put('{}/auth/user/settings/'.format(self.api_host),
                                 headers={'Authorization': "Bearer " + response.json()['access']},
-                                data={'calendar_event_limit': False},
+                                data={'calendar_event_limit': False,
+                                      'default_view': 0},  # Month view (tests expect this)
                                 verify=False)
 
         self.assertEqual(200, response.status_code)
