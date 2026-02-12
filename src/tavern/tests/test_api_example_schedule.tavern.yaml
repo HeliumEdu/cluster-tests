@@ -234,7 +234,7 @@ stages:
       verify_response_with:
         function: src.utils.common:assert_response_length
         extra_kwargs:
-          expected_length: 7
+          expected_length: 14
       save:
         json:
           reminder_id: "[0].id"
