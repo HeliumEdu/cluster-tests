@@ -23,12 +23,12 @@ The following environment variables must be set for the tests to run:
 - `PLATFORM_TWILIO_ACCOUNT_SID` (same as used in [platform](https://github.com/HeliumEdu/platform) worker to send texts)
 - `PLATFORM_TWILIO_AUTH_TOKEN` (same as used in [platform](https://github.com/HeliumEdu/platform) worker to send texts)
 - `CI_TWILIO_RECIPIENT_PHONE_NUMBER` (a Twilio phone number to which test texts will be sent)
-- `CI_AWS_S3_ACCESS_KEY_ID` ([credentials with access](https://github.com/HeliumEdu/deploy/blob/main/terraform/modules/secretsmanager/ci_creds/main.tf#L5) to the inbound email S3 bucket)
-- `CI_AWS_S3_SECRET_ACCESS_KEY` ([credentials with access](https://github.com/HeliumEdu/deploy/blob/main/terraform/modules/secretsmanager/ci_creds/main.tf#L5) to the inbound email S3 bucket)
+- `CI_AWS_S3_ACCESS_KEY_ID` ([credentials with access](https://github.com/HeliumEdu/infra/blob/main/terraform/modules/secretsmanager/ci_creds/main.tf#L5) to the inbound email S3 bucket)
+- `CI_AWS_S3_SECRET_ACCESS_KEY` ([credentials with access](https://github.com/HeliumEdu/infra/blob/main/terraform/modules/secretsmanager/ci_creds/main.tf#L5) to the inbound email S3 bucket)
 
 These cluster tests require AWS SES inbound ruleset for `heliumedu-cluster@heliumedu.dev` to be provisioned
 to store inbound emails in an S3 bucket, as documented [here](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-getting-started.html).
-[The Terraform for `prod`](https://github.com/HeliumEdu/deploy/tree/main/terraform/environments/prod#readme) can be
+[The Terraform for `prod`](https://github.com/HeliumEdu/infra/tree/main/terraform/environments/prod#readme) can be
 applied to configure this (or `dev-local` to run fully contained within Docker, as described below).
 
 Once `prod` is provisioned, all cluster test suites can be run with:
@@ -46,9 +46,9 @@ interactions between the UI and the backend.
 ### Running Locally in Docker
 
 These cluster tests can be run locally against Docker to make development easier. The easiest way to achieve this is
-to use [the `deploy` project](https://github.com/HeliumEdu/deploy?tab=readme-ov-file#docker-setup) to setup the
+to use [the `infra` project](https://github.com/HeliumEdu/infra?tab=readme-ov-file#docker-setup) to setup the
 entire Helium stack locally. An Internet connection is still necessary to validate all end-to-end functionality
-(emails use AWS SES, text messages use Twilio). [The minimal Terraform for `dev-local`](https://github.com/HeliumEdu/deploy/tree/main/terraform/environments/dev-local#readme)
+(emails use AWS SES, text messages use Twilio). [The minimal Terraform for `dev-local`](https://github.com/HeliumEdu/infra/tree/main/terraform/environments/dev-local#readme)
 can be applied to configure these services automatically.
 
 Once the above is done, the cluster tests can be run locally with:
