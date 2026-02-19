@@ -2,9 +2,9 @@
 
 ![Python Versions](https://img.shields.io/badge/python-%203.10%20|%203.11%20|%203.12%20-blue)
 
-# Helium Cluster Tests
+# Helium Cluster Tests (Legacy)
 
-The `cluster-tests` validate integration and end-to-end functionality of the [Helium](https://www.heliumedu.com/) APIs and UI.
+These `cluster-tests` validate end-to-end functionality of the [Helium](https://www.heliumedu.com/) APIs and against the legacy frontend.
 
 ## Prerequisites
 
