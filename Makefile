@@ -39,7 +39,7 @@ clean: nopyc
 	rm -rf $(CLUSTER_VENV)
 
 test-local:
-	make -C ../.. build test-cluster
+	make -C ../.. build test-cluster-legacy
 
 test: test-smoke test-selenium
 
