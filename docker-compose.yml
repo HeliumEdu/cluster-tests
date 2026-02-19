@@ -1,5 +1,5 @@
 include:
-  - ../frontend/docker-compose.yml
+  - ../frontend-legacy/docker-compose.yml
   - ../platform/docker-compose.yml
 services:
   cluster_tests:
