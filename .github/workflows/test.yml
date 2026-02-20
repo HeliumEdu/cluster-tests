@@ -1,5 +1,7 @@
 name: "Cluster Tests"
 
+run-name: ${{ github.event_name == 'repository_dispatch' && github.event.action || 'Cluster Tests' }}
+
 on:
   workflow_dispatch:
     inputs:
@@ -11,14 +13,6 @@ on:
         - dev
         - prod
   repository_dispatch:
-    inputs:
-      environment:
-        type: choice
-        required: true
-        default: prod
-        options:
-        - dev
-        - prod
   push:
     branches: [ main, develop ]
   pull_request_target:
@@ -41,7 +35,7 @@ jobs:
       FORCE_COLOR: 1
       PYTHONUNBUFFERED: 1
       PYTHONDONTWRITEBYTECODE: 1
-      ENVIRONMENT: ${{ inputs.environment || 'prod'  }}
+      ENVIRONMENT: ${{ inputs.environment || github.event.client_payload.environment || 'prod' }}
       PLATFORM_TWILIO_ACCOUNT_SID: ${{ secrets.PLATFORM_TWILIO_ACCOUNT_SID }}
       PLATFORM_TWILIO_AUTH_TOKEN: ${{ secrets.PLATFORM_TWILIO_AUTH_TOKEN }}
       CI_AWS_S3_ACCESS_KEY_ID: ${{ secrets.CI_AWS_S3_ACCESS_KEY_ID }}
@@ -74,7 +68,7 @@ jobs:
       FORCE_COLOR: 1
       PYTHONUNBUFFERED: 1
       PYTHONDONTWRITEBYTECODE: 1
-      ENVIRONMENT: ${{ inputs.environment || 'prod'  }}
+      ENVIRONMENT: ${{ inputs.environment || github.event.client_payload.environment || 'prod' }}
       PLATFORM_TWILIO_ACCOUNT_SID: ${{ secrets.PLATFORM_TWILIO_ACCOUNT_SID }}
       PLATFORM_TWILIO_AUTH_TOKEN: ${{ secrets.PLATFORM_TWILIO_AUTH_TOKEN }}
       CI_AWS_S3_ACCESS_KEY_ID: ${{ secrets.CI_AWS_S3_ACCESS_KEY_ID }}
