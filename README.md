@@ -23,8 +23,8 @@ The following environment variables must be set for the tests to run:
 - `PLATFORM_TWILIO_ACCOUNT_SID` (same as used in [platform](https://github.com/HeliumEdu/platform) worker to send texts)
 - `PLATFORM_TWILIO_AUTH_TOKEN` (same as used in [platform](https://github.com/HeliumEdu/platform) worker to send texts)
 - `CI_TWILIO_RECIPIENT_PHONE_NUMBER` (a Twilio phone number to which test texts will be sent)
-- `CI_AWS_S3_ACCESS_KEY_ID` ([credentials with access](https://github.com/HeliumEdu/infra/blob/main/terraform/modules/secretsmanager/ci_creds/main.tf#L5) to the inbound email S3 bucket)
-- `CI_AWS_S3_SECRET_ACCESS_KEY` ([credentials with access](https://github.com/HeliumEdu/infra/blob/main/terraform/modules/secretsmanager/ci_creds/main.tf#L5) to the inbound email S3 bucket)
+- `AWS_INTEGRATION_S3_ACCESS_KEY_ID` (credentials with access to the shared `heliumedu-integration` S3 bucket)
+- `AWS_INTEGRATION_S3_SECRET_ACCESS_KEY` (credentials with access to the shared `heliumedu-integration` S3 bucket)
 
 These cluster tests require AWS SES inbound ruleset for `heliumedu-cluster@heliumedu.dev` to be provisioned
 to store inbound emails in an S3 bucket, as documented [here](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/receiving-email-getting-started.html).
