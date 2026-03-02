@@ -27,12 +27,27 @@ def get_verification_code(response, username, retry=0):
     prefix = f'{environment}/inbound.email/heliumedu-cluster/'
 
     try:
-        latest_key = None
-        for key in bucket.objects.filter(Prefix=prefix):
-            if not latest_key or key.last_modified > latest_key.last_modified:
-                latest_key = key
+        all_keys = sorted(bucket.objects.filter(Prefix=prefix), key=lambda k: k.last_modified, reverse=True)
 
-        if latest_key is None:
+        matched_key = None
+        email_body = None
+        for key in all_keys:
+            logger.info('checking key: {}'.format(key))
+
+            email_str = key.get()["Body"].read().decode('utf-8')
+
+            body = None
+            for part in Parser().parsestr(email_str).walk():
+                if part.get_content_type() == 'text/plain':
+                    body = part.get_payload()
+                    break
+
+            if body and 'username={}&code'.format(username) in body:
+                matched_key = key
+                email_body = body
+                break
+
+        if not matched_key:
             if retry < _RETRIES:
                 time.sleep(_RETRY_DELAY)
 
@@ -41,30 +56,11 @@ def get_verification_code(response, username, retry=0):
                 raise TestFailError(
                     "The verification email was not received after {} seconds.".format(_RETRIES * _RETRY_DELAY))
 
-        logger.info('latest_key: {}'.format(latest_key))
-
-        email_str = latest_key.get()["Body"].read().decode('utf-8')
-
-        email_body = None
-        for part in Parser().parsestr(email_str).walk():
-            if part.get_content_type() == 'text/plain':
-                email_body = part.get_payload()
-                break
-
-        logger.info('email_date: {}'.format(latest_key.last_modified))
-        logger.info('email_body (truncated): {}'.format((email_body or '')[:300]))
-
-        if not email_body or 'username={}&code'.format(username) not in email_body:
-            if retry < _RETRIES:
-                time.sleep(_RETRY_DELAY)
-
-                return get_verification_code(response, username, retry + 1)
-            else:
-                raise TestFailError("No matching verification email could be validated after {} seconds.".format(_RETRIES * _RETRY_DELAY))
+        logger.info('matched_key: {}'.format(matched_key))
 
         verification_code = email_body.split('verify?username={}&code='.format(username))[1].split('\n')[0].strip()
 
-        latest_key.delete()
+        matched_key.delete()
 
         response = {"email_verification_code": verification_code}
         logger.info(response)
