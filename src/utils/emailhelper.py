@@ -48,10 +48,13 @@ def get_verification_code(response, username, retry=0):
         email_body = None
         for part in Parser().parsestr(email_str).walk():
             if part.get_content_type() == 'text/plain':
-                email_body = part.get_payload()
+                payload = part.get_payload(decode=True)
+                if payload:
+                    email_body = payload.decode('utf-8', errors='replace')
                 break
 
         logger.info('email_date: {}'.format(latest_key.last_modified))
+        logger.info('email_body (truncated): {}'.format((email_body or '')[:200]))
 
         if not email_body or 'username={}&code'.format(username) not in email_body:
             if retry < _RETRIES:
