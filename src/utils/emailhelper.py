@@ -32,8 +32,6 @@ def get_verification_code(response, username, retry=0):
         matched_key = None
         email_body = None
         for key in all_keys:
-            logger.info('checking key: {}'.format(key))
-
             email_str = key.get()["Body"].read().decode('utf-8')
 
             body = None
@@ -55,8 +53,6 @@ def get_verification_code(response, username, retry=0):
             else:
                 raise TestFailError(
                     "The verification email was not received after {} seconds.".format(_RETRIES * _RETRY_DELAY))
-
-        logger.info('matched_key: {}'.format(matched_key))
 
         verification_code = email_body.split('verify?username={}&code='.format(username))[1].split('\n')[0].strip()
 
