@@ -52,6 +52,7 @@ def get_verification_code(response, username, retry=0):
                 break
 
         logger.info('email_date: {}'.format(latest_key.last_modified))
+        logger.info('email_body (truncated): {}'.format((email_body or '')[:300]))
 
         if not email_body or 'username={}&code'.format(username) not in email_body:
             if retry < _RETRIES:
