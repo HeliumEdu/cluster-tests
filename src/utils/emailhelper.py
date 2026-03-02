@@ -6,12 +6,10 @@ import datetime
 import logging
 import os
 import time
-from datetime import timezone
 from email.parser import Parser
 
 import boto3
 import pytz
-from dateutil import parser
 from tavern._core.exceptions import TestFailError
 
 logger = logging.getLogger(__name__)
@@ -47,19 +45,13 @@ def get_verification_code(response, username, retry=0):
 
     email_str = latest_key.get()["Body"].read().decode('utf-8')
 
-    email_date = datetime.datetime(1, 1, 1, 0, 0, tzinfo=timezone.utc)
     email_body = None
     for part in Parser().parsestr(email_str).walk():
-        payload = part.get_payload()
-
         if part.get_content_type() == 'text/plain':
-            email_body = payload
-        elif part.get_content_type() == 'multipart/alternative' and 'Date' in part.keys():
-            email_date = parser.parse(part.get('Date'))
-
-        if email_date and email_body:
+            email_body = part.get_payload()
             break
 
+    email_date = latest_key.last_modified
     now = datetime.datetime.now(pytz.utc)
     left_window = now - datetime.timedelta(seconds=15 + (retry * _RETRY_DELAY))
     right_window = now + datetime.timedelta(seconds=15 + (retry * _RETRY_DELAY))
@@ -69,7 +61,7 @@ def get_verification_code(response, username, retry=0):
     logger.info('right_window: {}'.format(right_window))
 
     in_test_window = left_window <= email_date <= right_window
-    if not email_date or not email_body or not in_test_window or 'username={}&code'.format(username) not in email_body:
+    if not email_body or not in_test_window or 'username={}&code'.format(username) not in email_body:
         if retry < _RETRIES:
             time.sleep(_RETRY_DELAY)
 
