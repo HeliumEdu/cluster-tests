@@ -2,14 +2,12 @@ __copyright__ = "Copyright (c) 2025 Helium Edu"
 __license__ = "MIT"
 __version__ = "1.11.54"
 
-import datetime
 import logging
 import os
 import time
 from email.parser import Parser
 
 import boto3
-import pytz
 from tavern._core.exceptions import TestFailError
 
 logger = logging.getLogger(__name__)
@@ -17,6 +15,7 @@ logger = logging.getLogger(__name__)
 _RETRIES = 12 * 5
 
 _RETRY_DELAY = 5
+
 
 def get_verification_code(response, username, retry=0):
     environment = os.environ.get('ENVIRONMENT')
@@ -52,17 +51,9 @@ def get_verification_code(response, username, retry=0):
                 email_body = part.get_payload()
                 break
 
-        email_date = latest_key.last_modified
-        now = datetime.datetime.now(pytz.utc)
-        left_window = now - datetime.timedelta(seconds=15 + (retry * _RETRY_DELAY))
-        right_window = now + datetime.timedelta(seconds=15 + (retry * _RETRY_DELAY))
+        logger.info('email_date: {}'.format(latest_key.last_modified))
 
-        logger.info('left_window: {}'.format(left_window))
-        logger.info('email_date: {}'.format(email_date))
-        logger.info('right_window: {}'.format(right_window))
-
-        in_test_window = left_window <= email_date <= right_window
-        if not email_body or not in_test_window or 'username={}&code'.format(username) not in email_body:
+        if not email_body or 'username={}&code'.format(username) not in email_body:
             if retry < _RETRIES:
                 time.sleep(_RETRY_DELAY)
 
