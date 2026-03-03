@@ -10,6 +10,7 @@ stages:
       method: GET
     response:
       status_code: 200
+    delay_after: 1
 
   - name: Get frontend info
     request:
@@ -23,6 +24,7 @@ stages:
       save:
         json:
           frontend_version: version
+    delay_after: 1
 
   - name: Check frontend vendor non-versioned asset returns 200
     request:
@@ -31,6 +33,7 @@ stages:
       method: GET
     response:
       status_code: 200
+    delay_after: 1
 
   - name: Check frontend vendor versioned asset returns 200
     request:
@@ -39,6 +42,7 @@ stages:
       method: GET
     response:
       status_code: 200
+    delay_after: 1
 
   - name: Check frontend Helium bundle returns 200
     request:
@@ -47,6 +51,7 @@ stages:
       method: GET
     response:
       status_code: 200
+    delay_after: 1
 
   - name: Check frontend handles not found
     request:
@@ -55,3 +60,4 @@ stages:
       method: GET
     response:
       status_code: 404
+    delay_after: 1

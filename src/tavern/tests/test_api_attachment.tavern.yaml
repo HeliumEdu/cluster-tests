@@ -19,6 +19,7 @@ stages:
       save:
         json:
           course_group_id: "[0].id"
+    delay_after: 2
 
   - name: List courses
     request:
@@ -32,6 +33,7 @@ stages:
       save:
         json:
           course_id: "[0].id"
+    delay_after: 2
 
   - name: Create attachment
     request:
@@ -46,6 +48,7 @@ stages:
             env_api_host: "{tavern.env_vars.PROJECT_API_HOST}"
             access_token: "{access_token:s}"
             course_id: "{course_id:d}"
+    delay_after: 7
 
   - name: Get attachment
     request:
@@ -58,6 +61,7 @@ stages:
       status_code: 200
       json:
         course: !int "{attachment.course}"
+    delay_after: 2
 
   - name: Verify attachment was uploaded
     request:
@@ -66,3 +70,4 @@ stages:
       method: GET
     response:
       status_code: 200
+    delay_after: 1

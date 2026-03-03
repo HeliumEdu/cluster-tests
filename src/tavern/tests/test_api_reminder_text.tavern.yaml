@@ -18,6 +18,7 @@ stages:
         phone: "{tavern.env_vars.CI_TWILIO_RECIPIENT_PHONE_NUMBER:s}"
     response:
       status_code: 200
+    delay_after: 2
 
   - name: Get verification code from text
     request:
@@ -30,6 +31,7 @@ stages:
           function: src.utils.smshelper:get_verification_code
           extra_kwargs:
             phone: "{tavern.env_vars.CI_TWILIO_RECIPIENT_PHONE_NUMBER:s}"
+    delay_after: 7
 
   - name: Verify phone number
     request:
@@ -42,6 +44,7 @@ stages:
         phone_verification_code: "{sms_verification_code:d}"
     response:
       status_code: 200
+    delay_after: 2
 
   - name: List course groups
     request:
@@ -55,6 +58,7 @@ stages:
       save:
         json:
           course_group_id: "[0].id"
+    delay_after: 2
 
   - name: List courses
     request:
@@ -68,6 +72,7 @@ stages:
       save:
         json:
           course_id: "[0].id"
+    delay_after: 2
 
   - name: List categories
     request:
@@ -81,6 +86,7 @@ stages:
       save:
         json:
           category_id: "[0].id"
+    delay_after: 2
 
   - name: Create homework before today
     request:
@@ -107,6 +113,7 @@ stages:
       save:
         json:
           homework_id: id
+    delay_after: 2
 
   - name: Create text reminder
     request:
@@ -127,6 +134,7 @@ stages:
       save:
         json:
           reminder_id: id
+    delay_after: 2
 
   - name: Verify reminder was marked as sent
     request:
@@ -141,6 +149,7 @@ stages:
             env_api_host: "{tavern.env_vars.PROJECT_API_HOST}"
             access_token: "{access_token:s}"
             reminder_id: "{reminder_id}"
+    delay_after: 7
 
   - name: Verify reminder text was received
     request:
@@ -153,3 +162,4 @@ stages:
           function: src.utils.smshelper:verify_reminder_received
           extra_kwargs:
             phone: "{tavern.env_vars.CI_TWILIO_RECIPIENT_PHONE_NUMBER:s}"
+    delay_after: 7
