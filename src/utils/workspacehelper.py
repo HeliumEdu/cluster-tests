@@ -18,7 +18,11 @@ logger = logging.getLogger(__name__)
 
 _RETRIES = 10
 
-_RETRY_DELAY = 3
+# POST /auth/token/ is unauthenticated; 7s keeps polling under the 10/min anon rate limit
+_ANON_RETRY_DELAY = 7
+
+# Authenticated retries make up to 4 requests per cycle; 5s keeps them under the 60/min user rate limit
+_AUTH_RETRY_DELAY = 5
 
 
 def init_workspace(response, env_api_host, username, password):
@@ -44,7 +48,7 @@ def init_workspace(response, env_api_host, username, password):
     while retries < _RETRIES and response.status_code != 401:
         logger.info(f"Response {response.status_code}, waiting for user deletion to complete ...")
 
-        time.sleep(_RETRY_DELAY)
+        time.sleep(_ANON_RETRY_DELAY)
         retries += 1
 
         response = get_user_access_token(env_api_host, username, password)
@@ -74,13 +78,13 @@ def wait_for_example_schedule(response, env_api_host, access_token, retry=0):
 
     if len(courses) != 3:
         if retry < _RETRIES:
-            time.sleep(_RETRY_DELAY)
+            time.sleep(_AUTH_RETRY_DELAY)
 
             return wait_for_example_schedule(response, env_api_host, access_token, retry + 1)
         else:
             raise TestFailError(
                 "The example schedule was only populated with {} courses "
-                "after {} seconds.".format(len(courses), _RETRIES * _RETRY_DELAY))
+                "after {} seconds.".format(len(courses), _RETRIES * _AUTH_RETRY_DELAY))
 
     course = None
     for course in courses:
@@ -108,13 +112,13 @@ def wait_for_example_schedule(response, env_api_host, access_token, retry=0):
 
     if len(categories) != 6 or len(homework) != 17:
         if retry < _RETRIES:
-            time.sleep(_RETRY_DELAY)
+            time.sleep(_AUTH_RETRY_DELAY)
 
             return wait_for_example_schedule(response, env_api_host, access_token, retry + 1)
         else:
             raise TestFailError(
                 "The example schedule was only populated with {} categories and {} homework "
-                "after {} seconds.".format(len(categories), len(homework), _RETRIES * _RETRY_DELAY))
+                "after {} seconds.".format(len(categories), len(homework), _RETRIES * _AUTH_RETRY_DELAY))
 
     category = None
     for category in categories:
@@ -127,23 +131,23 @@ def wait_for_example_schedule(response, env_api_host, access_token, retry=0):
     # Await grade accuracy if worker processing is slow
     if course_group['overall_grade'] != '87.7934' or course_group['trend'] != 0.0010061923076923659:
         if retry < _RETRIES:
-            time.sleep(_RETRY_DELAY)
+            time.sleep(_AUTH_RETRY_DELAY)
 
             return wait_for_example_schedule(response, env_api_host, access_token, retry + 1)
         else:
             raise TestFailError(
                 "The example schedule's course group {} grades were not properly calculated "
-                "after {} seconds.".format(course_group, _RETRIES * _RETRY_DELAY))
+                "after {} seconds.".format(course_group, _RETRIES * _AUTH_RETRY_DELAY))
 
     if category['average_grade'] != '89.7500' or category['grade_by_weight'] != '13.4625':
         if retry < _RETRIES:
-            time.sleep(_RETRY_DELAY)
+            time.sleep(_AUTH_RETRY_DELAY)
 
             return wait_for_example_schedule(response, env_api_host, access_token, retry + 1)
         else:
             raise TestFailError(
                 "The example schedule's category {} grades were not properly calculated "
-                "after {} seconds.".format(category, _RETRIES * _RETRY_DELAY))
+                "after {} seconds.".format(category, _RETRIES * _AUTH_RETRY_DELAY))
 
     # Assert on a sampling to ensure the example schedule was "moved" into the current month (minus one)
     now = datetime.datetime.now(pytz.utc) - relativedelta(months=1)
