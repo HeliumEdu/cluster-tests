@@ -63,10 +63,16 @@ class SeleniumTestCase(unittest.TestCase):
         self.api_host = os.environ.get('PROJECT_API_HOST')
         self.env_prefix = os.environ.get('ENVIRONMENT_PREFIX')
 
-        self.info_response = requests.get(os.path.join(self.api_host, 'info'),
-                                          headers={'Content-Type': 'application/json'},
-                                          verify=False)
-        self.info = self.info_response.json()
+        _ANON_RETRY_DELAY = 7
+        for attempt in range(3):
+            self.info_response = requests.get(os.path.join(self.api_host, 'info'),
+                                              headers={'Content-Type': 'application/json'},
+                                              verify=False)
+            self.info = self.info_response.json()
+            if self.info_response.status_code != 429:
+                break
+            logger.warning(f"GET /info/ attempt {attempt + 1} throttled ({self.info_response.status_code}): {self.info}")
+            time.sleep(_ANON_RETRY_DELAY)
 
         self.test_username = "heliumedu-cluster-2"
         self.test_email = f'heliumedu-cluster+2@{self.env_prefix}heliumedu.dev'
