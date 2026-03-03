@@ -84,9 +84,7 @@ class TestSeleniumSetup(SeleniumTestCase):
         self.assertTrue(success_status.is_displayed())
         self.assertIn("Your email address has been verified.", success_status.text)
 
-        token_response = requests.post(f"{self.api_host}/auth/token/",
-                                       data={"username": self.test_username, "password": self.test_password},
-                                       verify=False)
+        token_response = get_user_access_token(self.api_host, self.test_username, self.test_password)
         wait_for_example_schedule(token_response, self.api_host, token_response.json()["access"])
 
     def test_2_login_new_user(self):
