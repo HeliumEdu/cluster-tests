@@ -66,7 +66,7 @@ class TestSeleniumSetup(SeleniumTestCase):
         self.assertTrue(success_status.is_displayed())
         self.assertIn("The last step is to verify your email address.", success_status.text)
 
-        email_verification_code = get_verification_code(self.info, self.test_username)[
+        email_verification_code = get_verification_code(self.info, self.test_username, email=self.test_email)[
             'email_verification_code']
 
         self.driver.get(os.path.join(self.app_host, "verify") +
