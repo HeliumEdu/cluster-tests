@@ -23,6 +23,7 @@ stages:
       save:
         json:
           course_group_id: "[0].id"
+    delay_after: 2
 
   - name: List courses
     request:
@@ -37,6 +38,7 @@ stages:
         function: src.utils.common:assert_response_length
         extra_kwargs:
           expected_length: 3
+    delay_after: 2
 
   - name: List courses with title filter
     request:
@@ -50,6 +52,7 @@ stages:
       save:
         json:
           course_id: "[0].id"
+    delay_after: 2
 
   - name: List categories
     request:
@@ -64,6 +67,7 @@ stages:
         function: src.utils.common:assert_response_length
         extra_kwargs:
           expected_length: 6
+    delay_after: 2
 
   - name: List categories with title filter
     request:
@@ -77,6 +81,7 @@ stages:
       save:
         json:
           category_id: "[0].id"
+    delay_after: 2
 
   - name: List homework
     request:
@@ -94,6 +99,7 @@ stages:
       save:
         json:
           homework_id: "[4].id"
+    delay_after: 2
 
   - name: Get course group
     request:
@@ -111,6 +117,7 @@ stages:
         num_homework: 53
         num_homework_completed: 35
         num_homework_graded: 25
+    delay_after: 2
 
   - name: Get course
     request:
@@ -129,6 +136,7 @@ stages:
         num_homework: 17
         num_homework_completed: 10
         num_homework_graded: 6
+    delay_after: 2
 
   - name: Get category
     request:
@@ -146,6 +154,7 @@ stages:
         trend: 0.1100000000000001
         num_homework: 3
         num_homework_graded: 2
+    delay_after: 2
 
   - name: Get homework
     request:
@@ -160,6 +169,7 @@ stages:
         title: "Quiz 2"
         current_grade: "81.25/100"
         completed: true
+    delay_after: 2
 
   - name: List material groups
     request:
@@ -177,6 +187,7 @@ stages:
       save:
         json:
           material_group_id: "[2].id"
+    delay_after: 2
 
   - name: List materials
     request:
@@ -194,6 +205,7 @@ stages:
       save:
         json:
           material_id: "[2].id"
+    delay_after: 2
 
   - name: Get material group
     request:
@@ -206,6 +218,7 @@ stages:
       status_code: 200
       json:
         title: "Textbooks"
+    delay_after: 2
 
   - name: Get material
     request:
@@ -221,6 +234,7 @@ stages:
         status: 0
         condition: 0
         price: $45.00
+    delay_after: 2
 
   - name: List reminders
     request:
@@ -238,6 +252,7 @@ stages:
       save:
         json:
           reminder_id: "[0].id"
+    delay_after: 2
 
   - name: Get reminder
     request:
@@ -255,6 +270,7 @@ stages:
         type: 0
         sent: true
         dismissed: false
+    delay_after: 2
 
   - name: Get grades
     request:
@@ -277,3 +293,4 @@ stages:
                     overall_grade: 88.6
                   - title: Final Portfolio 📚
                     overall_grade: -1
+    delay_after: 2

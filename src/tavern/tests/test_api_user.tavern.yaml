@@ -14,6 +14,7 @@ stages:
       method: GET
     response:
       status_code: 401
+    delay_after: 7
 
   - name: Get user
     request:
@@ -35,3 +36,4 @@ stages:
           default_reminder_offset: 30
           default_reminder_offset_type: 0
           default_reminder_type: 3
+    delay_after: 2
