@@ -157,9 +157,12 @@ class TestSeleniumCalendar(SeleniumTestCase):
             EC.visibility_of_element_located((By.ID, "getting-started-modal"))
         )
         self.driver.find_element(By.ID, "close-getting-started").click()
+        WebDriverWait(self.driver, 10).until(
+            EC.invisibility_of_element_located((By.ID, "getting-started-modal"))
+        )
 
         WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR, ".fc-assignmentsList-button"))
+            EC.element_to_be_clickable((By.CSS_SELECTOR, ".fc-assignmentsList-button"))
         ).click()
 
         WebDriverWait(self.driver, 10).until(
@@ -270,10 +273,13 @@ class TestSeleniumCalendar(SeleniumTestCase):
             EC.visibility_of_element_located((By.ID, "getting-started-modal"))
         )
         self.driver.find_element(By.ID, "close-getting-started").click()
+        WebDriverWait(self.driver, 10).until(
+            EC.invisibility_of_element_located((By.ID, "getting-started-modal"))
+        )
 
         # Change to agenda (week) view
         WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located((By.CSS_SELECTOR, ".fc-listWeek-button"))
+            EC.element_to_be_clickable((By.CSS_SELECTOR, ".fc-listWeek-button"))
         ).click()
         WebDriverWait(self.driver, 10).until(
             EC.visibility_of_element_located((By.CSS_SELECTOR, ".fc-list-heading"))
