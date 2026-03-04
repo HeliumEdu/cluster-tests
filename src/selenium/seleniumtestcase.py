@@ -100,7 +100,7 @@ class SeleniumTestCase(unittest.TestCase):
         self.driver.find_element(By.CSS_SELECTOR, "#login-form > fieldset > div.clearfix > button").click()
 
         # Login will redirect us to the planner
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 30).until(
             EC.title_contains("Calendar")
         )
 

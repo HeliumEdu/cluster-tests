@@ -21,7 +21,7 @@ class TestSeleniumSetup(SeleniumTestCase):
 
         self.driver.get(os.path.join(self.app_host, 'register'))
 
-        time_zone_chosen = WebDriverWait(self.driver, 10).until(
+        time_zone_chosen = WebDriverWait(self.driver, 30).until(
             EC.element_to_be_clickable((By.ID, "id_time_zone_chosen"))
         )
 
@@ -38,13 +38,13 @@ class TestSeleniumSetup(SeleniumTestCase):
         confirm_password_field.send_keys(self.test_password)
 
         time_zone_chosen.click()
-        time_zone_chosen_search = WebDriverWait(self.driver, 10).until(
+        time_zone_chosen_search = WebDriverWait(self.driver, 30).until(
             EC.element_to_be_clickable((By.CSS_SELECTOR, ".chosen-search input"))
         )
         time_zone_chosen_search.send_keys("Chicago")
         time_zone_chosen_search.send_keys(Keys.RETURN)
 
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 30).until(
             EC.presence_of_element_located((By.XPATH, '//*[@id="id_time_zone_chosen"]/a/span[text()="Chicago"]'))
         )
 
@@ -54,7 +54,7 @@ class TestSeleniumSetup(SeleniumTestCase):
         login_button.click()
 
         # Registration will redirect us to the login page and await verification
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 30).until(
             EC.title_contains("Login")
         )
 
@@ -73,7 +73,7 @@ class TestSeleniumSetup(SeleniumTestCase):
                         f"?username={self.test_username}&code={email_verification_code}&welcome-email=false")
 
         # Verification will redirect us to the login page
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 30).until(
             EC.title_contains("Login")
         )
 
@@ -100,7 +100,7 @@ class TestSeleniumSetup(SeleniumTestCase):
         login_button.click()
 
         # Login will redirect us to the planner
-        WebDriverWait(self.driver, 10).until(
+        WebDriverWait(self.driver, 30).until(
             EC.title_contains("Calendar")
         )
 

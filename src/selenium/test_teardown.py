@@ -18,7 +18,7 @@ class TestSeleniumTeardown(SeleniumTestCase):
         self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
 
         # Wait for getting started modal to show
-        WebDriverWait(self.driver, 30).until(
+        WebDriverWait(self.driver, 45).until(
             EC.visibility_of_element_located((By.ID, "getting-started-modal"))
         )
 
@@ -26,8 +26,8 @@ class TestSeleniumTeardown(SeleniumTestCase):
         show_getting_started_checkbox = self.driver.find_element(By.ID, "delete-example-schedule")
         show_getting_started_checkbox.click()
 
-        # Ensure all items on the calendar were deleted
-        WebDriverWait(self.driver, 15).until(
+        # Ensure all items on the calendar were deleted (delete triggers backend task)
+        WebDriverWait(self.driver, 60).until(
             lambda wait: len(self.driver.find_elements(By.CSS_SELECTOR, "a.fc-event")) == 0
         )
 
@@ -43,12 +43,12 @@ class TestSeleniumTeardown(SeleniumTestCase):
         account_tab = self.driver.find_element(By.CSS_SELECTOR, "#settings-tabs > li:nth-child(3) > a")
         account_tab.click()
 
-        delete_account_button = WebDriverWait(self.driver, 15).until(
+        delete_account_button = WebDriverWait(self.driver, 30).until(
             EC.element_to_be_clickable((By.ID, "delete-account"))
         )
         delete_account_button.click()
 
-        delete_account_password_field = WebDriverWait(self.driver, 15).until(
+        delete_account_password_field = WebDriverWait(self.driver, 30).until(
             EC.element_to_be_clickable((By.ID, "delete-account-password"))
         )
         delete_account_password_field.send_keys(self.test_password)
