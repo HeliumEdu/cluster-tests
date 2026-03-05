@@ -1,6 +1,15 @@
 test_name: Setup a registered and verified user
 
 stages:
+  - name: Warmup health check
+    request:
+      url: "{tavern.env_vars.PROJECT_API_HOST}/info/"
+      verify: false
+      method: GET
+    response:
+      status_code: 200
+    delay_after: 5
+
   - name: Cleanup workspace, if dirty
     request:
       url: "{tavern.env_vars.PROJECT_API_HOST}/info/"
@@ -14,7 +23,7 @@ stages:
             env_api_host: "{tavern.env_vars.PROJECT_API_HOST}"
             username: "{test_username:s}"
             password: "{test_password:s}"
-    delay_after: 7
+    delay_after: 10
 
   - name: Register new user
     request:
@@ -28,7 +37,7 @@ stages:
         time_zone: America/Chicago
     response:
       status_code: 201
-    delay_after: 7
+    delay_after: 10
 
   - name: Get verification code from email
     request:
