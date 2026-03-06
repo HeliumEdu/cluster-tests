@@ -19,7 +19,7 @@ stages:
       save:
         json:
           course_group_id: "[0].id"
-    delay_after: 2
+    delay_after: 4
 
   - name: List courses
     request:
@@ -33,7 +33,7 @@ stages:
       save:
         json:
           course_id: "[0].id"
-    delay_after: 2
+    delay_after: 4
 
   - name: Create attachment
     request:
@@ -61,7 +61,7 @@ stages:
       status_code: 200
       json:
         course: !int "{attachment.course}"
-    delay_after: 2
+    delay_after: 4
 
   - name: Verify attachment was uploaded
     request:
@@ -70,4 +70,4 @@ stages:
       method: GET
     response:
       status_code: 200
-    delay_after: 1
+    delay_after: 3

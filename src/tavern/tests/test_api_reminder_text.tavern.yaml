@@ -18,7 +18,7 @@ stages:
         phone: "{tavern.env_vars.CI_TWILIO_RECIPIENT_PHONE_NUMBER:s}"
     response:
       status_code: 200
-    delay_after: 2
+    delay_after: 4
 
   - name: Get verification code from text
     request:
@@ -44,7 +44,7 @@ stages:
         phone_verification_code: "{sms_verification_code:d}"
     response:
       status_code: 200
-    delay_after: 2
+    delay_after: 4
 
   - name: List course groups
     request:
@@ -58,7 +58,7 @@ stages:
       save:
         json:
           course_group_id: "[0].id"
-    delay_after: 2
+    delay_after: 4
 
   - name: List courses
     request:
@@ -72,7 +72,7 @@ stages:
       save:
         json:
           course_id: "[0].id"
-    delay_after: 2
+    delay_after: 4
 
   - name: List categories
     request:
@@ -86,7 +86,7 @@ stages:
       save:
         json:
           category_id: "[0].id"
-    delay_after: 2
+    delay_after: 4
 
   - name: Create homework before today
     request:
@@ -113,7 +113,7 @@ stages:
       save:
         json:
           homework_id: id
-    delay_after: 2
+    delay_after: 4
 
   - name: Create text reminder
     request:
@@ -134,7 +134,7 @@ stages:
       save:
         json:
           reminder_id: id
-    delay_after: 2
+    delay_after: 4
 
   - name: Verify reminder was marked as sent
     request:
