@@ -36,4 +36,4 @@ stages:
           default_reminder_offset: 30
           default_reminder_offset_type: 0
           default_reminder_type: 3
-    delay_after: 2
+    delay_after: 4

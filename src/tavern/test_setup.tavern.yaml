@@ -37,7 +37,7 @@ stages:
         time_zone: America/Chicago
     response:
       status_code: 201
-    delay_after: 10
+    delay_after: 15
 
   - name: Get verification code from email
     request:
@@ -51,7 +51,7 @@ stages:
           extra_kwargs:
             username: "{test_username:s}"
             email: "{test_email:s}"
-    delay_after: 7
+    delay_after: 20
 
   - name: Verify user
     request:
@@ -60,7 +60,7 @@ stages:
       method: GET
     response:
       status_code: 202
-    delay_after: 7
+    delay_after: 10
 
 ---
 
@@ -82,4 +82,4 @@ stages:
           extra_kwargs:
             env_api_host: "{tavern.env_vars.PROJECT_API_HOST}"
             access_token: "{access_token:s}"
-    delay_after: 2
+    delay_after: 5

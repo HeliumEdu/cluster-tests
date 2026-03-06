@@ -16,4 +16,4 @@ stages:
         password: "{test_password:s}"
     response:
       status_code: 204
-    delay_after: 7
+    delay_after: 15
