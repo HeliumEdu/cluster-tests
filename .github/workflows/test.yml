@@ -14,10 +14,8 @@ on:
         - prod
   repository_dispatch:
   push:
-    branches: [ main, develop ]
+    branches: [ main ]
   pull_request_target:
-  schedule:
-    - cron: "0 9 * * *"
 
 permissions:
   contents: read
