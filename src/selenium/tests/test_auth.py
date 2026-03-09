@@ -27,12 +27,6 @@ class TestSeleniumAuth(SeleniumTestCase):
 
         self.assert_no_console_errors()
 
-    @unittest.skip("TODO: implement")
-    def test_forgot(self):
-        self.driver.get(os.path.join(self.app_host, 'forgot'))
-
-        self.assert_no_console_errors()
-
     def test_authenticated_login_redirects_calendar(self):
         self.given_user_is_authenticated()
 

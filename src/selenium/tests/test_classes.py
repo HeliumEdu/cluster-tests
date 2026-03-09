@@ -47,57 +47,6 @@ class TestSeleniumClasses(SeleniumTestCase):
             lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"course-\")]")) == 3
         )
 
-        # TODO: assert that elements of class are displayed
-
         self.save_screenshot()
-
-        self.assert_no_console_errors()
-
-
-    @unittest.skip("TODO: implement")
-    def test_classes_click_class_populates_dialog(self):
-        self.given_user_is_authenticated()
-
-        self.driver.get(os.path.join(self.app_host, 'planner', 'classes'))
-
-        self.assert_no_console_errors()
-
-    @unittest.skip("TODO: implement")
-    def test_course_groups_click_populates_dialog(self):
-        self.given_user_is_authenticated()
-
-        self.driver.get(os.path.join(self.app_host, 'planner', 'classes'))
-
-        self.assert_no_console_errors()
-
-    @unittest.skip("TODO: implement")
-    def test_course_groups_create(self):
-        self.given_user_is_authenticated()
-
-        self.driver.get(os.path.join(self.app_host, 'planner', 'classes'))
-
-        self.assert_no_console_errors()
-
-    @unittest.skip("TODO: implement")
-    def test_classes_create_course_with_schedule_and_categories_and_attachment(self):
-        self.given_user_is_authenticated()
-
-        self.driver.get(os.path.join(self.app_host, 'planner', 'classes'))
-
-        self.assert_no_console_errors()
-
-    @unittest.skip("TODO: implement")
-    def test_delete_course(self):
-        self.given_user_is_authenticated()
-
-        self.driver.get(os.path.join(self.app_host, 'planner', 'classes'))
-
-        self.assert_no_console_errors()
-
-    @unittest.skip("TODO: implement")
-    def test_delete_course_group(self):
-        self.given_user_is_authenticated()
-
-        self.driver.get(os.path.join(self.app_host, 'planner', 'classes'))
 
         self.assert_no_console_errors()

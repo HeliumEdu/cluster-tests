@@ -47,57 +47,6 @@ class TestSeleniumMaterials(SeleniumTestCase):
             lambda wait: len(self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"material-\")]")) == 5
         )
 
-        # TODO: assert that elements of material are displayed
-
         self.save_screenshot()
-
-        self.assert_no_console_errors()
-
-
-    @unittest.skip("TODO: implement")
-    def test_materials_click_material_populates_dialog(self):
-        self.given_user_is_authenticated()
-
-        self.driver.get(os.path.join(self.app_host, 'planner', 'classes'))
-
-        self.assert_no_console_errors()
-
-    @unittest.skip("TODO: implement")
-    def test_material_groups_click_populates_dialog(self):
-        self.given_user_is_authenticated()
-
-        self.driver.get(os.path.join(self.app_host, 'planner', 'classes'))
-
-        self.assert_no_console_errors()
-
-    @unittest.skip("TODO: implement")
-    def test_material_groups_create(self):
-        self.given_user_is_authenticated()
-
-        self.driver.get(os.path.join(self.app_host, 'planner', 'classes'))
-
-        self.assert_no_console_errors()
-
-    @unittest.skip("TODO: implement")
-    def test_materials_create_material(self):
-        self.given_user_is_authenticated()
-
-        self.driver.get(os.path.join(self.app_host, 'planner', 'classes'))
-
-        self.assert_no_console_errors()
-
-    @unittest.skip("TODO: implement")
-    def test_delete_material(self):
-        self.given_user_is_authenticated()
-
-        self.driver.get(os.path.join(self.app_host, 'planner', 'classes'))
-
-        self.assert_no_console_errors()
-
-    @unittest.skip("TODO: implement")
-    def test_delete_material_group(self):
-        self.given_user_is_authenticated()
-
-        self.driver.get(os.path.join(self.app_host, 'planner', 'classes'))
 
         self.assert_no_console_errors()

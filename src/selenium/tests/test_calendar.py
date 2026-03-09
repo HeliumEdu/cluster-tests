@@ -218,8 +218,6 @@ class TestSeleniumCalendar(SeleniumTestCase):
                 self.driver.find_elements(By.XPATH, "//tr[starts-with(@id, \"homework-table-row-\")]")) == 4
         )
 
-        # TODO: assert on the table columns for the few items shown
-
         self.driver.find_element(By.ID, "calendar-search").clear()
         self.driver.find_element(By.ID, "filter-clear").click()
         WebDriverWait(self.driver, 15).until(
@@ -292,7 +290,6 @@ class TestSeleniumCalendar(SeleniumTestCase):
         calendar.setfirstweekday(calendar.SUNDAY)
         month_calendar = calendar.monthcalendar(local_today.year, local_today.month)
 
-        # TODO: this calculation still isn't quite consistent month-to-month
         desired_week = month_calendar[0]
 
         day = local_today.day
@@ -528,111 +525,5 @@ class TestSeleniumCalendar(SeleniumTestCase):
         self.assertNotIn("Grade", class_hover_html)
 
         self.save_screenshot()
-
-        self.assert_no_console_errors()
-
-    @unittest.skip("TODO: implement")
-    def test_calendar_change_view_backend_responds(self):
-        self.given_user_is_authenticated()
-
-        self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
-
-        # TODO: include changing the month / week
-
-        self.assert_no_console_errors()
-
-    @unittest.skip("TODO: implement")
-    def test_calendar_check_completed(self):
-        self.given_user_is_authenticated()
-
-        self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
-
-        self.assert_no_console_errors()
-
-    @unittest.skip("TODO: implement")
-    def test_calendar_click_event_populates_dialog(self):
-        self.given_user_is_authenticated()
-
-        self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
-
-        self.assert_no_console_errors()
-
-    @unittest.skip("TODO: implement")
-    def test_calendar_create_homework_with_reminder_and_attachment_dismiss_reminder(self):
-        self.given_user_is_authenticated()
-
-        self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
-
-        self.assert_no_console_errors()
-
-    @unittest.skip("TODO: implement")
-    def test_calendar_search_box(self):
-        self.given_user_is_authenticated()
-
-        self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
-
-        self.assert_no_console_errors()
-
-    @unittest.skip("TODO: implement")
-    def test_calendar_toggle_classes(self):
-        self.given_user_is_authenticated()
-
-        self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
-
-        self.assert_no_console_errors()
-
-    @unittest.skip("TODO: implement")
-    def test_calendar_toggle_filters(self):
-        self.given_user_is_authenticated()
-
-        self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
-
-        self.assert_no_console_errors()
-
-    @unittest.skip("TODO: implement")
-    def test_external_calendar_events_are_displayed(self):
-        self.given_user_is_authenticated()
-
-        self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
-
-        self.assert_no_console_errors()
-
-    @unittest.skip("TODO: implement")
-    def test_dismiss_popup_reminder(self):
-        self.given_user_is_authenticated()
-
-        self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
-
-        self.assert_no_console_errors()
-
-    @unittest.skip("TODO: implement")
-    def test_delete_homework(self):
-        self.given_user_is_authenticated()
-
-        self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
-
-        self.assert_no_console_errors()
-
-    @unittest.skip("TODO: implement")
-    def test_delete_event(self):
-        self.given_user_is_authenticated()
-
-        self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
-
-        self.assert_no_console_errors()
-
-    @unittest.skip("TODO: implement")
-    def test_hidden_course_group_not_shown(self):
-        self.given_user_is_authenticated()
-
-        self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
-
-        self.assert_no_console_errors()
-
-    @unittest.skip("TODO: implement")
-    def test_hidden_material_group_not_shown(self):
-        self.given_user_is_authenticated()
-
-        self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
 
         self.assert_no_console_errors()

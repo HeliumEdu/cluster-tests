@@ -48,11 +48,3 @@ class TestSeleniumGrades(SeleniumTestCase):
         self.save_screenshot()
 
         self.assert_no_console_errors()
-
-    @unittest.skip("TODO: implement")
-    def test_grades_toggle(self):
-        self.given_user_is_authenticated()
-
-        self.driver.get(os.path.join(self.app_host, 'planner', 'grades'))
-
-        self.assert_no_console_errors()
