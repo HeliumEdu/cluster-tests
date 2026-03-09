@@ -47,6 +47,30 @@ class SeleniumTestCase(unittest.TestCase):
     INTRO_TO_PSYCH_CATEGORY_QUIZ_GRADE_BADGE = '<span class="badge" style="background-color: #9d629d !important">80.42% <span class="icon-x arrow-up-icon light-green"></span></span>'
     INTRO_TO_PSYCH_ASSIGNMENT_QUIZ3_GRADE_BADGE = '<span class="badge" style="background-color: #9d629d !important">85%</span>'
 
+    # Class-level cache for API info (fetched once per test class, not per test method)
+    _cached_info = None
+    _cached_info_response = None
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.app_host = os.environ.get('PROJECT_APP_HOST')
+        cls.api_host = os.environ.get('PROJECT_API_HOST')
+        cls.env_prefix = os.environ.get('ENVIRONMENT_PREFIX')
+
+        # Only fetch /info/ once per test class to avoid rate limiting
+        if cls._cached_info is None:
+            _ANON_RETRY_DELAY = 7
+            for attempt in range(3):
+                cls._cached_info_response = requests.get(os.path.join(cls.api_host, 'info'),
+                                                         headers={'Content-Type': 'application/json'},
+                                                         verify=False)
+                cls._cached_info = cls._cached_info_response.json()
+                if cls._cached_info_response.status_code != 429:
+                    break
+                logger.warning(f"GET /info/ attempt {attempt + 1} throttled ({cls._cached_info_response.status_code}): {cls._cached_info}")
+                time.sleep(_ANON_RETRY_DELAY)
+
     def setUp(self):
         options = Options()
         options.add_argument('--headless=new')
@@ -59,20 +83,12 @@ class SeleniumTestCase(unittest.TestCase):
         self.driver.set_window_size(1920, 1080)
         self.driver.command_executor._client_config._timeout = 10000
 
-        self.app_host = os.environ.get('PROJECT_APP_HOST')
-        self.api_host = os.environ.get('PROJECT_API_HOST')
-        self.env_prefix = os.environ.get('ENVIRONMENT_PREFIX')
-
-        _ANON_RETRY_DELAY = 7
-        for attempt in range(3):
-            self.info_response = requests.get(os.path.join(self.api_host, 'info'),
-                                              headers={'Content-Type': 'application/json'},
-                                              verify=False)
-            self.info = self.info_response.json()
-            if self.info_response.status_code != 429:
-                break
-            logger.warning(f"GET /info/ attempt {attempt + 1} throttled ({self.info_response.status_code}): {self.info}")
-            time.sleep(_ANON_RETRY_DELAY)
+        # Use class-level cached values
+        self.app_host = self.__class__.app_host
+        self.api_host = self.__class__.api_host
+        self.env_prefix = self.__class__.env_prefix
+        self.info = self.__class__._cached_info
+        self.info_response = self.__class__._cached_info_response
 
         self.test_username = "heliumedu-cluster-2"
         self.test_email = f'heliumedu-cluster+2@{self.env_prefix}heliumedu.dev'
