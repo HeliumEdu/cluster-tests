@@ -7,6 +7,7 @@ import logging
 import os
 import time
 from email.parser import Parser
+from urllib.parse import quote
 
 import boto3
 from tavern._core.exceptions import TestFailError
@@ -50,9 +51,12 @@ def get_verification_code(response, username, email=None, retry=0, _cutoff=None)
                     body = part.get_payload()
                     break
 
+            # URL-encode username/email since the email template uses urlencode filter
+            encoded_username = quote(username, safe='')
+            encoded_email = quote(email, safe='') if email else None
             if body and (
-                f'username={username}&code' in body or
-                (email and f'email={email}&code' in body)
+                f'username={encoded_username}&code' in body or
+                (encoded_email and f'email={encoded_email}&code' in body)
             ):
                 matched_key = key
                 email_body = body
@@ -67,10 +71,13 @@ def get_verification_code(response, username, email=None, retry=0, _cutoff=None)
                 raise TestFailError(
                     "The verification email was not received after {} seconds.".format(_RETRIES * _RETRY_DELAY))
 
-        if email and f'email={email}&code=' in email_body:
-            verification_code = email_body.split(f'verify?email={email}&code=')[1].split('\n')[0].strip()
+        # Use encoded values for extraction (matching what the email template produces)
+        encoded_username = quote(username, safe='')
+        encoded_email = quote(email, safe='') if email else None
+        if encoded_email and f'email={encoded_email}&code=' in email_body:
+            verification_code = email_body.split(f'verify?email={encoded_email}&code=')[1].split('\n')[0].strip()
         else:
-            verification_code = email_body.split(f'verify?username={username}&code=')[1].split('\n')[0].strip()
+            verification_code = email_body.split(f'verify?username={encoded_username}&code=')[1].split('\n')[0].strip()
 
         matched_key.delete()
 
