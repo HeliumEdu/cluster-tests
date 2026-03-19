@@ -30,7 +30,7 @@ class TestSeleniumUnauthPages(SeleniumTestCase):
 
         WebDriverWait(self.driver, 30).until(
             EC.visibility_of_element_located(
-                (By.CSS_SELECTOR, "a[href=\"https://www.patreon.com/alexdlaird\"] img"))
+                (By.CSS_SELECTOR, "a[href=\"https://www.patreon.com/alexdlaird/membership\"] img"))
         )
 
         self.save_screenshot()
@@ -43,7 +43,7 @@ class TestSeleniumUnauthPages(SeleniumTestCase):
 
         WebDriverWait(self.driver, 30).until(
             EC.visibility_of_element_located(
-                (By.CSS_SELECTOR, "a[href=\"https://www.patreon.com/alexdlaird\"] img"))
+                (By.CSS_SELECTOR, "a[href=\"https://www.patreon.com/alexdlaird/membership\"] img"))
         )
 
         self.save_screenshot()
@@ -57,7 +57,7 @@ class TestSeleniumUnauthPages(SeleniumTestCase):
 
         WebDriverWait(self.driver, 30).until(
             EC.visibility_of_element_located(
-                (By.CSS_SELECTOR, "a[href=\"https://www.patreon.com/alexdlaird\"] img"))
+                (By.CSS_SELECTOR, "a[href=\"https://www.patreon.com/alexdlaird/membership\"] img"))
         )
 
         self.save_screenshot()
@@ -71,7 +71,7 @@ class TestSeleniumUnauthPages(SeleniumTestCase):
 
         WebDriverWait(self.driver, 30).until(
             EC.visibility_of_element_located(
-                (By.CSS_SELECTOR, "a[href=\"https://www.patreon.com/alexdlaird\"] img"))
+                (By.CSS_SELECTOR, "a[href=\"https://www.patreon.com/alexdlaird/membership\"] img"))
         )
 
         self.save_screenshot()
