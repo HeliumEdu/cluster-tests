@@ -3,6 +3,8 @@ name: "Cluster Tests"
 run-name: ${{ github.event_name == 'repository_dispatch' && github.event.action || 'Cluster Tests' }}
 
 on:
+  schedule:
+    - cron: '*/7 * * * *'
   workflow_dispatch:
     inputs:
       environment:
@@ -63,6 +65,7 @@ jobs:
   selenium:
     name: "Selenium Tests"
     needs: smoke
+    if: github.event_name != 'schedule'
 
     env:
       FORCE_COLOR: 1
