@@ -88,7 +88,18 @@ stages:
           category_id: "[0].id"
     delay_after: 4
 
-  - name: Create homework before today
+  - name: Get reminder homework datetimes
+    request:
+      url: "{tavern.env_vars.PROJECT_API_HOST}/info/"
+      verify: false
+      method: GET
+    response:
+      save:
+        $ext:
+          function: src.utils.common:get_reminder_test_datetimes
+    delay_after: 1
+
+  - name: Create homework within reminder send window
     request:
       url: "{tavern.env_vars.PROJECT_API_HOST}/planner/coursegroups/{course_group_id}/courses/{course_id}/homework/"
       verify: false
@@ -101,8 +112,8 @@ stages:
         show_end_time: false
         category: "{category_id:d}"
         completed: false
-        start: "2018-04-18T02:00:00.000Z"
-        end: "2018-04-18T02:30:00.000Z"
+        start: "{reminder_homework_start:s}"
+        end: "{reminder_homework_end:s}"
         priority: 50
         current_grade: "-1/100"
         comments: ""
