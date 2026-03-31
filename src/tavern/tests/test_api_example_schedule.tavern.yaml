@@ -249,6 +249,17 @@ stages:
         function: src.utils.common:assert_response_length
         extra_kwargs:
           expected_length: 15
+    delay_after: 4
+
+  - name: List reminders with filter
+    request:
+      url: "{tavern.env_vars.PROJECT_API_HOST}/planner/reminders/?title=In%20ENG%20305%20instead&type=0"
+      verify: false
+      method: GET
+      headers:
+        Authorization: "Bearer {access_token:s}"
+    response:
+      status_code: 200
       save:
         json:
           reminder_id: "[0].id"
