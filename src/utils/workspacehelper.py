@@ -149,13 +149,15 @@ def wait_for_example_schedule(response, env_api_host, access_token, retry=0):
                 "The example schedule's category {} grades were not properly calculated "
                 "after {} seconds.".format(category, _RETRIES * _AUTH_RETRY_DELAY))
 
-    # Assert on a sampling to ensure the example schedule was "moved" into the current month (minus one)
-    now = datetime.datetime.now(pytz.utc) - relativedelta(months=1)
+    # Assert on a sampling to ensure the example schedule was "moved" into the current month (minus one).
+    # Use America/Chicago to match the timezone the test user is registered with, so month comparisons
+    # are consistent at UTC midnight month boundaries.
+    now = datetime.datetime.now(pytz.timezone('America/Chicago')) - relativedelta(months=1)
     if parser.parse(course_group['start_date']).month != now.month:
-        raise AssertionError("course_group month: {}".format(course_group['start_date'].month))
+        raise AssertionError("course_group month: {}".format(parser.parse(course_group['start_date']).month))
     if parser.parse(courses[0]['start_date']).month != now.month:
-        raise AssertionError("courses[0] month: {}".format(courses[0]['start_date'].month))
+        raise AssertionError("courses[0] month: {}".format(parser.parse(courses[0]['start_date']).month))
     if parser.parse(courses[1]['start_date']).month != now.month:
-        raise AssertionError("courses[1] month: {}".format(courses[1]['start_date'].month))
+        raise AssertionError("courses[1] month: {}".format(parser.parse(courses[1]['start_date']).month))
     if parser.parse(homework[0]['start']).month != now.month:
-        raise AssertionError("homework[0] month: {}".format(homework[0]['start'].month))
+        raise AssertionError("homework[0] month: {}".format(parser.parse(homework[0]['start']).month))
