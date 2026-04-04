@@ -248,7 +248,7 @@ stages:
       verify_response_with:
         function: src.utils.common:assert_response_length
         extra_kwargs:
-          expected_length: 15
+          expected_length: 16
     delay_after: 4
 
   - name: List reminders with filter
