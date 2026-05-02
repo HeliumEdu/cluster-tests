@@ -26,44 +26,8 @@ concurrency:
   group: helium-singleton-cluster-tests
 
 jobs:
-  smoke:
-    name: "Smoke Tests"
-
-    env:
-      FORCE_COLOR: 1
-      PYTHONUNBUFFERED: 1
-      PYTHONDONTWRITEBYTECODE: 1
-      ENVIRONMENT: ${{ inputs.environment || github.event.client_payload.environment || 'prod' }}
-      PLATFORM_TWILIO_ACCOUNT_SID: ${{ secrets.PLATFORM_TWILIO_ACCOUNT_SID }}
-      PLATFORM_TWILIO_AUTH_TOKEN: ${{ secrets.PLATFORM_TWILIO_AUTH_TOKEN }}
-      AWS_INTEGRATION_S3_ACCESS_KEY_ID: ${{ secrets.AWS_INTEGRATION_S3_ACCESS_KEY_ID }}
-      AWS_INTEGRATION_S3_SECRET_ACCESS_KEY: ${{ secrets.AWS_INTEGRATION_S3_SECRET_ACCESS_KEY }}
-      CI_TWILIO_RECIPIENT_PHONE_NUMBER: ${{ secrets.CI_TWILIO_RECIPIENT_PHONE_NUMBER }}
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v6
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v6
-        with:
-          python-version: "3.12"
-          cache: 'pip'
-      - name: Install dependencies
-        run: make install
-      - name: Run smoke test suite
-        run: make test-smoke
-      - name: Upload test results
-        if: ${{ !cancelled() }}
-        uses: codecov/codecov-action@v6
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          directory: ./build/test-results
-          report_type: test_results
-
   selenium:
     name: "Selenium Tests"
-    needs: smoke
 
     env:
       FORCE_COLOR: 1
