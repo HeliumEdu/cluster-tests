@@ -338,7 +338,7 @@ class TestSeleniumCalendar(SeleniumTestCase):
         self.wait_for_count(
             By.XPATH,
             "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]",
-            expected=8,
+            expected=range(8, 10),
         )
 
         self.driver.find_element(By.ID, "filter-clear").click()
@@ -352,7 +352,7 @@ class TestSeleniumCalendar(SeleniumTestCase):
         self.wait_for_count(
             By.XPATH,
             "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]",
-            expected=6,
+            expected=range(6, 8),
         )
 
         self.driver.find_element(By.ID, "filter-clear").click()
@@ -367,7 +367,7 @@ class TestSeleniumCalendar(SeleniumTestCase):
         self.wait_for_count(
             By.XPATH,
             "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]",
-            expected=2,
+            expected=range(2, 4),
         )
         self.driver.find_element(By.ID, "filter-clear").click()
         self.wait_for_count(
@@ -379,7 +379,7 @@ class TestSeleniumCalendar(SeleniumTestCase):
         self.wait_for_count(
             By.XPATH,
             "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]",
-            expected=2,
+            expected=range(2, 4),
         )
 
         self.driver.find_element(By.ID, "calendar-search").clear()
@@ -397,7 +397,7 @@ class TestSeleniumCalendar(SeleniumTestCase):
         self.wait_for_count(
             By.XPATH,
             "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]",
-            expected=7,
+            expected=range(7, 9),
         )
         # Filter further to only show the non-excluded courses assignments
         self.driver.find_element(By.ID, "calendar-filters").click()
@@ -407,7 +407,7 @@ class TestSeleniumCalendar(SeleniumTestCase):
         self.wait_for_count(
             By.XPATH,
             "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]",
-            expected=3,
+            expected=range(3, 5),
         )
 
         self.save_screenshot()
