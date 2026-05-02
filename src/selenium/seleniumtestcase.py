@@ -11,6 +11,7 @@ import unittest
 import requests
 from selenium import webdriver
 from selenium.common import WebDriverException
+from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -135,6 +136,29 @@ class SeleniumTestCase(unittest.TestCase):
         test_name = inspect.stack()[1].function
         file_name = os.path.join(SCREENSHOTS_DIR, f"{test_name}_{timestamp}{suffix}.png")
         self.driver.save_screenshot(file_name)
+
+    def wait_for_count(self, by, value, expected, timeout=15):
+        """Wait for element count matching ``(by, value)`` to satisfy ``expected``.
+
+        ``expected`` may be an int (exact match) or any container supporting
+        ``in`` (e.g. ``range``, ``set``). On timeout, raises ``AssertionError``
+        reporting the last observed count, so failures are debuggable instead
+        of surfacing as a bare Selenium ``TimeoutException``.
+        """
+        last_count = [None]
+
+        def _check(_):
+            last_count[0] = len(self.driver.find_elements(by, value))
+            if isinstance(expected, int):
+                return last_count[0] == expected
+            return last_count[0] in expected
+
+        try:
+            WebDriverWait(self.driver, timeout).until(_check)
+        except TimeoutException:
+            raise AssertionError(
+                f"Expected element count {expected} for ({by}, {value}); got {last_count[0]}"
+            )
 
     def assert_no_console_errors(self, test_ignore_errors=None):
         if not test_ignore_errors:

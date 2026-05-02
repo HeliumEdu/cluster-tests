@@ -301,10 +301,10 @@ class TestSeleniumCalendar(SeleniumTestCase):
             self.driver.find_element(By.CSS_SELECTOR, ".fc-prev-button").click()
             day -= 7
 
-        WebDriverWait(self.driver, 15).until(
-            lambda wait: len(
-                self.driver.find_elements(By.XPATH,
-                                          "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]")) in range(15, 18)
+        self.wait_for_count(
+            By.XPATH,
+            "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]",
+            expected=range(15, 18),
         )
 
         # Filter dropdown visibility and action
