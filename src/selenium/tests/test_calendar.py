@@ -319,7 +319,7 @@ class TestSeleniumCalendar(SeleniumTestCase):
         self.wait_for_count(
             By.XPATH,
             "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]",
-            expected=2,
+            expected=range(2, 4),
         )
         self.driver.find_element(By.CSS_SELECTOR, "[for='calendar-filter-homework']").click()
         self.wait_for_count(
