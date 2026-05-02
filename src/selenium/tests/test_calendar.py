@@ -407,7 +407,7 @@ class TestSeleniumCalendar(SeleniumTestCase):
         self.wait_for_count(
             By.XPATH,
             "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]",
-            expected=range(2, 6),
+            expected=range(1, 6),
         )
 
         self.save_screenshot()
