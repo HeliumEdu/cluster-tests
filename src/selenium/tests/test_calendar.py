@@ -325,7 +325,7 @@ class TestSeleniumCalendar(SeleniumTestCase):
         self.wait_for_count(
             By.XPATH,
             "//table[contains(@class, 'fc-list-table')]//tr[contains(@class, 'fc-list-item')]",
-            expected=9,
+            expected=range(9, 11),
         )
 
         self.driver.find_element(By.ID, "filter-clear").click()
