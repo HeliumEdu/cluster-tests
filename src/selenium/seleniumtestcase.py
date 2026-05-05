@@ -131,6 +131,20 @@ class SeleniumTestCase(unittest.TestCase):
             data={"completed": False},
             verify=False)
 
+    def given_us_holidays_calendar_hidden(self, access_token):
+        """Hide the seeded U.S. Holidays external calendar so tests with exact
+        event counts aren't perturbed by holidays falling in the test window."""
+        response = requests.get('{}/feed/externalcalendars/'.format(self.api_host),
+                                headers={'Authorization': "Bearer " + access_token},
+                                verify=False)
+        for cal in response.json():
+            if cal['title'] == 'U.S. Holidays':
+                requests.patch('{}/feed/externalcalendars/{}/'.format(self.api_host, cal['id']),
+                               headers={'Authorization': "Bearer " + access_token},
+                               data={'shown_on_calendar': False},
+                               verify=False)
+                break
+
     def save_screenshot(self, suffix=''):
         timestamp = int(time.time() * 1000)
         test_name = inspect.stack()[1].function

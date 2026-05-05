@@ -108,6 +108,8 @@ class TestSeleniumCalendar(SeleniumTestCase):
 
     def test_example_schedule_populated_calendar_page_month_view_external_calendar(self):
         self.given_user_is_authenticated()
+        access_token = get_user_access_token(self.api_host, self.test_username, self.test_password).json()['access']
+        self.given_us_holidays_calendar_hidden(access_token)
 
         self.driver.get(os.path.join(self.app_host, 'planner', 'calendar') + '?initialDate=2023-10-01')
 
@@ -264,6 +266,7 @@ class TestSeleniumCalendar(SeleniumTestCase):
                                 headers={'Authorization': "Bearer " + access_token},
                                 verify=False).json()[0]
         self.given_homework_incomplete(access_token, course["course_group"], course["id"], homework["id"])
+        self.given_us_holidays_calendar_hidden(access_token)
 
         self.driver.get(os.path.join(self.app_host, 'planner', 'calendar'))
 
