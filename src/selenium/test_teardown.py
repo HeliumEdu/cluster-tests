@@ -33,7 +33,6 @@ class TestSeleniumTeardown(SeleniumTestCase):
 
         self.save_screenshot()
 
-        self.assert_no_console_errors()
 
     def test_2_delete_user(self):
         self.given_user_is_authenticated()

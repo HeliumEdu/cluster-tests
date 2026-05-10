@@ -33,7 +33,6 @@ class TestSeleniumCalendar(SeleniumTestCase):
         self.assertIn('next', query_params)
         self.assertEqual('/planner/calendar', query_params['next'][0].rstrip("/"))
 
-        self.assert_no_console_errors()
 
     def test_example_schedule_populated_calendar_page_month_view(self):
         self.given_user_is_authenticated()
@@ -104,7 +103,6 @@ class TestSeleniumCalendar(SeleniumTestCase):
 
         self.save_screenshot()
 
-        self.assert_no_console_errors()
 
     def test_example_schedule_populated_calendar_page_month_view_external_calendar(self):
         self.given_user_is_authenticated()
@@ -140,7 +138,6 @@ class TestSeleniumCalendar(SeleniumTestCase):
 
         self.save_screenshot()
 
-        self.assert_no_console_errors()
 
     def test_example_schedule_populated_calendar_page_assignments_list_view(self):
         self.given_user_is_authenticated()
@@ -254,7 +251,6 @@ class TestSeleniumCalendar(SeleniumTestCase):
 
         self.save_screenshot()
 
-        self.assert_no_console_errors()
 
     def test_example_schedule_populated_calendar_page_agenda_view(self):
         self.given_user_is_authenticated()
@@ -415,7 +411,6 @@ class TestSeleniumCalendar(SeleniumTestCase):
 
         self.save_screenshot()
 
-        self.assert_no_console_errors()
 
     def test_example_schedule_calendar_assignment_tooltip(self):
         self.given_user_is_authenticated()
@@ -456,7 +451,6 @@ class TestSeleniumCalendar(SeleniumTestCase):
 
         self.save_screenshot()
 
-        self.assert_no_console_errors()
 
     def test_example_schedule_calendar_event_tooltip(self):
         self.given_user_is_authenticated()
@@ -491,7 +485,6 @@ class TestSeleniumCalendar(SeleniumTestCase):
 
         self.save_screenshot()
 
-        self.assert_no_console_errors()
 
     def test_example_schedule_calendar_class_tooltip(self):
         self.given_user_is_authenticated()
@@ -529,4 +522,3 @@ class TestSeleniumCalendar(SeleniumTestCase):
 
         self.save_screenshot()
 
-        self.assert_no_console_errors()

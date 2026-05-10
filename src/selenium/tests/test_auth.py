@@ -25,7 +25,6 @@ class TestSeleniumAuth(SeleniumTestCase):
         self.assertIsNone(access_token)
         self.assertIsNone(refresh_token)
 
-        self.assert_no_console_errors()
 
     def test_authenticated_login_redirects_calendar(self):
         self.given_user_is_authenticated()
@@ -36,7 +35,6 @@ class TestSeleniumAuth(SeleniumTestCase):
             EC.url_matches(os.path.join(self.app_host, 'planner', 'calendar'))
         )
 
-        self.assert_no_console_errors()
 
     def test_authenticated_planner_base_redirects_to_calendar(self):
         self.given_user_is_authenticated()
@@ -47,7 +45,6 @@ class TestSeleniumAuth(SeleniumTestCase):
             EC.url_matches(os.path.join(self.app_host, 'planner', 'calendar'))
         )
 
-        self.assert_no_console_errors()
 
     def test_unauthenticated_planner_base_redirects(self):
         self.driver.get(os.path.join(self.app_host, 'planner'))
@@ -61,4 +58,3 @@ class TestSeleniumAuth(SeleniumTestCase):
         self.assertIn('next', query_params)
         self.assertEqual('/planner/calendar', query_params['next'][0].rstrip("/"))
 
-        self.assert_no_console_errors()

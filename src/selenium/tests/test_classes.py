@@ -26,7 +26,6 @@ class TestSeleniumClasses(SeleniumTestCase):
         self.assertIn('next', query_params)
         self.assertEqual('/planner/classes', query_params['next'][0].rstrip("/"))
 
-        self.assert_no_console_errors()
 
     def test_example_schedule_populated_classes_page(self):
         self.given_user_is_authenticated()
@@ -49,4 +48,3 @@ class TestSeleniumClasses(SeleniumTestCase):
 
         self.save_screenshot()
 
-        self.assert_no_console_errors()

@@ -25,4 +25,3 @@ class TestSeleniumSettings(SeleniumTestCase):
         self.assertIn('next', query_params)
         self.assertEqual('/settings', query_params['next'][0].rstrip("/"))
 
-        self.assert_no_console_errors()

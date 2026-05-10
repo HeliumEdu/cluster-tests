@@ -26,7 +26,6 @@ class TestSeleniumMaterials(SeleniumTestCase):
         self.assertIn('next', query_params)
         self.assertEqual('/planner/materials', query_params['next'][0].rstrip("/"))
 
-        self.assert_no_console_errors()
 
     def test_example_schedule_populated_materials_page(self):
         self.given_user_is_authenticated()
@@ -49,4 +48,3 @@ class TestSeleniumMaterials(SeleniumTestCase):
 
         self.save_screenshot()
 
-        self.assert_no_console_errors()

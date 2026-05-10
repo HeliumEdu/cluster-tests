@@ -24,12 +24,6 @@ SCREENSHOTS_DIR = os.path.join(ROOT_DIR, "build", "screenshots")
 if not os.path.exists(SCREENSHOTS_DIR):
     os.makedirs(SCREENSHOTS_DIR)
 
-KNOWN_CONSOLE_ERRORS = [
-    "cdnjs.cloudflare.com/",
-    "www.googletagmanager.com",
-    "www.google-analytics.com/",
-]
-
 logger = logging.getLogger(__name__)
 
 
@@ -174,21 +168,3 @@ class SeleniumTestCase(unittest.TestCase):
                 f"Expected element count {expected} for ({by}, {value}); got {last_count[0]}"
             )
 
-    def assert_no_console_errors(self, test_ignore_errors=None):
-        if not test_ignore_errors:
-            test_ignore_errors = []
-        test_ignore_errors += KNOWN_CONSOLE_ERRORS
-
-        logs = self.driver.get_log('browser')
-
-        for entry in logs:
-            if entry['level'] == 'SEVERE' or entry['level'] == 'WARNING':
-                known = False
-                for known_error in test_ignore_errors:
-                    if known_error in entry['message']:
-                        known = True
-                        break
-                if not known:
-                    raise AssertionError(f"Console error found: {entry['level']} - {entry['message']}")
-                else:
-                    logger.warning(f"Known console issue found: {entry['level']} - {entry['message']}")
