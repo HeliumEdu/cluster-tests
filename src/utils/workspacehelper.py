@@ -13,6 +13,7 @@ from dateutil.relativedelta import relativedelta
 from tavern._core.exceptions import TestFailError
 
 from src.utils.common import get_user_access_token
+from src.utils.emailhelper import get_verification_code
 
 logger = logging.getLogger(__name__)
 
@@ -25,7 +26,36 @@ _ANON_RETRY_DELAY = 7
 _AUTH_RETRY_DELAY = 5
 
 
-def init_workspace(response, env_api_host, username, password):
+def init_workspace(info_response, env_api_host, username, email, password, time_zone='America/Chicago'):
+    """Reset the workspace for a fresh test run: delete any user lingering from a prior
+    run, register the user via the API, verify their email, and return the response of a
+    successful login. Replaces the legacy Selenium-driven registration flow.
+    """
+    _cleanup_existing_user(env_api_host, username, password)
+
+    register_response = requests.post(env_api_host + '/auth/user/register/',
+                                      data={'username': username,
+                                            'email': email,
+                                            'password': password,
+                                            'time_zone': time_zone},
+                                      verify=False)
+    if register_response.status_code != 201:
+        raise TestFailError(
+            f"Failed to register user {email}: {register_response.status_code} {register_response.text}")
+
+    verification_code = get_verification_code(info_response, username, email=email)['email_verification_code']
+
+    verify_response = requests.get(env_api_host + '/auth/user/verify/',
+                                   params={'email': email, 'code': verification_code},
+                                   verify=False)
+    if verify_response.status_code != 202:
+        raise TestFailError(
+            f"Failed to verify user {email}: {verify_response.status_code} {verify_response.text}")
+
+    return get_user_access_token(env_api_host, email, password)
+
+
+def _cleanup_existing_user(env_api_host, username, password):
     response = get_user_access_token(env_api_host, username, password)
 
     if response.status_code == 200:
@@ -55,8 +85,6 @@ def init_workspace(response, env_api_host, username, password):
 
     if response.status_code != 401:
         raise TestFailError("Workspaces could not be initialized, user from previous run was never deleted")
-
-    return {}
 
 
 def wait_for_example_schedule(response, env_api_host, access_token, retry=0):

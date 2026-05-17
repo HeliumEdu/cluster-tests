@@ -5,86 +5,24 @@ __version__ = "1.17.85"
 import os
 
 import requests
-from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 from src.selenium.seleniumtestcase import SeleniumTestCase
-from src.utils.emailhelper import get_verification_code
 from src.utils.workspacehelper import init_workspace, wait_for_example_schedule, get_user_access_token
 
 
 class TestSeleniumSetup(SeleniumTestCase):
-    def test_1_register_new_user(self):
-        init_workspace(self.info_response, self.api_host, self.test_username, self.test_password)
+    def test_1_provision_user(self):
+        # Registration is no longer driven through the legacy frontend; provision the test
+        # user directly through the API and verify the seeded example schedule is in place.
+        token_response = init_workspace(self.info_response, self.api_host,
+                                        self.test_username, self.test_email, self.test_password)
 
-        self.driver.get(os.path.join(self.app_host, 'register'))
+        self.assertEqual(200, token_response.status_code,
+                         f"Login failed after provisioning user: {token_response.status_code} {token_response.text}")
 
-        time_zone_chosen = WebDriverWait(self.driver, 30).until(
-            EC.element_to_be_clickable((By.ID, "id_time_zone_chosen"))
-        )
-
-        username_field = self.driver.find_element(By.ID, "id_username")
-        email_field = self.driver.find_element(By.ID, "id_email")
-        password_field = self.driver.find_element(By.ID, "id_password1")
-        confirm_password_field = self.driver.find_element(By.ID, "id_password2")
-        terms_checkbox = self.driver.find_element(By.CSS_SELECTOR,
-                                                  "#register-form > div:nth-child(1) > div > fieldset > label:nth-child(6) > input")
-
-        username_field.send_keys(self.test_username)
-        email_field.send_keys(self.test_email)
-        password_field.send_keys(self.test_password)
-        confirm_password_field.send_keys(self.test_password)
-
-        time_zone_chosen.click()
-        time_zone_chosen_search = WebDriverWait(self.driver, 30).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, ".chosen-search input"))
-        )
-        time_zone_chosen_search.send_keys("Chicago")
-        time_zone_chosen_search.send_keys(Keys.RETURN)
-
-        WebDriverWait(self.driver, 30).until(
-            EC.presence_of_element_located((By.XPATH, '//*[@id="id_time_zone_chosen"]/a/span[text()="Chicago"]'))
-        )
-
-        terms_checkbox.click()
-
-        login_button = self.driver.find_element(By.CSS_SELECTOR, "#register-form > div:nth-child(2) > div > button")
-        login_button.click()
-
-        # Registration will redirect us to the login page and await verification
-        WebDriverWait(self.driver, 30).until(
-            EC.title_contains("Login")
-        )
-
-        self.save_screenshot()
-
-        self.assertEqual(os.path.join(self.app_host, 'login'), self.driver.current_url.strip('/'))
-
-        success_status = self.driver.find_element(By.CSS_SELECTOR, "#status")
-        self.assertTrue(success_status.is_displayed())
-        self.assertIn("The last step is to verify your email address.", success_status.text)
-
-        email_verification_code = get_verification_code(self.info, self.test_username, email=self.test_email)[
-            'email_verification_code']
-
-        self.driver.get(os.path.join(self.app_host, "verify") +
-                        f"?username={self.test_username}&code={email_verification_code}&welcome-email=false")
-
-        # Verification will redirect us to the login page
-        WebDriverWait(self.driver, 30).until(
-            EC.title_contains("Login")
-        )
-
-        self.save_screenshot()
-
-        self.assertEqual(os.path.join(self.app_host, 'login'), self.driver.current_url.strip('/'))
-        success_status = self.driver.find_element(By.CSS_SELECTOR, "#status")
-        self.assertTrue(success_status.is_displayed())
-        self.assertIn("Your email address has been verified.", success_status.text)
-
-        token_response = get_user_access_token(self.api_host, self.test_username, self.test_password)
         wait_for_example_schedule(token_response, self.api_host, token_response.json()["access"])
 
     def test_2_login_new_user(self):
